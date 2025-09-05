@@ -1,0 +1,47 @@
+<!-- src/app/panel-control/componentes/formulario-cita/formulario-cita.html -->
+<div class="form-container">
+  <div class="form-header">
+    <h1>Agendar Nueva Cita</h1>
+    <button class="back-button" routerLink="/panel/citas">← Volver al calendario</button>
+  </div>
+
+  <form [formGroup]="citaForm" (ngSubmit)="agendarCita()" class="cita-form">
+    <!-- Selector de Paciente -->
+    <div class="form-group">
+      <label for="paciente">Paciente</label>
+      <select id="paciente" formControlName="pacienteId">
+        <option value="" disabled>Seleccione un paciente</option>
+        <option *ngFor="let paciente of pacientes()" [value]="paciente.id">
+          {{ paciente.nombres }} {{ paciente.apellidos }} (DNI: {{ paciente.dni }})
+        </option>
+      </select>
+    </div>
+
+    <!-- Selector de Médico -->
+    <div class="form-group">
+      <label for="medico">Médico</label>
+      <select id="medico" formControlName="medicoId">
+        <option value="" disabled>Seleccione un médico</option>
+        <option *ngFor="let medico of medicos()" [value]="medico.id">
+          Dr(a). {{ medico.nombres }} {{ medico.apellidos }} ({{ medico.especialidad }})
+        </option>
+      </select>
+    </div>
+
+    <!-- Selector de Fecha y Hora -->
+    <div class="form-group">
+      <label for="fechaHora">Fecha y Hora</label>
+      <input id="fechaHora" type="datetime-local" formControlName="fechaHora">
+    </div>
+
+    <!-- Campo Motivo -->
+    <div class="form-group">
+      <label for="motivo">Motivo de la Cita</label>
+      <textarea id="motivo" formControlName="motivo" rows="3"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-button" [disabled]="citaForm.invalid">Agendar Cita</button>
+    </div>
+  </form>
+</div>

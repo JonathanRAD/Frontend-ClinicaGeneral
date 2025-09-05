@@ -1,0 +1,48 @@
+/* La tarjeta principal y su animación de entrada */
+.recuperar-card {
+  max-width: 420px;
+  overflow: hidden;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* El nuevo encabezado con un gradiente suave */
+.card-header-custom {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  padding: 2.5rem 2rem;
+}
+
+/* Estilos para el ícono "flotante" */
+.card-header-custom i {
+  font-size: 3.5rem; /* Hacemos el ícono más grande y prominente */
+  display: block;
+}
+
+/* Estilos para la vista de confirmación */
+.card-header-confirmacion i {
+  font-size: 3.5rem;
+  color: #198754; /* Color verde de éxito de Bootstrap */
+}
+
+/* Animación para el cambio de vista */
+.vista-contenido {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Pequeño efecto para el enlace de volver */
+.link-volver {
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.link-volver:hover {
+  color: #000 !important;
+}
+
+/* Definición de las animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes popIn {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

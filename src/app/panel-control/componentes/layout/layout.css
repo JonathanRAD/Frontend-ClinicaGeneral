@@ -1,0 +1,27 @@
+.panel-wrapper {
+  /* Asegura que el layout ocupe toda la altura disponible bajo el navbar */
+  height: calc(100vh - 64px); 
+}
+
+.sidebar {
+  width: 280px;
+}
+
+.main-content {
+  flex-grow: 1; /* Ocupa el resto del espacio */
+  overflow-y: auto; /* Permite scroll si el contenido es largo */
+  background-color: #f8f9fa; /* Un fondo gris claro para el área de contenido */
+}
+
+/* Estilos para los enlaces del menú lateral */
+.nav-link {
+  font-size: 1rem;
+}
+
+.nav-link.active {
+  background-color: #0d6efd; /* Color primario de Bootstrap para el enlace activo */
+}
+
+.nav-link:hover {
+  background-color: #343a40; /* Un gris oscuro un poco más claro para el hover */
+}

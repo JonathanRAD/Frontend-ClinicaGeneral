@@ -1,0 +1,27 @@
+<!-- src/app/panel-control/componentes/calendario-citas/calendario-citas.html -->
+<div class="page-container">
+  <div class="page-header">
+    <h1>Calendario de Citas</h1>
+    <button class="add-button" routerLink="nueva">+ Agendar Nueva Cita</button>
+  </div>
+
+  <div class="citas-lista">
+    <div *ngIf="citas().length === 0" class="no-data">
+      No hay citas programadas.
+    </div>
+
+    <!-- Iteramos sobre las citas -->
+    <div *ngFor="let cita of citas()" class="cita-card">
+      <div class="cita-header">
+        <span class="cita-fecha">{{ cita.fechaHora | date:'dd/MM/yyyy' }}</span>
+        <span class="cita-hora">{{ cita.fechaHora | date:'HH:mm' }}</span>
+        <span class="cita-estado" [ngClass]="cita.estado">{{ cita.estado }}</span>
+      </div>
+      <div class="cita-body">
+        <p><strong>Paciente:</strong> {{ cita.paciente.nombres }} {{ cita.paciente.apellidos }}</p>
+        <p><strong>Médico:</strong> Dr(a). {{ cita.medico.nombres }} {{ cita.medico.apellidos }}</p>
+        <p><strong>Motivo:</strong> {{ cita.motivo }}</p>
+      </div>
+    </div>
+  </div>
+</div>

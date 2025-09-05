@@ -1,0 +1,69 @@
+<!-- El contenedor principal ahora usa clases de Bootstrap para el layout -->
+<div class="container-fluid vh-100 p-0">
+  <div class="row g-0 h-100">
+
+    <!-- Panel de Información (Izquierda) -->
+    <div class="col-lg-5 d-none d-lg-flex flex-column justify-content-center align-items-center text-white position-relative info-panel">
+      <div class="info-overlay"></div>
+      <div class="info-content text-center">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto-format&fit=crop" alt="Logo ClínicaBienestar" class="info-logo mb-4">
+        <h1 class="display-5 fw-bold mb-3">Gestión de Salud, Simplificada</h1>
+        <p class="lead">
+          Una plataforma integral para optimizar la atención y el bienestar de cada paciente.
+        </p>
+      </div>
+    </div>
+
+    <!-- Panel del Formulario (Derecha) -->
+    <div class="col-lg-7 d-flex flex-column justify-content-center align-items-center bg-light">
+      <div class="form-container p-4 p-md-5">
+        <h2 class="form-title text-center text-dark fw-bold mb-2">Iniciar Sesión</h2>
+        <p class="form-subtitle text-center text-muted mb-4">Bienvenido, por favor ingresa tus credenciales.</p>
+
+        <button class="btn btn-outline-secondary w-100 mb-3 d-flex justify-content-center align-items-center gap-2">
+          <i class="bi bi-google"></i>
+          Ingresar con Google
+        </button>
+
+        <div class="divider d-flex align-items-center my-4">
+          <p class="text-center fw-bold mx-3 mb-0 text-muted">O</p>
+        </div>
+
+        <!-- Banner de Error con Clases de Bootstrap -->
+        <div *ngIf="errorMensaje" class="alert alert-danger d-flex align-items-center" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <div>{{ errorMensaje }}</div>
+        </div>
+
+        <!-- Formulario -->
+        <form (ngSubmit)="iniciarSesion()">
+          <!-- Campo Email -->
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="usuario" placeholder="tu.correo@ejemplo.com" [(ngModel)]="usuario" name="usuario" required>
+            <label for="usuario"><i class="bi bi-envelope-fill me-2"></i>Correo Electrónico</label>
+          </div>
+
+          <!-- Campo Contraseña -->
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="contrasena" placeholder="••••••••" [(ngModel)]="contrasena" name="contrasena" required>
+            <label for="contrasena"><i class="bi bi-lock-fill me-2"></i>Contraseña</label>
+          </div>
+
+          <!-- Opciones extra -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="remember-me" [(ngModel)]="recordarme" name="recordarme">
+              <label class="form-check-label" for="remember-me">Recordarme</label>
+            </div>
+            <a routerLink="/recuperar-contrasena" class="text-primary fw-bold text-decoration-none">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <!-- Botón de Ingreso -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg fw-bold">Ingresar al Panel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

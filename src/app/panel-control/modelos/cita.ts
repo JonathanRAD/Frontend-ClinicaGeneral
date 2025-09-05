@@ -1,0 +1,12 @@
+// src/app/panel-control/modelos/cita.ts
+import { Patient } from './patient';
+import { Medico } from './medico';
+
+export interface Cita {
+  id: string;
+  fechaHora: Date;
+  paciente: Patient;
+  medico: Medico;
+  motivo: string;
+  estado: 'programada' | 'completada' | 'cancelada';
+}

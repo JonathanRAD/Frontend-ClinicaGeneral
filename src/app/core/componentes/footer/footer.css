@@ -1,0 +1,20 @@
+/* src/app/core/componentes/footer/footer.css */
+
+.footer a.text-reset {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a.text-reset:hover {
+  color: #a7a7a7 !important; /* Un gris más claro para el efecto hover */
+  text-decoration: underline;
+}
+
+.social-icons i {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.social-icons i:hover {
+  transform: scale(1.2); /* Agranda el ícono al pasar el cursor */
+}
