@@ -1,11 +1,12 @@
-// src/app/panel-control/componentes/formulario-paciente/formulario-paciente.ts
-import { Component, OnInit } from '@angular/core'; // 1. Importa OnInit
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core'; // 1. Importa ViewEncapsulation
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router'; // 2. Importa ActivatedRoute
-import { PacienteService } from '../../servicios/paciente';
-import { MatCardModule } from '@angular/material/card';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -14,25 +15,28 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule, 
-    MatCardModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatIconModule
   ],
   templateUrl: './formulario-paciente.html',
-  styleUrls: ['./formulario-paciente.css']
+  styleUrls: ['./formulario-paciente.css'],
+  encapsulation: ViewEncapsulation.None // 2. Añade esta línea
 })
-export class FormularioPaciente implements OnInit { // 3. Implementa OnInit
+export class FormularioPaciente implements OnInit {
   pacienteForm: FormGroup;
-  esModoEdicion = false;
-  pacienteIdActual: string | null = null;
+  esModoEdicion: boolean;
 
   constructor(
     private fb: FormBuilder,
-    private pacienteService: PacienteService,
-    private router: Router,
-    private route: ActivatedRoute // 4. Inyecta ActivatedRoute
+    public dialogRef: MatDialogRef<FormularioPaciente>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    this.esModoEdicion = this.data.esModoEdicion;
     this.pacienteForm = this.fb.group({
       dni: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
       nombres: ['', Validators.required],
@@ -43,41 +47,20 @@ export class FormularioPaciente implements OnInit { // 3. Implementa OnInit
   }
 
   ngOnInit(): void {
-    // 5. Al iniciar el componente, revisamos la URL
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        this.esModoEdicion = true;
-        this.pacienteIdActual = id;
-        const pacienteExistente = this.pacienteService.getPacientePorId(id);
-        if (pacienteExistente) {
-          // Formateamos la fecha para el input type="date"
-          const fechaFormateada = new Date(pacienteExistente.fechaNacimiento).toISOString().substring(0, 10);
-          this.pacienteForm.patchValue({
-            ...pacienteExistente,
-            fechaNacimiento: fechaFormateada
-          });
-        }
-      }
-    });
+    if (this.esModoEdicion && this.data.paciente) {
+      this.pacienteForm.patchValue(this.data.paciente);
+    }
   }
 
-  guardarPaciente() {
+  guardar() {
     if (this.pacienteForm.invalid) {
       this.pacienteForm.markAllAsTouched();
       return;
     }
+    this.dialogRef.close(this.pacienteForm.value);
+  }
 
-    if (this.esModoEdicion && this.pacienteIdActual) {
-      // Lógica para ACTUALIZAR
-      const pacienteActualizado = { id: this.pacienteIdActual, ...this.pacienteForm.value };
-      this.pacienteService.actualizarPaciente(pacienteActualizado);
-      alert('¡Paciente actualizado con éxito!');
-    } else {
-      // Lógica para CREAR
-      this.pacienteService.registrarPaciente(this.pacienteForm.value);
-      alert('¡Paciente registrado con éxito!');
-    }
-    this.router.navigate(['/panel/pacientes']);
+  cancelar() {
+    this.dialogRef.close();
   }
 }

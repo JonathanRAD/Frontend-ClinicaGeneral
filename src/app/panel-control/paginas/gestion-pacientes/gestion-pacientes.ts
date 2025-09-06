@@ -1,12 +1,13 @@
-// src/app/panel-control/paginas/gestion-pacientes/gestion-pacientes.ts
 import { Component, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { PacienteService } from '../../servicios/paciente';
 import { Patient } from '../../modelos/patient';
-
 import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tabla-generica/tabla-generica';
-
+import { MatDialog } from '@angular/material/dialog';
+import { FormularioPaciente } from '../../componentes/formulario-paciente/formulario-paciente';
+// Importa el componente del diálogo de confirmación que creaste
+import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 
 @Component({
   selector: 'app-gestion-pacientes',
@@ -17,8 +18,6 @@ import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tab
 })
 export class GestionPacientes {
   pacientes: Signal<Patient[]>;
-
-  // Configuración específica para la tabla de pacientes
   columnasPacientes: ColumnConfig[] = [
     { name: 'dni', header: 'DNI' },
     { name: 'nombres', header: 'Nombres' },
@@ -28,26 +27,57 @@ export class GestionPacientes {
 
   constructor(
     private pacienteService: PacienteService,
-    private router: Router // Inyectamos el Router
+    public dialog: MatDialog
   ) {
     this.pacientes = this.pacienteService.pacientes;
   }
 
-  // NUEVO MÉTODO para manejar el evento de agregar
   onAgregarPaciente() {
-    this.router.navigate(['/panel/pacientes/nuevo']);
+    const dialogRef = this.dialog.open(FormularioPaciente, {
+      width: '600px',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: { esModoEdicion: false }
+    });
+
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        this.pacienteService.registrarPaciente(resultado);
+      }
+    });
   }
 
-  // Método que se activa cuando la tabla emite el evento 'onEdit'
   onEditarPaciente(paciente: Patient) {
-    this.router.navigate(['/panel/pacientes/editar', paciente.id]);
+    const dialogRef = this.dialog.open(FormularioPaciente, {
+      width: '600px',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data: { esModoEdicion: true, paciente: paciente }
+    });
+
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        this.pacienteService.actualizarPaciente({ id: paciente.id, ...resultado });
+      }
+    });
   }
 
-  // Método que se activa cuando la tabla emite el evento 'onDelete'
+  // MÉTODO CORREGIDO: Este ya NO usa confirm()
   onEliminarPaciente(paciente: Patient) {
-    const confirmacion = confirm(`¿Estás seguro de que deseas eliminar a ${paciente.nombres} ${paciente.apellidos}?`);
-    if (confirmacion) {
-      this.pacienteService.eliminarPaciente(paciente.id);
-    }
+    const dialogRef = this.dialog.open(DialogoConfirmacion, {
+      width: '450px',
+      data: {
+        titulo: 'Confirmar Eliminación',
+        mensaje: `¿Estás seguro de que deseas eliminar a ${paciente.nombres} ${paciente.apellidos}? Esta acción no se puede deshacer.`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(resultado => {
+      // Si el usuario hace clic en "Sí, Eliminar", el resultado será 'true'
+      if (resultado) {
+        this.pacienteService.eliminarPaciente(paciente.id);
+      }
+    });
   }
 }
+

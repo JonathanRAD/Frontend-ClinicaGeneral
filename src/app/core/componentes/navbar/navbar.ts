@@ -1,4 +1,3 @@
-// src/app/core/componentes/navbar/navbar.ts
 import { Component, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
@@ -8,22 +7,22 @@ import { AutenticacionService } from '../../servicios/autenticacion';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './navbar.html',
-  styleUrls: ['./navbar.css']
+  templateUrl: './navbar.html'
 })
 export class Navbar {
-  // Obtenemos la señal directamente del servicio
+  // Ahora esta propiedad es una WritableSignal<boolean>
   usuarioLogueado: WritableSignal<boolean>;
 
   constructor(
     private authService: AutenticacionService,
     private router: Router
   ) {
+    // Obtenemos la señal directamente del servicio
     this.usuarioLogueado = this.authService.usuarioLogueado;
   }
 
   cerrarSesion() {
     this.authService.logout();
-    this.router.navigate(['/login']); // Redirigimos al login
+    // El servicio ya se encarga de redirigir, no es necesario aquí
   }
 }

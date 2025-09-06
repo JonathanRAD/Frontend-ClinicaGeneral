@@ -1,20 +1,18 @@
-// src/app/core/servicios/autenticacion.service.ts
 import { Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutenticacionService {
-  // Creamos una señal para el estado de autenticación
-  // Se inicializa con el valor actual (si ya hay algo en localStorage)
   usuarioLogueado = signal<boolean>(this.estaLogueado());
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   login(usuario: string, contrasena: string): boolean {
     if (usuario === 'admin' && contrasena === '1234') {
       localStorage.setItem('usuarioLogueado', 'true');
-      this.usuarioLogueado.set(true); // Actualizamos la señal
+      this.usuarioLogueado.set(true);
       return true;
     }
     return false;
@@ -26,6 +24,7 @@ export class AutenticacionService {
 
   logout() {
     localStorage.removeItem('usuarioLogueado');
-    this.usuarioLogueado.set(false); // Actualizamos la señal
+    this.usuarioLogueado.set(false);
+    this.router.navigate(['/login']);
   }
 }

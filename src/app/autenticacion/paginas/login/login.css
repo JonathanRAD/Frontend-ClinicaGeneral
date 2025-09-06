@@ -1,65 +1,40 @@
-/* src/app/autenticacion/paginas/login/login.css */
-
-/* Estilos para el panel de información que no se pueden hacer solo con Bootstrap */
 .info-panel {
-  background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto-format&fit=crop') no-repeat center center;
+  background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
   background-size: cover;
+  position: relative;
 }
 
-.info-overlay {
-  background: linear-gradient(135deg, rgba(52, 152, 219, 0.85), rgba(41, 128, 185, 0.9));
+/* Creamos el overlay con gradiente sobre la imagen */
+.info-panel::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.85), rgba(41, 128, 185, 0.9));
   z-index: 1;
 }
 
 .info-content {
   position: relative;
   z-index: 2;
-  max-width: 450px; /* Un poco más de espacio para el texto */
   animation: slideInUp 0.7s ease-out;
 }
 
 .info-logo {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+  border: 2px solid white;
   border-radius: 50%;
-  border: 3px solid white;
-  object-fit: cover; /* Asegura que la imagen no se deforme */
+  object-fit: cover;
 }
 
 .form-container {
   width: 100%;
   max-width: 450px;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-/* Animaciones */
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Estilo para el divisor "O" */
-.divider {
-    width: 100%;
-    text-align: center;
-}
-.divider p {
-    width: 100%; 
-    border-bottom: 1px solid #ccc; 
-    line-height: 0.1em;
-    margin: 10px 0 20px; 
-} 
-.divider p span { 
-    background:#fff; 
-    padding:0 10px; 
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

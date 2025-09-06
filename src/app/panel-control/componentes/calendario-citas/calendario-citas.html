@@ -1,27 +1,17 @@
 <!-- src/app/panel-control/componentes/calendario-citas/calendario-citas.html -->
-<div class="page-container">
-  <div class="page-header">
-    <h1>Calendario de Citas</h1>
-    <button class="add-button" routerLink="nueva">+ Agendar Nueva Cita</button>
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Gestión de Citas</h1>
   </div>
 
-  <div class="citas-lista">
-    <div *ngIf="citas().length === 0" class="no-data">
-      No hay citas programadas.
-    </div>
-
-    <!-- Iteramos sobre las citas -->
-    <div *ngFor="let cita of citas()" class="cita-card">
-      <div class="cita-header">
-        <span class="cita-fecha">{{ cita.fechaHora | date:'dd/MM/yyyy' }}</span>
-        <span class="cita-hora">{{ cita.fechaHora | date:'HH:mm' }}</span>
-        <span class="cita-estado" [ngClass]="cita.estado">{{ cita.estado }}</span>
-      </div>
-      <div class="cita-body">
-        <p><strong>Paciente:</strong> {{ cita.paciente.nombres }} {{ cita.paciente.apellidos }}</p>
-        <p><strong>Médico:</strong> Dr(a). {{ cita.medico.nombres }} {{ cita.medico.apellidos }}</p>
-        <p><strong>Motivo:</strong> {{ cita.motivo }}</p>
-      </div>
-    </div>
-  </div>
+  <app-tabla-generica
+    [data]="citas()"
+    [columnConfig]="columnasCitas"
+    [title]="'Citas Programadas'"
+    [addButtonText]="'Agendar Nueva Cita'"
+    [nameProperties]="['paciente.nombres', 'paciente.apellidos']"
+    (onAdd)="onAgregarCita()"
+    (onEdit)="onEditarCita($event)"
+    (onDelete)="onEliminarCita($event)">
+  </app-tabla-generica>
 </div>

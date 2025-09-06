@@ -9,12 +9,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card'; // <-- 1. Importa el MatCardModule
+import { DatePipe } from '@angular/common';
+
 
 
 // Interfaz para definir la estructura de una columna
 export interface ColumnConfig {
   name: string; // El nombre de la propiedad en el objeto de datos (ej: 'dni')
   header: string; // El texto que se mostrará en el encabezado (ej: 'DNI')
+  isDate?: boolean;
 }
 
 @Component({
@@ -30,7 +33,8 @@ export interface ColumnConfig {
     MatTooltipModule,
     MatFormFieldModule, 
     MatInputModule,
-    MatCardModule    
+    MatCardModule,
+    DatePipe  
   ],
   templateUrl: './tabla-generica.html',
   styleUrls: ['./tabla-generica.css']
@@ -104,6 +108,10 @@ export class TablaGenerica implements AfterViewInit, OnChanges {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  resolveNestedPath(obj: any, path: string): any {
+    return path.split('.').reduce((p, c) => (p && p[c]) ? p[c] : null, obj);
   }
 
   agregarNuevo() {

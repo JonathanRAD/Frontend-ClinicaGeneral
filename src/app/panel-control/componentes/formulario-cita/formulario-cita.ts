@@ -1,8 +1,9 @@
-// src/app/panel-control/componentes/formulario-cita/formulario-cita.ts
 import { Component, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
+// Imports de los servicios y modelos
 import { CitaService } from '../../servicios/cita';
 import { PacienteService } from '../../servicios/paciente';
 import { MedicoService } from '../../servicios/medico';
@@ -10,10 +11,23 @@ import { Patient } from '../../modelos/patient';
 import { Medico } from '../../modelos/medico';
 import { Cita } from '../../modelos/cita';
 
+// Imports de Angular Material para la tarjeta y botones
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-formulario-cita',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    // Módulos de Material que sí usamos
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './formulario-cita.html',
   styleUrls: ['./formulario-cita.css']
 })

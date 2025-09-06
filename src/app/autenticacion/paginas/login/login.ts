@@ -1,23 +1,17 @@
-// src/app/autenticacion/paginas/login/login.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router'; // <-- 1. Importa RouterModule
+import { Router, RouterModule } from '@angular/router';
 import { AutenticacionService } from '../../../core/servicios/autenticacion';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule // <-- 2. Añádelo a los imports del componente
-  ],
+  imports: [ CommonModule, FormsModule, RouterModule ],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class Login implements OnInit {
-  // ... (el resto de tu código no necesita cambios)
   usuario: string = '';
   contrasena: string = '';
   recordarme: boolean = false;
@@ -31,7 +25,6 @@ export class Login implements OnInit {
   ngOnInit(): void {
     const recordarmeGuardado = localStorage.getItem('recordarme');
     this.recordarme = recordarmeGuardado ? JSON.parse(recordarmeGuardado) : false;
-
     if (this.recordarme) {
       this.usuario = localStorage.getItem('correoRecordado') || '';
     }
@@ -39,7 +32,6 @@ export class Login implements OnInit {
 
   iniciarSesion() {
     this.errorMensaje = '';
-
     const exito = this.authService.login(this.usuario, this.contrasena);
 
     if (exito) {
@@ -54,5 +46,11 @@ export class Login implements OnInit {
     } else {
       this.errorMensaje = 'Correo o contraseña incorrectos. Por favor, inténtalo de nuevo.';
     }
+  }
+
+  ingresarConGoogle() {
+    // Placeholder - No hace nada por ahora
+    this.errorMensaje = 'Esta funcionalidad se conectará a Firebase próximamente.';
+    console.log('Botón de Google presionado. Implementación pendiente.');
   }
 }

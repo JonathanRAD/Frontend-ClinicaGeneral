@@ -1,20 +1,33 @@
-.container-fluid {
-  animation: fadeIn 0.5s ease-in-out;
+/*
+  Ahora que la encapsulación está desactivada en el .ts,
+  estos estilos pueden afectar al contenedor del diálogo.
+  Usamos .custom-dialog-container para ser específicos.
+*/
+
+/* Estilos para el contenedor del diálogo */
+.custom-dialog-container .mdc-dialog__surface {
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Estilos para el título del diálogo */
+.custom-dialog-container .mat-mdc-dialog-title {
+  padding: 24px 24px 16px 24px !important;
+  font-weight: 600;
+  color: #1a202c; /* Un color de texto más oscuro y profesional */
+  border-bottom: 1px solid #e2e8f0;
 }
 
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(10px);
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0);
-  }
+/* Estilos para el contenido del diálogo */
+.custom-dialog-container .mat-mdc-dialog-content {
+  padding: 20px 24px !important;
+  max-height: 70vh !important;
+}
+
+/* Estilos para las acciones (botones) del diálogo */
+.custom-dialog-container .mat-mdc-dialog-actions {
+  padding: 16px 24px !important;
+  background-color: #f7fafc; /* Un fondo muy sutil para la sección de botones */
+  border-top: 1px solid #e2e8f0;
+  gap: 8px; /* Espacio entre botones */
 }
