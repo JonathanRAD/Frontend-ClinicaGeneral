@@ -1,0 +1,32 @@
+<!-- RUTA: src/app/panel-control/componentes/formulario-medico/formulario-medico.html -->
+
+<h2 mat-dialog-title>{{ esModoEdicion ? 'Editar Médico' : 'Agregar Nuevo Médico' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="medicoForm" class="d-flex flex-column pt-3">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombres</mat-label>
+      <input matInput formControlName="nombres" required>
+      <mat-error>Los nombres son requeridos.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellidos</mat-label>
+      <input matInput formControlName="apellidos" required>
+      <mat-error>Los apellidos son requeridos.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Especialidad</mat-label>
+      <input matInput formControlName="especialidad" required>
+      <mat-error>La especialidad es requerida.</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()" [disabled]="medicoForm.invalid">
+    {{ esModoEdicion ? 'Actualizar Médico' : 'Guardar Médico' }}
+  </button>
+</mat-dialog-actions>

@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormularioPaciente } from '../../componentes/formulario-paciente/formulario-paciente';
 // Importa el componente del diálogo de confirmación que creaste
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-gestion-pacientes',
@@ -27,7 +29,9 @@ export class GestionPacientes {
 
   constructor(
     private pacienteService: PacienteService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar 
+
   ) {
     this.pacientes = this.pacienteService.pacientes;
   }
@@ -43,6 +47,8 @@ export class GestionPacientes {
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
         this.pacienteService.registrarPaciente(resultado);
+        this.snackBar.open('Paciente registrado con éxito', 'Cerrar', { duration: 3000 });
+
       }
     });
   }
@@ -58,6 +64,8 @@ export class GestionPacientes {
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
         this.pacienteService.actualizarPaciente({ id: paciente.id, ...resultado });
+        this.snackBar.open('Paciente actualizado correctamente', 'Cerrar', { duration: 3000 });
+
       }
     });
   }
@@ -76,6 +84,8 @@ export class GestionPacientes {
       // Si el usuario hace clic en "Sí, Eliminar", el resultado será 'true'
       if (resultado) {
         this.pacienteService.eliminarPaciente(paciente.id);
+        this.snackBar.open('Paciente eliminado', 'Cerrar', { duration: 3000 });
+
       }
     });
   }

@@ -1,70 +1,50 @@
-<div class="container-fluid">
-  <mat-card class="mat-elevation-z4">
-    <mat-card-header class="card-header">
-      <mat-card-title>Agendar Nueva Cita</mat-card-title>
-      <button mat-stroked-button color="primary" routerLink="/panel/citas">
-        <mat-icon>arrow_back</mat-icon>
-        Volver al calendario
-      </button>
-    </mat-card-header>
+<!-- RUTA: src/app/panel-control/componentes/formulario-cita/formulario-cita.html -->
 
-    <mat-card-content class="p-4">
-      <form [formGroup]="citaForm" (ngSubmit)="agendarCita()">
-        <div class="row g-3">
-          <!-- Selector de Paciente -->
-          <div class="col-12">
-            <label for="paciente" class="form-label fw-semibold">Paciente</label>
-            <select id="paciente" class="form-select" formControlName="pacienteId">
-              <option value="" disabled>Seleccione un paciente</option>
-              <option *ngFor="let paciente of pacientes()" [value]="paciente.id">
-                {{ paciente.nombres }} {{ paciente.apellidos }} (DNI: {{ paciente.dni }})
-              </option>
-            </select>
-            <div *ngIf="citaForm.get('pacienteId')?.invalid && citaForm.get('pacienteId')?.touched" class="text-danger small mt-1">
-              Debe seleccionar un paciente.
-            </div>
-          </div>
+<h2 mat-dialog-title>{{ esModoEdicion ? 'Editar Cita Programada' : 'Agendar Nueva Cita' }}</h2>
 
-          <!-- Selector de Médico -->
-          <div class="col-12">
-            <label for="medico" class="form-label fw-semibold">Médico</label>
-            <select id="medico" class="form-select" formControlName="medicoId">
-              <option value="" disabled>Seleccione un médico</option>
-              <option *ngFor="let medico of medicos()" [value]="medico.id">
-                Dr(a). {{ medico.nombres }} {{ medico.apellidos }} ({{ medico.especialidad }})
-              </option>
-            </select>
-            <div *ngIf="citaForm.get('medicoId')?.invalid && citaForm.get('medicoId')?.touched" class="text-danger small mt-1">
-              Debe seleccionar un médico.
-            </div>
-          </div>
+<mat-dialog-content>
+  <form [formGroup]="citaForm" class="cita-form">
+    <!-- Selector de Paciente -->
+    <mat-form-field appearance="outline">
+      <mat-label>Paciente</mat-label>
+      <mat-select formControlName="pacienteId">
+        <mat-option *ngFor="let paciente of pacientes()" [value]="paciente.id">
+          {{ paciente.nombres }} {{ paciente.apellidos }}
+        </mat-option>
+      </mat-select>
+      <mat-error>Debe seleccionar un paciente.</mat-error>
+    </mat-form-field>
 
-          <!-- Selector de Fecha y Hora -->
-          <div class="col-12">
-            <label for="fechaHora" class="form-label fw-semibold">Fecha y Hora</label>
-            <input id="fechaHora" type="datetime-local" class="form-control" formControlName="fechaHora">
-            <div *ngIf="citaForm.get('fechaHora')?.invalid && citaForm.get('fechaHora')?.touched" class="text-danger small mt-1">
-              Debe seleccionar una fecha y hora.
-            </div>
-          </div>
+    <!-- Selector de Médico -->
+    <mat-form-field appearance="outline">
+      <mat-label>Médico</mat-label>
+      <mat-select formControlName="medicoId">
+        <mat-option *ngFor="let medico of medicos()" [value]="medico.id">
+          Dr(a). {{ medico.nombres }} {{ medico.apellidos }} ({{ medico.especialidad }})
+        </mat-option>
+      </mat-select>
+      <mat-error>Debe seleccionar un médico.</mat-error>
+    </mat-form-field>
 
-          <!-- Campo Motivo -->
-          <div class="col-12">
-            <label for="motivo" class="form-label fw-semibold">Motivo de la Cita</label>
-            <textarea id="motivo" class="form-control" formControlName="motivo" rows="3" placeholder="Ej: Control de rutina, dolor de cabeza..."></textarea>
-            <div *ngIf="citaForm.get('motivo')?.invalid && citaForm.get('motivo')?.touched" class="text-danger small mt-1">
-              El motivo es requerido.
-            </div>
-          </div>
-        </div>
+    <!-- Fecha y Hora -->
+    <mat-form-field appearance="outline">
+        <mat-label>Fecha y Hora</mat-label>
+        <input matInput type="datetime-local" formControlName="fechaHora">
+        <mat-error>Debe seleccionar una fecha y hora.</mat-error>
+    </mat-form-field>
 
-        <div class="d-flex justify-content-end mt-4">
-          <button type="submit" mat-raised-button color="primary" [disabled]="citaForm.invalid">
-            <mat-icon>event_available</mat-icon>
-            Agendar Cita
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
+    <!-- Motivo -->
+    <mat-form-field appearance="outline">
+      <mat-label>Motivo de la Cita</mat-label>
+      <textarea matInput formControlName="motivo" rows="3" placeholder="Ej: Control de rutina..."></textarea>
+      <mat-error>El motivo es requerido.</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()" [disabled]="citaForm.invalid">
+    {{ esModoEdicion ? 'Actualizar Cita' : 'Guardar Cita' }}
+  </button>
+</mat-dialog-actions>

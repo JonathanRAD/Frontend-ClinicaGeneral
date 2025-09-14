@@ -1,0 +1,78 @@
+// RUTA: src/app/panel-control/paginas/gestion-medicos/gestion-medicos.ts
+
+import { Component, Signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Medico } from '../../modelos/medico';
+import { MedicoService } from '../../servicios/medico';
+import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tabla-generica/tabla-generica';
+import { FormularioMedico } from '../../componentes/formulario-medico/formulario-medico';
+import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
+
+@Component({
+  selector: 'app-gestion-medicos',
+  standalone: true,
+  imports: [CommonModule, TablaGenerica],
+  templateUrl: './gestion-medicos.html'
+})
+export class GestionMedicos {
+  medicos: Signal<Medico[]>;
+  columnasMedicos: ColumnConfig[] = [
+    { name: 'nombres', header: 'Nombres' },
+    { name: 'apellidos', header: 'Apellidos' },
+    { name: 'especialidad', header: 'Especialidad' },
+  ];
+
+  constructor(
+    private medicoService: MedicoService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
+    this.medicos = this.medicoService.medicos;
+  }
+
+  onAgregarMedico() {
+    const dialogRef = this.dialog.open(FormularioMedico, {
+      width: '500px',
+      disableClose: true,
+      data: { esModoEdicion: false }
+    });
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        this.medicoService.crearMedico(resultado);
+        this.snackBar.open('Médico agregado con éxito', 'Cerrar', { duration: 3000 });
+      }
+    });
+  }
+
+  onEditarMedico(medico: Medico) {
+    const dialogRef = this.dialog.open(FormularioMedico, {
+      width: '500px',
+      disableClose: true,
+      data: { esModoEdicion: true, medico: medico }
+    });
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        this.medicoService.actualizarMedico({ id: medico.id, ...resultado });
+        this.snackBar.open('Médico actualizado correctamente', 'Cerrar', { duration: 3000 });
+      }
+    });
+  }
+
+  onEliminarMedico(medico: Medico) {
+    const dialogRef = this.dialog.open(DialogoConfirmacion, {
+      width: '450px',
+      data: {
+        titulo: 'Confirmar Eliminación',
+        mensaje: `¿Estás seguro de eliminar a Dr(a). ${medico.nombres} ${medico.apellidos}?`
+      }
+    });
+    dialogRef.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        this.medicoService.eliminarMedico(medico.id);
+        this.snackBar.open('Médico eliminado', 'Cerrar', { duration: 3000 });
+      }
+    });
+  }
+}

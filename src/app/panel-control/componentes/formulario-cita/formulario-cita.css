@@ -1,20 +1,8 @@
-.container-fluid {
-  animation: fadeIn 0.5s ease-in-out;
-}
+/* RUTA: src/app/panel-control/componentes/formulario-cita/formulario-cita.css */
 
-.card-header {
+.cita-form {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
-    transform: translateY(10px);
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0);
-  }
+  flex-direction: column;
+  gap: 8px; /* Espacio entre los campos del formulario */
+  padding-top: 16px;
 }
