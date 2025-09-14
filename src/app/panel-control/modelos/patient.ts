@@ -1,3 +1,5 @@
+// RUTA: src/app/panel-control/modelos/patient.ts
+
 export interface Patient {
   id: string;
   dni: string;
@@ -5,5 +7,10 @@ export interface Patient {
   apellidos: string;
   fechaNacimiento: Date;
   telefono: string;
-  fotoUrl?: string; 
+  fotoUrl?: string;
+  
+  // --- NUEVOS CAMPOS AÑADIDOS ---
+  peso?: number;
+  altura?: number;
+  ritmoCardiaco?: number;
 }

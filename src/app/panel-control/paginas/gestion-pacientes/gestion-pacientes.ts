@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PacienteService } from '../../servicios/paciente';
@@ -10,6 +10,9 @@ import { FormularioPaciente } from '../../componentes/formulario-paciente/formul
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+export interface PacienteConCalculos extends Patient {
+  imc?: number;
+}
 
 @Component({
   selector: 'app-gestion-pacientes',
@@ -19,12 +22,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./gestion-pacientes.css']
 })
 export class GestionPacientes {
-  pacientes: Signal<Patient[]>;
+  pacientesParaVista: Signal<PacienteConCalculos[]>;
+
   columnasPacientes: ColumnConfig[] = [
     { name: 'dni', header: 'DNI' },
     { name: 'nombres', header: 'Nombres' },
     { name: 'apellidos', header: 'Apellidos' },
-    { name: 'telefono', header: 'Teléfono' }
+    { name: 'telefono', header: 'Teléfono' },
+    // --- NUEVAS COLUMNAS ---
+    { name: 'ritmoCardiaco', header: 'Ritmo Cardíaco' },
+    { name: 'imc', header: 'IMC' }
   ];
 
   constructor(
@@ -33,7 +40,22 @@ export class GestionPacientes {
     private snackBar: MatSnackBar 
 
   ) {
-    this.pacientes = this.pacienteService.pacientes;
+    this.pacientesParaVista = computed(() => {
+      return this.pacienteService.pacientes().map(paciente => {
+        const imc = this.calcularIMC(paciente.peso, paciente.altura);
+        // Devuelve un nuevo objeto que extiende el paciente y añade el IMC
+        return { ...paciente, imc: imc };
+      });
+    });
+  }
+  private calcularIMC(peso?: number, altura?: number): number | undefined {
+    if (peso && altura && altura > 0) {
+      // Fórmula del IMC: peso / (altura * altura)
+      const imc = peso / (altura * altura);
+      // Redondea a 2 decimales
+      return parseFloat(imc.toFixed(2));
+    }
+    return undefined;
   }
 
   onAgregarPaciente() {

@@ -1,6 +1,6 @@
 // RUTA: src/app/panel-control/paginas/calendario-citas/calendario-citas.ts
 
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,9 +19,11 @@ import { FormularioCita } from '../../componentes/formulario-cita/formulario-cit
   styleUrls: ['./calendario-citas.css']
 })
 export class CalendarioCitas {
-  citas: Signal<Cita[]>;
+  citasParaVista: Signal<Cita[]>;
+
   columnasCitas: ColumnConfig[] = [
     { name: 'fechaHora', header: 'Fecha y Hora', isDate: true },
+    { name: 'tiempoRestante', header: 'Tiempo Restante' }, // <-- NUEVA COLUMNA
     { name: 'paciente.nombres', header: 'Paciente' },
     { name: 'medico.nombres', header: 'Médico' },
     { name: 'motivo', header: 'Motivo' },
@@ -33,7 +35,42 @@ export class CalendarioCitas {
     public dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    this.citas = this.citaService.citas;
+    this.citasParaVista = computed(() => {
+      const ahora = new Date();
+      return this.citaService.citas()
+        .map(cita => {
+          const { tiempoRestante, alertaClase } = this.calcularTiempoRestante(new Date(cita.fechaHora), ahora);
+          return { ...cita, tiempoRestante, alertaClase };
+        })
+        .sort((a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime()); // Ordena por fecha
+    });
+  }
+  private calcularTiempoRestante(fechaCita: Date, ahora: Date): { tiempoRestante: string, alertaClase: 'rojo' | 'ambar' | 'verde' } {
+    const diffMs = fechaCita.getTime() - ahora.getTime();
+    if (diffMs <= 0) {
+      return { tiempoRestante: 'Pasada', alertaClase: 'rojo' };
+    }
+
+    const diffSegundos = diffMs / 1000;
+    const diffMinutos = diffSegundos / 60;
+    const diffHoras = diffMinutos / 60;
+    const diffDias = diffHoras / 24;
+
+    let tiempoRestante = '';
+    let alertaClase: 'rojo' | 'ambar' | 'verde' = 'ambar';
+
+    if (diffDias < 1) {
+      tiempoRestante = `En ${Math.floor(diffHoras)} h`;
+      alertaClase = 'rojo';
+    } else if (diffDias < 7) {
+      tiempoRestante = `En ${Math.floor(diffDias)} d`;
+      alertaClase = 'ambar';
+    } else {
+      tiempoRestante = `En ${Math.floor(diffDias / 7)} sem`;
+      alertaClase = 'verde';
+    }
+
+    return { tiempoRestante, alertaClase };
   }
 
   onAgregarCita() {

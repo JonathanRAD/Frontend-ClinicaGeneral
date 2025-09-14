@@ -1,12 +1,11 @@
-<!-- Título del diálogo, gestionado por Angular Material -->
 <h2 mat-dialog-title>{{ data.esModoEdicion ? 'Editar Paciente' : 'Registrar Nuevo Paciente' }}</h2>
 
-<!-- Contenido principal del diálogo, que será scrollable si es muy largo -->
 <mat-dialog-content>
   <p class="mat-body-1 text-muted">Por favor, completa los campos para continuar.</p>
+  
   <form [formGroup]="pacienteForm" id="patient-form" class="mt-4">
     <div class="row g-3">
-      <!-- Campo DNI -->
+
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>DNI</mat-label>
@@ -16,7 +15,6 @@
         </mat-form-field>
       </div>
 
-      <!-- Campo Teléfono -->
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Teléfono</mat-label>
@@ -26,7 +24,6 @@
         </mat-form-field>
       </div>
 
-      <!-- Campo Nombres (ocupa toda la fila) -->
       <div class="col-12">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Nombres</mat-label>
@@ -35,7 +32,6 @@
         </mat-form-field>
       </div>
 
-      <!-- Campo Apellidos (ocupa toda la fila) -->
       <div class="col-12">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Apellidos</mat-label>
@@ -44,7 +40,6 @@
         </mat-form-field>
       </div>
 
-      <!-- Campo Fecha de Nacimiento -->
       <div class="col-12">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Fecha de Nacimiento</mat-label>
@@ -54,14 +49,43 @@
           <mat-error>La fecha es requerida.</mat-error>
         </mat-form-field>
       </div>
-    </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Peso (kg)</mat-label>
+          <input matInput type="number" formControlName="peso" placeholder="Ej: 70.5">
+          <mat-error *ngIf="pacienteForm.get('peso')?.hasError('min') || pacienteForm.get('peso')?.hasError('max')">
+            Valor inválido
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Altura (m)</mat-label>
+          <input matInput type="number" formControlName="altura" placeholder="Ej: 1.75">
+          <mat-error *ngIf="pacienteForm.get('altura')?.hasError('min') || pacienteForm.get('altura')?.hasError('max')">
+            Valor inválido
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ritmo Cardíaco (ppm)</mat-label>
+          <input matInput type="number" formControlName="ritmoCardiaco" placeholder="Ej: 80">
+           <mat-error *ngIf="pacienteForm.get('ritmoCardiaco')?.hasError('min') || pacienteForm.get('ritmoCardiaco')?.hasError('max')">
+            Valor inválido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      </div>
   </form>
 </mat-dialog-content>
 
-<!-- Acciones (botones) del diálogo -->
 <mat-dialog-actions align="end">
   <button mat-button (click)="cancelar()">Cancelar</button>
   <button mat-raised-button color="primary" (click)="guardar()" [disabled]="pacienteForm.invalid" cdkFocusInitial>
-    {{ esModoEdicion ? 'Actualizar Cambios' : 'Guardar Paciente' }}
+    {{ data.esModoEdicion ? 'Actualizar Cambios' : 'Guardar Paciente' }}
   </button>
 </mat-dialog-actions>

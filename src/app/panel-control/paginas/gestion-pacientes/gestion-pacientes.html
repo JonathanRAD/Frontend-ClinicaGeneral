@@ -4,8 +4,7 @@
   </div>
 
   <app-tabla-generica
-    [data]="pacientes()"
-    [columnConfig]="columnasPacientes"
+    [data]="pacientesParaVista()" [columnConfig]="columnasPacientes"
     [title]="'Lista de Pacientes Registrados'"
     [addButtonText]="'Agregar Nuevo Paciente'"
     [nameProperties]="['nombres', 'apellidos']"

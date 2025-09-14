@@ -42,7 +42,11 @@ export class FormularioPaciente implements OnInit {
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
-      fechaNacimiento: ['', Validators.required]
+      fechaNacimiento: ['', Validators.required],
+      // --- NUEVOS CAMPOS CON VALIDACIONES ---
+      peso: [null, [Validators.min(1), Validators.max(500)]], // Peso en kg
+      altura: [null, [Validators.min(0.5), Validators.max(2.5)]], // Altura en metros
+      ritmoCardiaco: [null, [Validators.min(30), Validators.max(220)]] // Pulsaciones por minuto
     });
   }
 

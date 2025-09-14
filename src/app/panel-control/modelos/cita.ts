@@ -3,8 +3,6 @@
 import { Patient } from './patient';
 import { Medico } from './medico';
 
-// La línea "import { Cita } from '../modelos/cita';" ha sido eliminada.
-
 export interface Cita {
   id: string;
   fechaHora: Date;
@@ -12,4 +10,8 @@ export interface Cita {
   medico: Medico;
   motivo: string;
   estado: 'programada' | 'completada' | 'cancelada';
+
+  // --- NUEVOS CAMPOS AÑADIDOS ---
+  tiempoRestante?: string; // Para el texto "En 2 días"
+  alertaClase?: 'rojo' | 'ambar' | 'verde'; // Para el color de la alerta
 }

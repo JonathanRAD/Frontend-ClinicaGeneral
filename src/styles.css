@@ -5,3 +5,25 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* --- CORTA Y ELIMINA ESTE BLOQUE DE ESE ARCHIVO --- */
+.badge-alerta {
+  padding: 0.3em 0.8em;
+  border-radius: 1em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.badge-alerta.rojo {
+  background-color: #ef4444; /* Rojo */
+}
+
+.badge-alerta.ambar {
+  background-color: #f59e0b; /* Ámbar/Naranja */
+}
+
+.badge-alerta.verde {
+  background-color: #22c55e; /* Verde */
+}
