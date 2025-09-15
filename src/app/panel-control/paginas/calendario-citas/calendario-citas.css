@@ -1,22 +1,22 @@
-/* --- CORTA Y ELIMINA ESTE BLOQUE DE ESE ARCHIVO --- */
-.badge-alerta {
-  padding: 0.3em 0.8em;
-  border-radius: 1em;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: white;
-  text-transform: capitalize;
-  display: inline-block;
+.container-fluid {
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-.badge-alerta.rojo {
-  background-color: #ef4444; /* Rojo */
+.table .btn-sm {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.badge-alerta.ambar {
-  background-color: #f59e0b; /* Ámbar/Naranja */
-}
-
-.badge-alerta.verde {
-  background-color: #22c55e; /* Verde */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
 }

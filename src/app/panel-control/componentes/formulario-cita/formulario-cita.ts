@@ -8,6 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker'; // <-- Para el calendario
+import { MatNativeDateModule } from '@angular/material/core'; // <-- Necesario para el datepicker
+
 import { PacienteService } from '../../servicios/paciente';
 import { MedicoService } from '../../servicios/medico';
 import { Patient } from '../../modelos/patient';
@@ -18,7 +21,8 @@ import { Medico } from '../../modelos/medico';
   standalone: true,
   imports: [
     CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,
-    MatInputModule, MatButtonModule, MatSelectModule
+    MatInputModule, MatButtonModule, MatSelectModule, MatDatepickerModule,
+    MatNativeDateModule // <-- Asegúrate de que este import esté
   ],
   templateUrl: './formulario-cita.html',
   styleUrls: ['./formulario-cita.css']
@@ -28,6 +32,7 @@ export class FormularioCita implements OnInit {
   esModoEdicion: boolean;
   pacientes: Signal<Patient[]>;
   medicos: Signal<Medico[]>;
+  horasDisponibles: string[] = []; // Array para las horas
 
   constructor(
     private fb: FormBuilder,
@@ -39,29 +44,39 @@ export class FormularioCita implements OnInit {
     this.esModoEdicion = this.data.esModoEdicion;
     this.pacientes = this.pacienteService.pacientes;
     this.medicos = this.medicoService.medicos;
+    
+    // 1. Generamos las horas disponibles
+    this.generarHoras();
 
+    // 2. Creamos el formulario con controles separados para fecha y hora
     this.citaForm = this.fb.group({
       pacienteId: ['', Validators.required],
       medicoId: ['', Validators.required],
-      fechaHora: ['', Validators.required],
+      fecha: [new Date(), Validators.required], // <-- Por defecto, la fecha actual
+      hora: ['', Validators.required],
       motivo: ['', [Validators.required, Validators.maxLength(200)]]
     });
   }
 
   ngOnInit(): void {
     if (this.esModoEdicion && this.data.cita) {
-      const fecha = new Date(this.data.cita.fechaHora);
-      // Ajusta para la zona horaria local y formatea para el input datetime-local
-      const offset = fecha.getTimezoneOffset() * 60000;
-      const fechaLocal = new Date(fecha.getTime() - offset);
-      const fechaISO = fechaLocal.toISOString().slice(0, 16);
-
+      const fechaCita = new Date(this.data.cita.fechaHora);
       this.citaForm.patchValue({
         pacienteId: this.data.cita.paciente.id,
         medicoId: this.data.cita.medico.id,
-        fechaHora: fechaISO,
+        fecha: fechaCita,
+        // Formateamos la hora para que coincida con el formato del select (ej: "09:30")
+        hora: fechaCita.toTimeString().slice(0, 5),
         motivo: this.data.cita.motivo
       });
+    }
+  }
+
+  // 3. Método para generar las horas en intervalos de 30 mins
+  private generarHoras() {
+    for (let h = 8; h < 18; h++) { // Horario de 8am a 5pm
+      this.horasDisponibles.push(`${h.toString().padStart(2, '0')}:00`);
+      this.horasDisponibles.push(`${h.toString().padStart(2, '0')}:30`);
     }
   }
 
@@ -70,7 +85,23 @@ export class FormularioCita implements OnInit {
       this.citaForm.markAllAsTouched();
       return;
     }
-    this.dialogRef.close(this.citaForm.value);
+
+    // 4. Combinamos la fecha y la hora antes de enviar
+    const formValue = this.citaForm.value;
+    const fechaSeleccionada: Date = formValue.fecha;
+    const [hora, minutos] = formValue.hora.split(':');
+    
+    fechaSeleccionada.setHours(parseInt(hora), parseInt(minutos), 0, 0);
+
+    // Creamos el objeto final que espera el servicio
+    const payload = {
+      pacienteId: formValue.pacienteId,
+      medicoId: formValue.medicoId,
+      fechaHora: fechaSeleccionada.toISOString(), // Enviamos en formato ISO
+      motivo: formValue.motivo
+    };
+
+    this.dialogRef.close(payload);
   }
 
   cancelar(): void {

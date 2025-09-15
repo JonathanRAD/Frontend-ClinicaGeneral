@@ -1,6 +1,6 @@
 // RUTA: src/app/panel-control/paginas/gestion-medicos/gestion-medicos.ts
 
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,18 +10,26 @@ import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tab
 import { FormularioMedico } from '../../componentes/formulario-medico/formulario-medico';
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 
+interface MedicoConEdad extends Medico {
+  edad?: number;
+}
+
 @Component({
   selector: 'app-gestion-medicos',
   standalone: true,
   imports: [CommonModule, TablaGenerica],
-  templateUrl: './gestion-medicos.html'
+  templateUrl: './gestion-medicos.html',
+  styleUrls: ['./gestion-medicos.css']
+  
 })
 export class GestionMedicos {
-  medicos: Signal<Medico[]>;
+  medicosParaVista: Signal<MedicoConEdad[]>;
+
   columnasMedicos: ColumnConfig[] = [
     { name: 'nombres', header: 'Nombres' },
     { name: 'apellidos', header: 'Apellidos' },
     { name: 'especialidad', header: 'Especialidad' },
+    { name: 'edad', header: 'Edad' } // <-- NUEVA COLUMNA
   ];
 
   constructor(
@@ -29,13 +37,30 @@ export class GestionMedicos {
     public dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
-    this.medicos = this.medicoService.medicos;
+    this.medicosParaVista = computed(() => {
+      return this.medicoService.medicos().map(medico => ({
+        ...medico,
+        edad: this.calcularEdad(medico.fechaNacimiento)
+      }));
+    });
+  }
+  private calcularEdad(fechaNacimiento?: Date): number | undefined {
+    if (!fechaNacimiento) return undefined;
+    const hoy = new Date();
+    const nacimiento = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+    }
+    return edad;
   }
 
   onAgregarMedico() {
     const dialogRef = this.dialog.open(FormularioMedico, {
       width: '500px',
       disableClose: true,
+      panelClass: 'custom-dialog-container',
       data: { esModoEdicion: false }
     });
     dialogRef.afterClosed().subscribe(resultado => {
@@ -50,6 +75,7 @@ export class GestionMedicos {
     const dialogRef = this.dialog.open(FormularioMedico, {
       width: '500px',
       disableClose: true,
+      panelClass: 'custom-dialog-container',
       data: { esModoEdicion: true, medico: medico }
     });
     dialogRef.afterClosed().subscribe(resultado => {

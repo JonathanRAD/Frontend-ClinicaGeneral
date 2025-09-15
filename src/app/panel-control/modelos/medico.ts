@@ -4,4 +4,5 @@ export interface Medico {
   nombres: string;
   apellidos: string;
   especialidad: string;
+  fechaNacimiento?: Date;
 }

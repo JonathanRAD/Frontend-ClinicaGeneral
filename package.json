@@ -29,6 +29,7 @@
     "@angular/fire": "^20.0.1",
     "@angular/forms": "^20.2.4",
     "@angular/material": "^20.2.2",
+    "@angular/material-moment-adapter": "^20.2.3",
     "@angular/platform-browser": "^20.2.4",
     "@angular/router": "^20.2.4",
     "@firebase/auth": "^1.11.0",

@@ -77,6 +77,7 @@ export class CalendarioCitas {
     const dialogRef = this.dialog.open(FormularioCita, {
       width: '600px',
       disableClose: true,
+      panelClass: 'custom-dialog-container',
       data: { esModoEdicion: false }
     });
 
@@ -93,6 +94,7 @@ export class CalendarioCitas {
     const dialogRef = this.dialog.open(FormularioCita, {
       width: '600px',
       disableClose: true,
+      panelClass: 'custom-dialog-container',
       data: { esModoEdicion: true, cita: cita }
     });
 

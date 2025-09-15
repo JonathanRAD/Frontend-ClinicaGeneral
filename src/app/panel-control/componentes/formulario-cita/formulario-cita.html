@@ -1,10 +1,7 @@
-<!-- RUTA: src/app/panel-control/componentes/formulario-cita/formulario-cita.html -->
-
 <h2 mat-dialog-title>{{ esModoEdicion ? 'Editar Cita Programada' : 'Agendar Nueva Cita' }}</h2>
 
 <mat-dialog-content>
   <form [formGroup]="citaForm" class="cita-form">
-    <!-- Selector de Paciente -->
     <mat-form-field appearance="outline">
       <mat-label>Paciente</mat-label>
       <mat-select formControlName="pacienteId">
@@ -15,7 +12,6 @@
       <mat-error>Debe seleccionar un paciente.</mat-error>
     </mat-form-field>
 
-    <!-- Selector de Médico -->
     <mat-form-field appearance="outline">
       <mat-label>Médico</mat-label>
       <mat-select formControlName="medicoId">
@@ -26,14 +22,28 @@
       <mat-error>Debe seleccionar un médico.</mat-error>
     </mat-form-field>
 
-    <!-- Fecha y Hora -->
-    <mat-form-field appearance="outline">
-        <mat-label>Fecha y Hora</mat-label>
-        <input matInput type="datetime-local" formControlName="fechaHora">
-        <mat-error>Debe seleccionar una fecha y hora.</mat-error>
-    </mat-form-field>
-
-    <!-- Motivo -->
+    <div class="row g-3">
+      <div class="col-md-7">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Fecha de la Cita</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fecha" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>La fecha es requerida.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-5">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Hora</mat-label>
+          <mat-select formControlName="hora">
+            <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">
+              {{ hora }}
+            </mat-option>
+          </mat-select>
+          <mat-error>La hora es requerida.</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
     <mat-form-field appearance="outline">
       <mat-label>Motivo de la Cita</mat-label>
       <textarea matInput formControlName="motivo" rows="3" placeholder="Ej: Control de rutina..."></textarea>

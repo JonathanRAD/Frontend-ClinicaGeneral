@@ -15,6 +15,7 @@ import { FormularioFacturacion } from '../../componentes/formulario-facturacion/
   standalone: true,
   imports: [CommonModule, TablaGenerica],
   templateUrl: './gestion-facturacion.html',
+  styleUrls: ['./gestion-facturacion.css']
 })
 export class GestionFacturacion {
   facturas: Signal<Factura[]>;
@@ -37,6 +38,7 @@ export class GestionFacturacion {
     const dialogRef = this.dialog.open(FormularioFacturacion, {
       width: '500px',
       disableClose: true,
+      panelClass: 'custom-dialog-container',
       data: { esModoEdicion: false }
     });
 
@@ -57,6 +59,7 @@ export class GestionFacturacion {
     const dialogRef = this.dialog.open(FormularioFacturacion, {
       width: '500px',
       disableClose: true,
+      panelClass: 'custom-dialog-container',
       data: { esModoEdicion: true, factura: factura }
     });
 

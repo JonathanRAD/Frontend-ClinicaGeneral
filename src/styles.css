@@ -5,25 +5,30 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/* --- CORTA Y ELIMINA ESTE BLOQUE DE ESE ARCHIVO --- */
-.badge-alerta {
-  padding: 0.3em 0.8em;
-  border-radius: 1em;
-  font-size: 0.8rem;
+/* Estilos para el contenedor del diálogo */
+.custom-dialog-container .mdc-dialog__surface {
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Estilos para el título del diálogo */
+.custom-dialog-container .mat-mdc-dialog-title {
+  padding: 24px 24px 16px 24px !important;
   font-weight: 600;
-  color: white;
-  text-transform: capitalize;
-  display: inline-block;
+  color: #1a202c; /* Un color de texto más oscuro y profesional */
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.badge-alerta.rojo {
-  background-color: #ef4444; /* Rojo */
+/* Estilos para el contenido del diálogo */
+.custom-dialog-container .mat-mdc-dialog-content {
+  padding: 20px 24px !important;
+  max-height: 70vh !important;
 }
 
-.badge-alerta.ambar {
-  background-color: #f59e0b; /* Ámbar/Naranja */
-}
-
-.badge-alerta.verde {
-  background-color: #22c55e; /* Verde */
+/* Estilos para las acciones (botones) del diálogo */
+.custom-dialog-container .mat-mdc-dialog-actions {
+  padding: 16px 24px !important;
+  background-color: #f7fafc; /* Un fondo muy sutil para la sección de botones */
+  border-top: 1px solid #e2e8f0;
+  gap: 8px; /* Espacio entre botones */
 }

@@ -1,6 +1,6 @@
 // RUTA: src/app/panel-control/componentes/formulario-medico/formulario-medico.ts
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -8,14 +8,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 @Component({
   selector: 'app-formulario-medico',
   standalone: true,
   imports: [
     CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,
-    MatInputModule, MatButtonModule
+    MatInputModule, MatButtonModule,
+    MatDatepickerModule, MatNativeDateModule
   ],
-  templateUrl: './formulario-medico.html'
+  templateUrl: './formulario-medico.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class FormularioMedico implements OnInit {
   medicoForm: FormGroup;
@@ -30,7 +35,8 @@ export class FormularioMedico implements OnInit {
     this.medicoForm = this.fb.group({
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
-      especialidad: ['', Validators.required]
+      especialidad: ['', Validators.required],
+      fechaNacimiento: [null, Validators.required]
     });
   }
 
