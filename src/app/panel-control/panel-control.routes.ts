@@ -5,7 +5,8 @@ import { Inicio } from './paginas/inicio/inicio';
 import { GestionPacientes } from './paginas/gestion-pacientes/gestion-pacientes';
 import { CalendarioCitas } from './paginas/calendario-citas/calendario-citas';
 import { GestionFacturacion } from './paginas/gestion-facturacion/gestion-facturacion';
-import { GestionMedicos } from './paginas/gestion-medicos/gestion-medicos'; // <-- AÑADE ESTA LÍNEA
+import { GestionMedicos } from './paginas/gestion-medicos/gestion-medicos';
+import { GestionConfiguracion } from './paginas/gestion-configuracion/gestion-configuracion'; // <-- AÑADE ESTA LÍNEA
 
 export default [
   {
@@ -16,7 +17,8 @@ export default [
       { path: 'pacientes', component: GestionPacientes },
       { path: 'citas', component: CalendarioCitas },
       { path: 'facturacion', component: GestionFacturacion },
-      { path: 'medicos', component: GestionMedicos }, // <-- AÑADE ESTA LÍNEA
+      { path: 'medicos', component: GestionMedicos },
+      { path: 'configuracion', component: GestionConfiguracion }, // <-- AÑADE ESTA LÍNEA
       { path: '', redirectTo: 'inicio', pathMatch: 'full' }
     ]
   }
