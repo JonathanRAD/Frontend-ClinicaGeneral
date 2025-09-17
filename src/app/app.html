@@ -1,0 +1,12 @@
+<!-- src/app/app.component.html -->
+
+<!-- El Navbar solo se mostrará si la señal es 'true' -->
+<app-navbar *ngIf="mostrarLayoutPrincipal()"></app-navbar>
+
+<!-- El <main> siempre existe, pero le aplicamos una clase condicional -->
+<main [class.main-content]="mostrarLayoutPrincipal()">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- El Footer solo se mostrará si la señal es 'true' -->
+<app-footer *ngIf="mostrarLayoutPrincipal()"></app-footer>

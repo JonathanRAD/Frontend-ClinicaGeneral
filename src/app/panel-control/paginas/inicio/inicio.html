@@ -1,0 +1,99 @@
+<!-- RUTA: src/app/panel-control/paginas/inicio/inicio.html -->
+
+<div class="dashboard-container">
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2 fw-bold">Dashboard de Actividad</h1>
+    <span class="text-muted">{{ fechaActual | date:'fullDate' }}</span>
+  </div>
+
+  <!-- Fila Principal -->
+  <div class="row g-4">
+    <!-- Columna Izquierda (Gráficos y Tarjetas) -->
+    <div class="col-xl-8">
+      <!-- Tarjetas de Estadísticas -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <mat-card class="stat-card h-100">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon icon-pacientes"><mat-icon>groups</mat-icon></div>
+              <div class="ms-3">
+                <p class="stat-label text-muted mb-0">Pacientes Totales</p>
+                <p class="stat-value fw-bold">{{ totalPacientes() }}</p>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+        <div class="col-md-4">
+          <mat-card class="stat-card h-100">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon icon-citas"><mat-icon>today</mat-icon></div>
+              <div class="ms-3">
+                <p class="stat-label text-muted mb-0">Citas para Hoy</p>
+                <p class="stat-value fw-bold">{{ citasHoy() }}</p>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+        <div class="col-md-4">
+          <mat-card class="stat-card h-100">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon icon-ingresos"><mat-icon>monetization_on</mat-icon></div>
+              <div class="ms-3">
+                <p class="stat-label text-muted mb-0">Ingresos del Mes</p>
+                <p class="stat-value fw-bold">{{ ingresosMesActual() | currency:'S/ ' }}</p>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <!-- Gráfico de Ingresos -->
+      <mat-card class="h-100 chart-card">
+        <mat-card-header><mat-card-title>Tendencia de Ingresos (Pagado)</mat-card-title></mat-card-header>
+        <mat-card-content class="chart-container">
+          <canvas #ingresosChart></canvas>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Columna Derecha (Acciones y Actividad) -->
+    <div class="col-xl-4">
+      <!-- Accesos Rápidos -->
+      <mat-card class="mb-4">
+        <mat-card-header><mat-card-title>Accesos Rápidos</mat-card-title></mat-card-header>
+        <mat-card-content class="d-flex flex-column gap-3 p-3">
+          <button mat-flat-button color="primary" routerLink="../pacientes">
+            <mat-icon>person_add</mat-icon> Registrar Nuevo Paciente
+          </button>
+          <button mat-flat-button color="accent" routerLink="../citas">
+            <mat-icon>event</mat-icon> Agendar Nueva Cita
+          </button>
+        </mat-card-content>
+      </mat-card>
+      
+      <!-- Actividad Reciente -->
+      <mat-card>
+        <mat-card-header><mat-card-title>Actividad Reciente</mat-card-title></mat-card-header>
+        <mat-card-content class="p-0">
+          <h6 class="px-3 pt-3 text-muted small">ÚLTIMOS PACIENTES REGISTRADOS</h6>
+          <mat-list>
+            <mat-list-item *ngFor="let paciente of ultimosPacientes()">
+              <mat-icon matListItemIcon>person</mat-icon>
+              <div matListItemTitle>{{ paciente.nombres }} {{ paciente.apellidos }}</div>
+              <div matListItemLine>DNI: {{ paciente.dni }}</div>
+            </mat-list-item>
+          </mat-list>
+          <hr class="my-2">
+          <h6 class="px-3 pt-2 text-muted small">ÚLTIMAS CITAS COMPLETADAS</h6>
+          <mat-list>
+            <mat-list-item *ngFor="let cita of citasCompletadasRecientes()">
+              <mat-icon matListItemIcon>task_alt</mat-icon>
+              <div matListItemTitle>{{ cita.paciente.nombres }} {{ cita.paciente.apellidos }}</div>
+              <div matListItemLine>{{ cita.fechaHora | date:'mediumDate' }}</div>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+/* src/app/core/componentes/navbar/navbar.css */
+
+/* Podemos mantener algunos estilos muy específicos si queremos, 
+   o simplemente dejar este archivo vacío. */
+
+.navbar-brand {
+  color: #2c3e50; /* Un color un poco más oscuro para el texto del logo */
+}
+
+.btn i {
+  font-size: 1.1rem; /* Hacemos los íconos un poco más grandes */
+}

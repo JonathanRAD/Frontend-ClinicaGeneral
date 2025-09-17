@@ -1,0 +1,18 @@
+<!-- RUTA: src/app/panel-control/paginas/gestion-facturacion/gestion-facturacion.html -->
+
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Gestión de Facturación</h1>
+  </div>
+
+  <app-tabla-generica
+    [data]="facturas()"
+    [columnConfig]="columnasFacturacion"
+    title="Listado de Facturas Emitidas"
+    addButtonText="Registrar Nuevo Pago"
+    [nameProperties]="['cita.paciente.nombres', 'cita.paciente.apellidos']"
+    (onAdd)="onAgregarFactura()"
+    (onEdit)="onEditarFactura($event)"
+    (onDelete)="onEliminarFactura($event)">
+  </app-tabla-generica>
+</div>

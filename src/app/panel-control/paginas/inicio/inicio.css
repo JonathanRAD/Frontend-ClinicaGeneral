@@ -1,0 +1,76 @@
+/* RUTA: src/app/panel-control/paginas/inicio/inicio.css */
+
+.dashboard-container {
+  padding: 2rem;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stat-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 12px;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.stat-icon .mat-icon {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+}
+
+.icon-pacientes { background: linear-gradient(45deg, #0d6efd, #5a96f6); }
+.icon-citas { background: linear-gradient(45deg, #6f42c1, #8a63d2); } /* Color morado para citas */
+.icon-ingresos { background: linear-gradient(45deg, #198754, #2abb5b); } /* Color verde para ingresos */
+
+.stat-label {
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.chart-card {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 0;
+  border-radius: 12px;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  padding: 1rem;
+}
+
+/* Estilos para accesos rápidos y listas */
+.mat-mdc-flat-button {
+  width: 100%;
+  text-align: left;
+  justify-content: flex-start;
+  padding: 12px 16px !important;
+  font-size: 1rem;
+}
+
+.mat-mdc-list-item-icon {
+  color: #6c757d; /* Gris para los íconos de la lista */
+}

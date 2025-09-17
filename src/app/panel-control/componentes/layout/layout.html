@@ -1,0 +1,63 @@
+<div class="d-flex panel-wrapper">
+  <!-- Barra de Navegación Lateral (Sidebar) -->
+  <aside class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
+    <a routerLink="/panel/inicio" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <i class="bi bi-speedometer2 h4 me-2"></i>
+      <span class="fs-4">Panel Principal</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a routerLink="inicio" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-house-door-fill me-2"></i>
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a routerLink="pacientes" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-people-fill me-2"></i>
+          Pacientes
+        </a>
+      </li>
+      <!-- AÑADE EL NUEVO ENLACE AQUÍ -->
+      <li>
+        <a routerLink="medicos" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-person-badge-fill me-2"></i>
+          Médicos
+        </a>
+      </li>
+      <li>
+        <a routerLink="citas" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-calendar-event-fill me-2"></i>
+          Citas
+        </a>
+      </li>
+      
+      <li>
+        <a routerLink="facturacion" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-file-earmark-medical-fill me-2"></i>
+          Facturación
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <!-- Aquí podría ir información del usuario logueado -->
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=40&auto=format&fit=crop" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>Dr. Admin</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+        <li><a class="dropdown-item" routerLink="configuracion">Configuración</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Contenido Principal de la Página -->
+  <main class="main-content p-4">
+    <router-outlet></router-outlet>
+  </main>
+</div>

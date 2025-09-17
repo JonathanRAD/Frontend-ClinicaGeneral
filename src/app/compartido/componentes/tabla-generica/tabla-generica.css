@@ -1,0 +1,95 @@
+/* Quita el padding por defecto de la tarjeta */
+.mat-mdc-card-content {
+  padding: 0;
+}
+
+.card-header {
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+/* --- ESTILOS PARA LA BARRA DE HERRAMIENTAS --- */
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.filter-field {
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.mat-mdc-header-cell {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.mat-mdc-row:hover {
+  background-color: #f1f5f9;
+}
+
+.mat-mdc-cell.text-center, .mat-mdc-header-cell.text-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.edit-button {
+  color: #f59e0b;
+}
+
+/* Estilos para el avatar de iniciales */
+.initials-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.mat-column-avatar {
+  width: 60px;
+  padding-right: 16px !important;
+}
+/* RUTA: src/app/compartido/componentes/tabla-generica/tabla-generica.css */
+
+/* ... (los estilos que ya tenías para la tabla) ... */
+
+/* --- ESTILOS PARA LAS ALERTAS DE CITAS --- */
+.badge-alerta {
+  padding: 0.3em 0.8em;
+  border-radius: 1em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.badge-alerta.rojo {
+  background-color: #ef4444; /* Rojo */
+}
+
+.badge-alerta.ambar {
+  background-color: #f59e0b; /* Ámbar/Naranja */
+}
+
+.badge-alerta.verde {
+  background-color: #22c55e; /* Verde */
+}

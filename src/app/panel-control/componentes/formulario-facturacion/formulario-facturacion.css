@@ -1,0 +1,8 @@
+/* RUTA: src/app/panel-control/componentes/formulario-facturacion/formulario-facturacion.css */
+
+.factura-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 16px;
+}

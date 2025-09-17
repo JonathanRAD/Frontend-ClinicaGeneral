@@ -1,0 +1,8 @@
+/* RUTA: src/app/panel-control/componentes/formulario-cita/formulario-cita.css */
+
+.cita-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espacio entre los campos del formulario */
+  padding-top: 16px;
+}
