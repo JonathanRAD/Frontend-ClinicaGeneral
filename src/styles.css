@@ -1,83 +1,69 @@
 /* Importa un tema predefinido de Angular Material */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
-/* Puedes añadir otros estilos globales aquí si es necesario */
+/* Estilos globales básicos */
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/* Estilos para el contenedor del diálogo */
+/*
+ * ===============================================
+ * ESTILOS GENERALES PARA MODALES (DIALOGS)
+ * ===============================================
+ */
 .custom-dialog-container .mdc-dialog__surface {
   border-radius: 16px !important;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
 }
-
-/* Estilos para el título del diálogo */
 .custom-dialog-container .mat-mdc-dialog-title {
   padding: 24px 24px 16px 24px !important;
   font-weight: 600;
-  color: #1a202c; /* Un color de texto más oscuro y profesional */
+  color: #1a202c;
   border-bottom: 1px solid #e2e8f0;
 }
-
-/* Estilos para el contenido del diálogo */
 .custom-dialog-container .mat-mdc-dialog-content {
   padding: 20px 24px !important;
   max-height: 70vh !important;
 }
-
-/* Estilos para las acciones (botones) del diálogo */
 .custom-dialog-container .mat-mdc-dialog-actions {
   padding: 16px 24px !important;
-  background-color: #f7fafc; /* Un fondo muy sutil para la sección de botones */
+  background-color: #f7fafc;
   border-top: 1px solid #e2e8f0;
-  gap: 8px; /* Espacio entre botones */
+  gap: 8px;
 }
 
-
-/* RUTA: src/styles.css */
-
-/* --- TEMA OSCURO COMPLETO Y UNIFICADO --- */
+/*
+ * ===============================================
+ * TEMA OSCURO
+ * ===============================================
+ */
 body.dark-theme {
-  /* -- Variables Globales de Color -- */
-  --mat-sys-surface: #000000; /* Fondo principal negro puro */
-  --mat-sys-on-surface: #e0e0e0; /* Texto principal blanco suave */
-  --mat-sys-surface-container: #1e1e1e; /* Fondo para tarjetas y elementos elevados */
+  --mat-sys-surface: #000000;
+  --mat-sys-on-surface: #e0e0e0;
+  --mat-sys-surface-container: #1e1e1e;
 
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
 }
 
-/* --- ESTILOS GENERALES DEL LAYOUT --- */
-body.dark-theme .main-content {
-  background-color: var(--mat-sys-surface);
-}
-body.dark-theme .sidebar {
-  background-color: #121212 !important;
-}
+/* --- Layout Principal --- */
+body.dark-theme .main-content { background-color: var(--mat-sys-surface); }
+body.dark-theme .sidebar { background-color: #121212 !important; }
 body.dark-theme .text-gray-800,
 body.dark-theme h1, body.dark-theme h2, body.dark-theme h3 {
   color: #f1f1f1 !important;
 }
 
-/* --- ESTILOS PARA LA BARRA DE NAVEGACIÓN (NAVBAR) --- */
-body.dark-theme .navbar {
-  background-color: #1e1e1e !important; /* Asegura fondo oscuro */
-}
-body.dark-theme .navbar-brand {
-  color: #ffffff;
-}
-body.dark-theme .nav-link {
-  color: rgba(255, 255, 255, 0.85);
-}
+/* --- Navbar --- */
+body.dark-theme .navbar { background-color: #1e1e1e !important; }
+body.dark-theme .navbar-brand { color: #ffffff; }
+body.dark-theme .nav-link { color: rgba(255, 255, 255, 0.85); }
 body.dark-theme .nav-link:hover,
-body.dark-theme .nav-link.active {
-  color: #ffffff;
-}
+body.dark-theme .nav-link.active { color: #ffffff; }
 body.dark-theme .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* --- ESTILOS PARA TARJETAS Y TABLAS --- */
+/* --- Tarjetas (Cards) --- */
 body.dark-theme .mat-mdc-card {
   background-color: var(--mat-sys-surface-container);
   color: var(--mat-sys-on-surface);
@@ -89,78 +75,87 @@ body.dark-theme .mat-card .card-header {
 body.dark-theme .mat-card-title {
   color: #ffffff;
 }
-body.dark-theme .mat-mdc-header-row {
-  background-color: #2a2a2a;
-}
-body.dark-theme .mat-mdc-header-cell {
-  color: var(--mat-sys-on-surface);
-}
-body.dark-theme .mat-paginator,
-body.dark-theme .mat-mdc-paginator-container {
-  background-color: var(--mat-sys-surface-container);
-  color: var(--mat-sys-on-surface);
-}
-body.dark-theme .mat-mdc-table .mat-mdc-no-data-row .mat-mdc-cell {
-  background-color: var(--mat-sys-surface-container);
-  color: rgba(255, 255, 255, 0.5);
-}
 
-/* --- ESTILOS PARA DASHBOARD Y LISTAS --- */
+/* --- Dashboard y Listas --- */
 body.dark-theme .stat-label,
-body.dark-theme .text-muted {
-  color: rgba(255, 255, 255, 0.7) !important;
-}
+body.dark-theme .text-muted { color: rgba(255, 255, 255, 0.7) !important; }
 body.dark-theme .mat-mdc-list-item-unscoped-content,
 body.dark-theme .mat-mdc-list-item .mat-mdc-list-item-title,
 body.dark-theme .mat-mdc-list-item .mat-mdc-list-item-supporting-text {
   color: var(--mat-sys-on-surface) !important;
 }
 
-/* --- ESTILOS PARA MODALES Y FORMULARIOS --- */
-body.dark-theme .mdc-dialog__surface {
-  background-color: #2d2d2d !important;
-}
-body.dark-theme .mat-mdc-text-field-wrapper {
-  background-color: transparent !important;
-}
+/* --- Modales y Formularios --- */
+body.dark-theme .mdc-dialog__surface { background-color: #2d2d2d !important; }
+body.dark-theme .mat-mdc-text-field-wrapper { background-color: transparent !important; }
 body.dark-theme .mat-mdc-input-element,
 body.dark-theme .mat-mdc-select-value,
 body.dark-theme .mat-datepicker-toggle .mat-icon,
-body.dark-theme .mat-mdc-select-arrow {
-  color: #ffffff !important;
-}
-body.dark-theme .mat-mdc-form-field-label {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-body.dark-theme .mdc-notched-outline > * {
-  border-color: rgba(255, 255, 255, 0.4) !important;
-}
-body.dark-theme .mat-mdc-input-element::placeholder {
-  color: rgba(255, 255, 255, 0.5) !important;
-}
-body.dark-theme .mat-mdc-form-field-error {
-  color: #f89ea1 !important;
-}
-body.dark-theme .mat-form-field-invalid .mdc-notched-outline > * {
-    border-color: #f89ea1 !important;
-}
+body.dark-theme .mat-mdc-select-arrow { color: #ffffff !important; }
+body.dark-theme .mat-mdc-form-field-label { color: rgba(255, 255, 255, 0.9) !important; }
+body.dark-theme .mdc-notched-outline > * { border-color: rgba(255, 255, 255, 0.4) !important; }
+body.dark-theme .mat-mdc-input-element::placeholder { color: rgba(255, 255, 255, 0.5) !important; }
+body.dark-theme .mat-mdc-form-field-error { color: #f89ea1 !important; }
+body.dark-theme .mat-form-field-invalid .mdc-notched-outline > * { border-color: #f89ea1 !important; }
 body.dark-theme .mat-form-field.mat-focused .mat-form-field-label,
 body.dark-theme .mat-form-field.mat-focused .mdc-notched-outline > * {
   color: #bb86fc !important;
   border-color: #bb86fc !important;
 }
 
-/* --- ESTILOS PARA BOTONES Y OTROS CONTROLES --- */
-body.dark-theme .mat-raised-button.mat-primary {
-  color: #ffffff !important;
-}
-body.dark-theme .mat-mdc-dialog-actions {
-  background-color: #333333;
-}
+/* --- Botones y Controles --- */
+body.dark-theme .mat-raised-button.mat-primary { color: #ffffff !important; }
+body.dark-theme .mat-mdc-dialog-actions { background-color: #333333; }
 body.dark-theme .mat-mdc-dialog-actions .mat-mdc-button:disabled {
   background-color: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.3);
 }
-body.dark-theme .mat-mdc-slide-toggle .mdc-switch__track::after {
-  background: #bb86fc;
+body.dark-theme .mat-mdc-slide-toggle .mdc-switch__track::after { background: #bb86fc; }
+
+/*
+ * ===============================================
+ * ESTILOS OPTIMIZADOS PARA TABLA EN MODO OSCURO
+ * ===============================================
+ */
+body.dark-theme .mat-mdc-table {
+  background: var(--mat-sys-surface-container);
+}
+body.dark-theme .mat-mdc-cell,
+body.dark-theme .mat-mdc-header-cell {
+  color: var(--mat-sys-on-surface);
+}
+body.dark-theme .mat-mdc-row,
+body.dark-theme .mat-mdc-header-row {
+  background: transparent;
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+body.dark-theme .mat-mdc-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+body.dark-theme .mat-mdc-no-data-row .mat-mdc-cell {
+  color: rgba(255, 255, 255, 0.5);
+}
+body.dark-theme .mat-mdc-cell .mat-icon-button mat-icon {
+  color: var(--mat-sys-on-surface) !important;
+  opacity: 0.7;
+}
+body.dark-theme .mat-mdc-cell .mat-icon-button:hover mat-icon {
+  opacity: 1;
+}
+body.dark-theme .mat-mdc-paginator {
+  background-color: var(--mat-sys-surface-container);
+  color: var(--mat-sys-on-surface); /* <--- AÑADE ESTA LÍNEA DE VUELTA */
+}
+body.dark-theme .mat-mdc-paginator .mat-mdc-icon-button .mat-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+body.dark-theme .mat-mdc-paginator .mat-mdc-form-field .mdc-notched-outline > * {
+  border-color: rgba(255, 255, 255, 0.23) !important;
+}
+body.dark-theme .mat-mdc-paginator .mat-mdc-select-arrow {
+  color: rgba(255, 255, 255, 0.7);
+}
+body.dark-theme .table-toolbar .mat-mdc-text-field-wrapper,
+body.dark-theme .table-toolbar .mat-input-element {
+  color: var(--mat-sys-on-surface) !important;
 }

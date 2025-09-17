@@ -5,7 +5,6 @@
 
 .card-header {
   padding: 1rem 1.5rem;
-  background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
 }
 
@@ -34,7 +33,6 @@
 .mat-mdc-header-cell {
   background-color: #f8f9fa;
   font-weight: 600;
-  color: #343a40;
 }
 
 .mat-mdc-row:hover {
