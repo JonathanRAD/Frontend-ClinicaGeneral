@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Medico } from '../../modelos/medico';
 import { MedicoService } from '../../servicios/medico';
-import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tabla-generica/tabla-generica';
+import { TablaGenerica, ColumnConfig } from '../../../compartido/tabla-generica/tabla-generica';
 import { FormularioMedico } from '../../componentes/formulario-medico/formulario-medico';
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 

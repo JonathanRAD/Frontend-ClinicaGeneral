@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CitaService } from '../../servicios/cita';
 import { Cita } from '../../modelos/cita';
-import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tabla-generica/tabla-generica';
+import { TablaGenerica, ColumnConfig } from '../../../compartido/tabla-generica/tabla-generica';
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 import { FormularioCita } from '../../componentes/formulario-cita/formulario-cita';
 

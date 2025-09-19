@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FacturacionService, FacturaPayload } from '../../servicios/facturacion';
 import { Factura } from '../../modelos/factura';
-import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tabla-generica/tabla-generica';
+import { TablaGenerica, ColumnConfig } from '../../../compartido/tabla-generica/tabla-generica';
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 import { FormularioFacturacion } from '../../componentes/formulario-facturacion/formulario-facturacion';
 

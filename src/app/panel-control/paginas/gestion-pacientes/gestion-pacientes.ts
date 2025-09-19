@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PacienteService } from '../../servicios/paciente';
 import { Patient } from '../../modelos/patient';
-import { TablaGenerica, ColumnConfig } from '../../../compartido/componentes/tabla-generica/tabla-generica';
+import { TablaGenerica, ColumnConfig } from '../../../compartido/tabla-generica/tabla-generica';
 import { MatDialog } from '@angular/material/dialog';
 import { FormularioPaciente } from '../../componentes/formulario-paciente/formulario-paciente';
 // Importa el componente del diálogo de confirmación que creaste

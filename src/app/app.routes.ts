@@ -6,11 +6,11 @@ export const routes: Routes = [
   // RUTAS ESPECÍFICAS (login, etc.) VAN PRIMERO
   {
     path: 'login',
-    loadComponent: () => import('./autenticacion/paginas/login/login').then(c => c.Login)
+    loadComponent: () => import('./autenticacion/login/login').then(c => c.Login)
   },
   {
     path: 'recuperar-contrasena',
-    loadComponent: () => import('./autenticacion/paginas/recuperar-contrasena/recuperar-contrasena').then(c => c.RecuperarContrasena)
+    loadComponent: () => import('./autenticacion/recuperar-contrasena/recuperar-contrasena').then(c => c.RecuperarContrasena)
   },
 
   // RUTAS DE MÓDULOS
