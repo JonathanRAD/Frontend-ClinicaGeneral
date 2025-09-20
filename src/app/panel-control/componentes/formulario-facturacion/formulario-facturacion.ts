@@ -39,7 +39,9 @@ export class FormularioFacturacion implements OnInit {
     this.facturaForm = this.fb.group({
       citaId: ['', Validators.required],
       monto: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]],
+      montoPagado: [0, [Validators.required, Validators.min(0)]],
       estado: ['pendiente', Validators.required]
+      
     });
   }
 
@@ -48,7 +50,8 @@ export class FormularioFacturacion implements OnInit {
       this.facturaForm.patchValue({
         citaId: this.data.factura.cita.id,
         monto: this.data.factura.monto,
-        estado: this.data.factura.estado
+        estado: this.data.factura.estado,
+        montoPagado: this.data.factura.montoPagado
       });
     }
   }

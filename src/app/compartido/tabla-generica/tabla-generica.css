@@ -91,3 +91,8 @@
 .badge-alerta.verde {
   background-color: #22c55e; /* Verde */
 }
+/* ... (estilos existentes) ... */
+
+.view-button {
+  color: #198754; /* Un color verde para diferenciarlo */
+}

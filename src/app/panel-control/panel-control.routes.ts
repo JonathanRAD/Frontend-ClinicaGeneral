@@ -7,6 +7,7 @@ import { CalendarioCitas } from './paginas/calendario-citas/calendario-citas';
 import { GestionFacturacion } from './paginas/gestion-facturacion/gestion-facturacion';
 import { GestionMedicos } from './paginas/gestion-medicos/gestion-medicos';
 import { GestionConfiguracion } from './paginas/gestion-configuracion/gestion-configuracion'; // <-- AÑADE ESTA LÍNEA
+import { HistoriaClinicaComponent } from './paginas/historia-clinica/historia-clinica'; 
 
 export default [
   {
@@ -15,6 +16,7 @@ export default [
     children: [
       { path: 'inicio', component: Inicio },
       { path: 'pacientes', component: GestionPacientes },
+      { path: 'pacientes/:id/historia', component: HistoriaClinicaComponent },
       { path: 'citas', component: CalendarioCitas },
       { path: 'facturacion', component: GestionFacturacion },
       { path: 'medicos', component: GestionMedicos },

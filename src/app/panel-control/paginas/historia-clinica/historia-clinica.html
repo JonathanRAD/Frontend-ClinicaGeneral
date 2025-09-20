@@ -1,0 +1,172 @@
+<div class="container-fluid p-4">
+  <div *ngIf="!historia()" class="text-center p-5">
+    <p>Cargando historia clínica...</p>
+    </div>
+
+  <div *ngIf="historia() as h" class="fade-in">
+
+    <mat-card class="mb-4 patient-header-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar class="patient-avatar">account_circle</mat-icon>
+        <mat-card-title class="fw-bold">{{ h.paciente.nombres }} {{ h.paciente.apellidos }}</mat-card-title>
+        <mat-card-subtitle>DNI: {{ h.paciente.dni }} | Teléfono: {{ h.paciente.telefono }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions align="end" class="p-3">
+        <button mat-stroked-button color="primary" routerLink="/panel/pacientes">
+          <mat-icon>arrow_back</mat-icon>
+          Volver a la lista de pacientes
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-tab-group animationDuration="0ms">
+
+      <mat-tab label="Información General">
+        <div class="p-4">
+          <mat-card>
+            <mat-card-header class="d-flex justify-content-between align-items-center">
+              <mat-card-title>Datos de la Historia Clínica</mat-card-title>
+              <div>
+                <button *ngIf="!modoEdicion()" mat-icon-button color="primary" (click)="activarEdicion()" matTooltip="Editar historia">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button *ngIf="modoEdicion()" mat-icon-button color="primary" (click)="guardarCambios()" matTooltip="Guardar cambios">
+                  <mat-icon>save</mat-icon>
+                </button>
+                <button *ngIf="modoEdicion()" mat-icon-button (click)="cancelarEdicion()" matTooltip="Cancelar edición">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content class="p-4">
+              <div *ngIf="!modoEdicion()">
+                <div class="info-group">
+                  <h6 class="text-muted">Antecedentes</h6>
+                  <p>{{ h.antecedentes || 'No registrados' }}</p>
+                </div>
+                <div class="info-group">
+                  <h6 class="text-muted">Alergias</h6>
+                  <p>{{ h.alergias || 'No registradas' }}</p>
+                </div>
+                <div class="info-group">
+                  <h6 class="text-muted">Enfermedades Crónicas</h6>
+                  <p>{{ h.enfermedadesCronicas || 'No registradas' }}</p>
+                </div>
+              </div>
+
+              <div *ngIf="modoEdicion()">
+                <mat-form-field appearance="outline" class="w-100 mb-3">
+                  <mat-label>Antecedentes Médicos</mat-label>
+                  <textarea matInput [(ngModel)]="h.antecedentes" rows="4"></textarea>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100 mb-3">
+                  <mat-label>Alergias Conocidas</mat-label>
+                  <textarea matInput [(ngModel)]="h.alergias" rows="4"></textarea>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Enfermedades Crónicas</mat-label>
+                  <textarea matInput [(ngModel)]="h.enfermedadesCronicas" rows="4"></textarea>
+                </mat-form-field>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Historial de Consultas">
+  <div class="p-4">
+    <div class="d-flex justify-content-end mb-3">
+      <button mat-raised-button color="primary" (click)="abrirFormularioConsulta()">
+        <mat-icon>add</mat-icon>
+        Registrar Nueva Consulta
+      </button>
+    </div>
+
+    <mat-accordion *ngIf="h.consultas && h.consultas.length > 0; else noConsultas">
+      <mat-expansion-panel *ngFor="let consulta of h.consultas">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <strong>{{ consulta.fechaConsulta | date:'fullDate' }}</strong>
+          </mat-panel-title>
+          <mat-panel-description>
+            Atendido por: Dr(a). {{ consulta.medico.nombres }} {{ consulta.medico.apellidos }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="info-group">
+          <h6 class="text-muted">Motivo de la Consulta</h6>
+          <p>{{ consulta.motivo }}</p>
+        </div>
+        <div class="info-group">
+          <h6 class="text-muted">Diagnóstico</h6>
+          <p>{{ consulta.diagnostico }}</p>
+        </div>
+        <div class="info-group">
+          <h6 class="text-muted">Tratamiento</h6>
+          <p>{{ consulta.tratamiento }}</p>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <ng-template #noConsultas>
+      <mat-card class="text-center p-4 text-muted">
+        No hay consultas registradas para este paciente.
+      </mat-card>
+    </ng-template>
+  </div>
+</mat-tab>
+<mat-tab label="Seguro Médico">
+        <div class="p-4">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Información de la Póliza</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="p-4">
+              
+              <div *ngIf="h.paciente.seguroMedico; else sinSeguro">
+                <div class="info-group">
+                  <h6 class="text-muted">Aseguradora</h6>
+                  <p>{{ h.paciente.seguroMedico.nombreAseguradora }}</p>
+                </div>
+                <div class="info-group">
+                  <h6 class="text-muted">Número de Póliza</h6>
+                  <p>{{ h.paciente.seguroMedico.numeroPoliza }}</p>
+                </div>
+                <div class="info-group">
+                  <h6 class="text-muted">Cobertura</h6>
+                  <p>{{ h.paciente.seguroMedico.cobertura }}</p>
+                </div>
+
+                <div *ngIf="estadoValidacion().verificado" 
+                     [ngClass]="estadoValidacion().valido ? 'alert alert-success' : 'alert alert-danger'">
+                  <strong>Resultado de la validación:</strong> {{ estadoValidacion().mensaje }}
+                </div>
+              </div>
+
+              <ng-template #sinSeguro>
+                <div class="text-center p-4 text-muted">
+                  <mat-icon class="icon-large">assignment_late</mat-icon>
+                  <p class="mt-2">Este paciente no tiene información de seguro registrada.</p>
+                </div>
+              </ng-template>
+
+            </mat-card-content>
+            <mat-card-actions align="end" class="p-3">
+              <button mat-stroked-button (click)="abrirFormularioSeguro()">
+                <mat-icon>edit</mat-icon>
+                {{ h.paciente.seguroMedico ? 'Editar Información' : 'Agregar Seguro' }}
+              </button>
+              <button mat-raised-button color="primary" (click)="validarSeguro()" [disabled]="!h.paciente.seguroMedico">
+                <mat-icon>verified_user</mat-icon>
+                Validar Póliza
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</div>

@@ -10,6 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card'; // <-- 1. Importa el MatCardModule
 import { DatePipe } from '@angular/common';
+import { Patient } from '../../panel-control/modelos/patient';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -26,6 +28,7 @@ export interface ColumnConfig {
   imports: [
     CommonModule,
     MatTableModule,
+    RouterModule,
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
@@ -97,7 +100,11 @@ export class TablaGenerica implements AfterViewInit, OnChanges {
     const index = id.toString().charCodeAt(0) % colors.length;
     return colors[index];
   }
-
+onVerHistoria(paciente: Patient) {
+    // La navegación se manejará directamente en el HTML de la tabla genérica.
+    // Este método es un marcador por si se necesita lógica adicional en el futuro.
+    console.log('Navegando a la historia del paciente:', paciente.id);
+  }
   
 
   // --- NUEVO MÉTODO PARA EL FILTRO ---
@@ -125,4 +132,5 @@ export class TablaGenerica implements AfterViewInit, OnChanges {
   eliminar(element: any) {
     this.onDelete.emit(element);
   }
+  
 }

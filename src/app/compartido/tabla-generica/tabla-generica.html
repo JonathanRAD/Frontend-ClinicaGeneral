@@ -55,18 +55,21 @@
 
                 <!-- Columna de Acciones -->
                 <ng-container matColumnDef="acciones">
-                    <th mat-header-cell *matHeaderCellDef class="text-center"> Acciones </th>
-                    <td mat-cell *matCellDef="let element" class="text-center">
-                        <button mat-icon-button class="edit-button" matTooltip="Editar" (click)="editar(element)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
+    <th mat-header-cell *matHeaderCellDef class="text-center"> Acciones </th>
+    <td mat-cell *matCellDef="let element" class="text-center">
+        <a mat-icon-button class="view-button" matTooltip="Ver Historia Clínica" [routerLink]="['/panel/pacientes', element.id, 'historia']">
+            <mat-icon>assignment_ind</mat-icon>
+        </a>
 
-                        <!-- LÍNEA CORREGIDA: Se añade (click)="eliminar(element)" -->
-                        <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="eliminar(element)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
+        <button mat-icon-button class="edit-button" matTooltip="Editar" (click)="editar(element)">
+            <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="eliminar(element)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </td>
+</ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
