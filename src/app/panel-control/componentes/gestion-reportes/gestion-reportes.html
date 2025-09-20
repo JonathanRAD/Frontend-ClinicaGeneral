@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Generación de Reportes</h1>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Reportes Disponibles</mat-card-title>
+      <mat-card-subtitle>Selecciona un reporte para descargarlo en formato CSV.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="p-4">
+      <div class="d-flex align-items-center justify-content-between p-3 border rounded">
+        <div>
+          <h5 class="fw-bold">Reporte General de Citas</h5>
+          <p class="text-muted mb-0">Exporta una lista completa de todas las citas registradas en el sistema.</p>
+        </div>
+        <button mat-raised-button color="primary" (click)="descargarReporteCitas()">
+          <mat-icon>download</mat-icon>
+          Descargar
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

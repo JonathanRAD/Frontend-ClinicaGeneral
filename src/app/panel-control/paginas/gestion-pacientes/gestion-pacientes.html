@@ -1,14 +1,15 @@
 <div class="container-fluid">
-  <div class="d-flex justify-content-between align-items: center mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 mb-0 text-gray-800">Gestión de Pacientes</h1>
   </div>
 
   <app-tabla-generica
-    [data]="pacientesParaVista()" [columnConfig]="columnasPacientes"
+    [data]="pacientesParaVista()"
+    [columnConfig]="columnasPacientes"
     [title]="'Lista de Pacientes Registrados'"
     [addButtonText]="'Agregar Nuevo Paciente'"
     [nameProperties]="['nombres', 'apellidos']"
-    (onAdd)="onAgregarPaciente()"
+    [showClinicalHistoryButton]="true" (onAdd)="onAgregarPaciente()"
     (onEdit)="onEditarPaciente($event)"
     (onDelete)="onEliminarPaciente($event)">
   </app-tabla-generica>

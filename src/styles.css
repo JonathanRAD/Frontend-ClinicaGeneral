@@ -159,3 +159,19 @@ body.dark-theme .table-toolbar .mat-mdc-text-field-wrapper,
 body.dark-theme .table-toolbar .mat-input-element {
   color: var(--mat-sys-on-surface) !important;
 }
+body.dark-theme .form-control {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .form-control:focus {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border-color: #bb86fc; /* Un color de realce para el foco */
+  box-shadow: 0 0 0 0.25rem rgba(187, 134, 252, 0.25);
+}
+
+body.dark-theme .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}

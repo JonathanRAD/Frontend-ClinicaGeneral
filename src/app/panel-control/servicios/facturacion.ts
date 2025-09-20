@@ -9,6 +9,7 @@ export interface FacturaPayload {
   citaId: number;
   monto: number;
   estado: 'pagada' | 'pendiente' | 'anulada';
+  montoPagado: number;
 }
 
 @Injectable({

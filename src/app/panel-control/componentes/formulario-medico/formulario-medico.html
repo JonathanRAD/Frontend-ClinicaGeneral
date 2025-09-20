@@ -16,10 +16,13 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Especialidad</mat-label>
-      <input matInput formControlName="especialidad" required>
+      <mat-select formControlName="especialidad" required>
+        <mat-option *ngFor="let especialidad of especialidadesDisponibles" [value]="especialidad">
+          {{ especialidad }}
+        </mat-option>
+      </mat-select>
       <mat-error>La especialidad es requerida.</mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="outline">
       <mat-label>Fecha de Nacimiento</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" required>

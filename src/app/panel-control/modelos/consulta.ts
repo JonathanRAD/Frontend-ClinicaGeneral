@@ -1,4 +1,7 @@
+
+
 import { Medico } from './medico';
+import { OrdenLaboratorio } from './orden-laboratorio'; 
 
 export interface Consulta {
   id: number;
@@ -7,5 +10,5 @@ export interface Consulta {
   diagnostico: string;
   tratamiento: string;
   medico: Medico;
-  // No incluimos la referencia a HistoriaClinica para evitar bucles
+  ordenesLaboratorio?: OrdenLaboratorio[]; 
 }

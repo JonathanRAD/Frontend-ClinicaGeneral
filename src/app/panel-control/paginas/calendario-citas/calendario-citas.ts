@@ -1,5 +1,3 @@
-// RUTA: src/app/panel-control/paginas/calendario-citas/calendario-citas.ts
-
 import { Component, Signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -21,14 +19,19 @@ import { FormularioCita } from '../../componentes/formulario-cita/formulario-cit
 export class CalendarioCitas {
   citasParaVista: Signal<Cita[]>;
 
+  // --- INICIO DE LA MODIFICACIÓN ---
+  // Se ha añadido la columna 'numeroTurno'
   columnasCitas: ColumnConfig[] = [
     { name: 'fechaHora', header: 'Fecha y Hora', isDate: true },
-    { name: 'tiempoRestante', header: 'Tiempo Restante' }, // <-- NUEVA COLUMNA
+    { name: 'tiempoRestante', header: 'Tiempo Restante' },
+    { name: 'numeroTurno', header: 'Turno' }, 
     { name: 'paciente.nombres', header: 'Paciente' },
     { name: 'medico.nombres', header: 'Médico' },
+    { name: 'consultorio', header: 'Consultorio' },
     { name: 'motivo', header: 'Motivo' },
     { name: 'estado', header: 'Estado' }
   ];
+  // --- FIN DE LA MODIFICACIÓN ---
 
   constructor(
     private citaService: CitaService,
@@ -42,22 +45,19 @@ export class CalendarioCitas {
           const { tiempoRestante, alertaClase } = this.calcularTiempoRestante(new Date(cita.fechaHora), ahora);
           return { ...cita, tiempoRestante, alertaClase };
         })
-        .sort((a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime()); // Ordena por fecha
+        .sort((a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime());
     });
   }
+
   private calcularTiempoRestante(fechaCita: Date, ahora: Date): { tiempoRestante: string, alertaClase: 'rojo' | 'ambar' | 'verde' } {
     const diffMs = fechaCita.getTime() - ahora.getTime();
     if (diffMs <= 0) {
       return { tiempoRestante: 'Pasada', alertaClase: 'rojo' };
     }
-
-    const diffSegundos = diffMs / 1000;
-    const diffMinutos = diffSegundos / 60;
-    const diffHoras = diffMinutos / 60;
-    const diffDias = diffHoras / 24;
-
+    const diffHoras = diffMs / (1000 * 60 * 60);
+    const diffDias = diffMs / (1000 * 60 * 60 * 24);
     let tiempoRestante = '';
-    let alertaClase: 'rojo' | 'ambar' | 'verde' = 'ambar';
+    let alertaClase: 'rojo' | 'ambar' | 'verde' = 'verde';
 
     if (diffDias < 1) {
       tiempoRestante = `En ${Math.floor(diffHoras)} h`;
@@ -69,7 +69,6 @@ export class CalendarioCitas {
       tiempoRestante = `En ${Math.floor(diffDias / 7)} sem`;
       alertaClase = 'verde';
     }
-
     return { tiempoRestante, alertaClase };
   }
 
@@ -80,10 +79,8 @@ export class CalendarioCitas {
       panelClass: 'custom-dialog-container',
       data: { esModoEdicion: false }
     });
-
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
-        // 'resultado' viene del formulario modal. Lo usamos para llamar al servicio.
         this.citaService.agendarCita(resultado);
         this.snackBar.open('Cita agendada con éxito', 'Cerrar', { duration: 3000 });
       }
@@ -97,10 +94,8 @@ export class CalendarioCitas {
       panelClass: 'custom-dialog-container',
       data: { esModoEdicion: true, cita: cita }
     });
-
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
-        // Enviamos el ID de la cita y los nuevos datos del formulario.
         this.citaService.actualizarCita(cita.id, resultado);
         this.snackBar.open('Cita actualizada correctamente', 'Cerrar', { duration: 3000 });
       }
@@ -115,7 +110,6 @@ export class CalendarioCitas {
         mensaje: `¿Estás seguro de que deseas cancelar la cita de ${cita.paciente.nombres} ${cita.paciente.apellidos}?`
       }
     });
-
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
         this.citaService.eliminarCita(cita.id);

@@ -11,7 +11,9 @@ export interface Cita {
   motivo: string;
   estado: 'programada' | 'completada' | 'cancelada';
 
-  // --- NUEVOS CAMPOS AÑADIDOS ---
-  tiempoRestante?: string; // Para el texto "En 2 días"
-  alertaClase?: 'rojo' | 'ambar' | 'verde'; // Para el color de la alerta
+  consultorio?: string; 
+  numeroTurno?: number;  
+
+  tiempoRestante?: string;
+  alertaClase?: 'rojo' | 'ambar' | 'verde';
 }

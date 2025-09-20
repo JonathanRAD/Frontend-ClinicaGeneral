@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-formulario-medico',
@@ -17,7 +18,8 @@ import { MatNativeDateModule } from '@angular/material/core';
   imports: [
     CommonModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule,
     MatInputModule, MatButtonModule,
-    MatDatepickerModule, MatNativeDateModule
+    MatDatepickerModule, MatNativeDateModule,
+    MatSelectModule
   ],
   templateUrl: './formulario-medico.html',
   encapsulation: ViewEncapsulation.None
@@ -26,6 +28,15 @@ export class FormularioMedico implements OnInit {
   medicoForm: FormGroup;
   esModoEdicion: boolean;
 
+  especialidadesDisponibles: string[] = [
+    'Cardiología',
+    'Pediatría',
+    'Medicina General',
+    'Dermatología',
+    'Ginecología',
+    'Neurología',
+    'Traumatología'
+  ];
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<FormularioMedico>,

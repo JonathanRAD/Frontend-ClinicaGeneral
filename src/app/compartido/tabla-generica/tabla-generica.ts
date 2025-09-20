@@ -43,21 +43,20 @@ export interface ColumnConfig {
   styleUrls: ['./tabla-generica.css']
 })
 export class TablaGenerica implements AfterViewInit, OnChanges {
-  // --- ENTRADAS ---
   @Input() data: any[] = [];
   @Input() columnConfig: ColumnConfig[] = [];
-  @Input() title: string = 'Lista'; // <-- Nuevo Input para el título
-  @Input() addButtonText?: string; // <-- 1. NUEVO INPUT (opcional) para el texto del botón
-  // NUEVO: Propiedades para generar el avatar con iniciales
-  @Input() nameProperties: [string, string] = ['', '']; // ej: ['nombres', 'apellidos']
-  @Input() idProperty: string = 'id'; // Propiedad para generar un color único
+  @Input() title: string = 'Lista';
+  @Input() addButtonText?: string;
+  @Input() nameProperties: [string, string] = ['', ''];
+  @Input() idProperty: string = 'id';
+  @Input() showClinicalHistoryButton: boolean = false;
 
 
   // --- SALIDAS (eventos que emite el componente) ---
   @Output() onEdit = new EventEmitter<any>();
   @Output() onDelete = new EventEmitter<any>();
   @Output() onAdd = new EventEmitter<void>(); // <-- 2. NUEVO OUTPUT para el evento de agregar
-
+  @Output() onRowClicked = new EventEmitter<any>();
 
   // --- PROPIEDADES INTERNAS ---
   dataSource = new MatTableDataSource<any>();

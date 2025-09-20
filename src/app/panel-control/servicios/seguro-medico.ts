@@ -14,8 +14,12 @@ export class SeguroMedicoService {
 
   constructor(private http: HttpClient) { }
 
-  guardarSeguro(pacienteId: string, seguroData: any): Observable<SeguroMedico> {
-    return this.http.post<SeguroMedico>(`${this.apiUrl}/paciente/${pacienteId}`, seguroData);
+  guardarSeguro(pacienteId: string, seguroData: any, seguroId?: number): Observable<SeguroMedico> {
+    if (seguroId) {
+      return this.http.put<SeguroMedico>(`${this.apiUrl}/${seguroId}`, seguroData);
+    } else {
+      return this.http.post<SeguroMedico>(`${this.apiUrl}/paciente/${pacienteId}`, seguroData);
+    }
   }
 
   validarSeguro(pacienteId: string): Observable<any> {

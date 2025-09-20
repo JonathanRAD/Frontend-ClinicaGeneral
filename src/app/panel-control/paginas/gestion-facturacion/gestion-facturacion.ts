@@ -1,6 +1,6 @@
 // RUTA: src/app/panel-control/paginas/gestion-facturacion/gestion-facturacion.ts
 
-import { Component, Signal } from '@angular/core';
+import { Component, Signal,signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,15 +10,28 @@ import { TablaGenerica, ColumnConfig } from '../../../compartido/tabla-generica/
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 import { FormularioFacturacion } from '../../componentes/formulario-facturacion/formulario-facturacion';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+
 @Component({
   selector: 'app-gestion-facturacion',
   standalone: true,
-  imports: [CommonModule, TablaGenerica],
+  imports: [ 
+    CommonModule,
+    TablaGenerica,
+    MatCardModule, 
+    MatIconModule,   
+    MatDividerModule 
+    
+  ],
   templateUrl: './gestion-facturacion.html',
   styleUrls: ['./gestion-facturacion.css']
 })
 export class GestionFacturacion {
   facturas: Signal<Factura[]>;
+  facturaSeleccionada: WritableSignal<Factura | null> = signal(null);
+
   columnasFacturacion: ColumnConfig[] = [
     { name: 'cita.paciente.nombres', header: 'Paciente' },
     { name: 'fechaEmision', header: 'Fecha de Emisión', isDate: true },
@@ -34,6 +47,10 @@ export class GestionFacturacion {
     this.facturas = this.facturacionService.facturas;
   }
 
+  onSeleccionarFactura(factura: Factura) {
+    this.facturaSeleccionada.set(factura);
+  }
+
   onAgregarFactura() {
     const dialogRef = this.dialog.open(FormularioFacturacion, {
       width: '500px',
@@ -47,7 +64,8 @@ export class GestionFacturacion {
         const payload: FacturaPayload = {
           citaId: resultado.citaId,
           monto: resultado.monto,
-          estado: resultado.estado
+          estado: resultado.estado,
+          montoPagado: resultado.montoPagado
         };
         this.facturacionService.registrarFactura(payload);
         this.snackBar.open('Factura registrada con éxito', 'Cerrar', { duration: 3000 });
@@ -65,11 +83,16 @@ export class GestionFacturacion {
 
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
+        // --- INICIO DE LA CORRECCIÓN ---
+        // Se ha añadido la propiedad `montoPagado` que faltaba en el payload
         const payload: FacturaPayload = {
             citaId: resultado.citaId,
             monto: resultado.monto,
-            estado: resultado.estado
+            estado: resultado.estado,
+            montoPagado: resultado.montoPagado // <-- ESTA LÍNEA FALTABA
         };
+        // --- FIN DE LA CORRECCIÓN ---
+
         this.facturacionService.actualizarFactura(factura.id, payload);
         this.snackBar.open('Factura actualizada correctamente', 'Cerrar', { duration: 3000 });
       }

@@ -8,6 +8,8 @@ import { GestionFacturacion } from './paginas/gestion-facturacion/gestion-factur
 import { GestionMedicos } from './paginas/gestion-medicos/gestion-medicos';
 import { GestionConfiguracion } from './paginas/gestion-configuracion/gestion-configuracion'; // <-- AÑADE ESTA LÍNEA
 import { HistoriaClinicaComponent } from './paginas/historia-clinica/historia-clinica'; 
+import { GestionReportesComponent } from './componentes/gestion-reportes/gestion-reportes';
+
 
 export default [
   {
@@ -20,7 +22,8 @@ export default [
       { path: 'citas', component: CalendarioCitas },
       { path: 'facturacion', component: GestionFacturacion },
       { path: 'medicos', component: GestionMedicos },
-      { path: 'configuracion', component: GestionConfiguracion }, // <-- AÑADE ESTA LÍNEA
+      { path: 'configuracion', component: GestionConfiguracion },
+      { path: 'reportes', component: GestionReportesComponent },
       { path: '', redirectTo: 'inicio', pathMatch: 'full' }
     ]
   }

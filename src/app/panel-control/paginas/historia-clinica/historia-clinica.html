@@ -1,7 +1,7 @@
 <div class="container-fluid p-4">
   <div *ngIf="!historia()" class="text-center p-5">
     <p>Cargando historia clínica...</p>
-    </div>
+  </div>
 
   <div *ngIf="historia() as h" class="fade-in">
 
@@ -75,49 +75,71 @@
       </mat-tab>
 
       <mat-tab label="Historial de Consultas">
-  <div class="p-4">
-    <div class="d-flex justify-content-end mb-3">
-      <button mat-raised-button color="primary" (click)="abrirFormularioConsulta()">
-        <mat-icon>add</mat-icon>
-        Registrar Nueva Consulta
-      </button>
-    </div>
+        <div class="p-4">
+          <div class="d-flex justify-content-end mb-3">
+            <button mat-raised-button color="primary" (click)="abrirFormularioConsulta()">
+              <mat-icon>add</mat-icon>
+              Registrar Nueva Consulta
+            </button>
+          </div>
 
-    <mat-accordion *ngIf="h.consultas && h.consultas.length > 0; else noConsultas">
-      <mat-expansion-panel *ngFor="let consulta of h.consultas">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <strong>{{ consulta.fechaConsulta | date:'fullDate' }}</strong>
-          </mat-panel-title>
-          <mat-panel-description>
-            Atendido por: Dr(a). {{ consulta.medico.nombres }} {{ consulta.medico.apellidos }}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+          <mat-accordion *ngIf="h.consultas && h.consultas.length > 0; else noConsultas">
+            <mat-expansion-panel *ngFor="let consulta of h.consultas; trackBy: trackByConsultaId">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong>{{ consulta.fechaConsulta | date:'fullDate' }}</strong>
+                </mat-panel-title>
+                <mat-panel-description>
+                  Atendido por: Dr(a). {{ consulta.medico.nombres }} {{ consulta.medico.apellidos }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
 
-        <div class="info-group">
-          <h6 class="text-muted">Motivo de la Consulta</h6>
-          <p>{{ consulta.motivo }}</p>
+              <div class="info-group">
+                <h6 class="text-muted">Motivo de la Consulta</h6>
+                <p>{{ consulta.motivo }}</p>
+              </div>
+              <div class="info-group">
+                <h6 class="text-muted">Diagnóstico</h6>
+                <p>{{ consulta.diagnostico }}</p>
+              </div>
+              <div class="info-group">
+                <h6 class="text-muted">Tratamiento</h6>
+                <p>{{ consulta.tratamiento }}</p>
+              </div>
+
+              <mat-divider class="my-3"></mat-divider>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <h6 class="text-muted mb-0">Órdenes de Laboratorio</h6>
+                <button mat-stroked-button color="primary" (click)="abrirFormularioOrden(consulta.id)">
+                  <mat-icon>science</mat-icon>
+                  Generar Orden
+                </button>
+              </div>
+
+              <div *ngIf="consulta.ordenesLaboratorio && consulta.ordenesLaboratorio.length > 0; else noOrdenes" class="mt-3">
+                <div *ngFor="let orden of consulta.ordenesLaboratorio" class="border rounded p-3 mb-2">
+                  <p><strong>Examen:</strong> {{ orden.tipoExamen }}</p>
+                  <p class="mb-0"><strong>Observaciones:</strong> {{ orden.observaciones || 'Ninguna' }}</p>
+                  <small class="text-muted">Fecha: {{ orden.fechaOrden | date:'short' }}</small>
+                </div>
+              </div>
+              <ng-template #noOrdenes>
+                <p class="text-muted mt-2 fst-italic">No hay órdenes para esta consulta.</p>
+              </ng-template>
+              
+            </mat-expansion-panel>
+          </mat-accordion>
+
+          <ng-template #noConsultas>
+            <mat-card class="text-center p-4 text-muted">
+              No hay consultas registradas para este paciente.
+            </mat-card>
+          </ng-template>
         </div>
-        <div class="info-group">
-          <h6 class="text-muted">Diagnóstico</h6>
-          <p>{{ consulta.diagnostico }}</p>
-        </div>
-        <div class="info-group">
-          <h6 class="text-muted">Tratamiento</h6>
-          <p>{{ consulta.tratamiento }}</p>
-        </div>
-
-      </mat-expansion-panel>
-    </mat-accordion>
-
-    <ng-template #noConsultas>
-      <mat-card class="text-center p-4 text-muted">
-        No hay consultas registradas para este paciente.
-      </mat-card>
-    </ng-template>
-  </div>
-</mat-tab>
-<mat-tab label="Seguro Médico">
+      </mat-tab>
+      
+      <mat-tab label="Seguro Médico">
         <div class="p-4">
           <mat-card>
             <mat-card-header>
