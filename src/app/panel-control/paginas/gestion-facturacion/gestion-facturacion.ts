@@ -31,6 +31,7 @@ import { MatDividerModule } from '@angular/material/divider';
 export class GestionFacturacion {
   facturas: Signal<Factura[]>;
   facturaSeleccionada: WritableSignal<Factura | null> = signal(null);
+  isAnimatingOut: WritableSignal<boolean> = signal(false);
 
   columnasFacturacion: ColumnConfig[] = [
     { name: 'cita.paciente.nombres', header: 'Paciente' },
@@ -47,8 +48,22 @@ export class GestionFacturacion {
     this.facturas = this.facturacionService.facturas;
   }
 
-  onSeleccionarFactura(factura: Factura) {
-    this.facturaSeleccionada.set(factura);
+   onSeleccionarFactura(factura: Factura) {
+    // Si la factura seleccionada es la misma, no hacemos nada
+    if (this.facturaSeleccionada()?.id === factura.id) {
+      return;
+    }
+
+    // 1. Inicia la animación de salida
+    this.isAnimatingOut.set(true);
+
+    // 2. Espera a que termine la animación de salida (150ms)
+    setTimeout(() => {
+      // 3. Cambia los datos de la factura
+      this.facturaSeleccionada.set(factura);
+      // 4. Desactiva la animación de salida (esto permitirá que se ejecute la de entrada)
+      this.isAnimatingOut.set(false);
+    }, 150);
   }
 
   onAgregarFactura() {

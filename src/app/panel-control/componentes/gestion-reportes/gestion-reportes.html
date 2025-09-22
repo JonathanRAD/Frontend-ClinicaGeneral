@@ -3,22 +3,45 @@
     <h1 class="h3 mb-0 text-gray-800">Generación de Reportes</h1>
   </div>
 
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Reportes Disponibles</mat-card-title>
-      <mat-card-subtitle>Selecciona un reporte para descargarlo en formato CSV.</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content class="p-4">
-      <div class="d-flex align-items-center justify-content-between p-3 border rounded">
-        <div>
-          <h5 class="fw-bold">Reporte General de Citas</h5>
-          <p class="text-muted mb-0">Exporta una lista completa de todas las citas registradas en el sistema.</p>
-        </div>
-        <button mat-raised-button color="primary" (click)="descargarReporteCitas()">
-          <mat-icon>download</mat-icon>
-          Descargar
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <div class="row">
+    <div class="col-md-6 col-lg-4">
+      <mat-card class="report-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="report-icon">summarize</mat-icon>
+          <mat-card-title>Reporte General de Citas</mat-card-title>
+          <mat-card-subtitle>Exporta una lista completa de todas las citas.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Este reporte incluye detalles del paciente, médico, fecha, estado y motivo de todas las citas registradas en el sistema.</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-stroked-button (click)="previsualizarReporteCitas()">
+            <mat-icon>visibility</mat-icon>
+            Previsualizar
+          </button>
+
+          <div class="split-button-container">
+            <button mat-raised-button color="primary" class="split-button-main" (click)="descargarReporteCitasXLSX()">
+              <mat-icon>download</mat-icon>
+              Descargar
+            </button>
+            <button mat-raised-button color="primary" class="split-button-arrow" [matMenuTriggerFor]="downloadMenu">
+              <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+          </div>
+
+          <mat-menu #downloadMenu="matMenu">
+            <button mat-menu-item (click)="descargarReporteCitasXLSX()">
+              <mat-icon>description</mat-icon>
+              <span>Exportar a Excel (.xlsx)</span>
+            </button>
+            <button mat-menu-item (click)="descargarReporteCitasCSV()">
+              <mat-icon>grid_on</mat-icon>
+              <span>Exportar a CSV</span>
+            </button>
+          </mat-menu>
+          </mat-card-actions>
+      </mat-card>
+    </div>
+    </div>
 </div>

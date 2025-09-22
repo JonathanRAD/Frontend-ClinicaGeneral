@@ -20,7 +20,10 @@
 
     <div class="col-lg-5">
       <mat-card class="h-100 detail-card">
-        <div *ngIf="facturaSeleccionada() as factura; else noSelection">
+        <div *ngIf="facturaSeleccionada() as factura; else noSelection" 
+             class="detail-card-content" 
+             [class.animating-out]="isAnimatingOut()">
+          
           <mat-card-header class="pb-3">
             <mat-icon mat-card-avatar class="detail-icon">receipt_long</mat-icon>
             <mat-card-title class="fw-bold">Detalle de la Factura</mat-card-title>
@@ -61,13 +64,18 @@
                 </table>
               </div>
               <ng-template #noDetalles>
-                <p class="text-muted fst-italic">No hay detalles para esta factura.</p>
+                <div class="no-details-template">
+                  <mat-icon class="placeholder-icon-small">inventory_2</mat-icon>
+                  <p class="text-muted">No hay detalles de servicios para esta factura.</p>
+                </div>
               </ng-template>
             </div>
 
             <div class="total-section text-end">
               <p class="mb-1"><strong>Monto Total:</strong> {{ factura.monto | currency:'S/ ' }}</p>
-              <p class="mb-0 text-success"><strong>Monto Pagado:</strong> {{ factura.montoPagado | currency:'S/ ' }}</p>
+              <p *ngIf="factura.montoPagado > 0" class="mb-0 text-success">
+                <strong>Monto Pagado:</strong> {{ factura.montoPagado | currency:'S/ ' }}
+              </p>
             </div>
           </mat-card-content>
 

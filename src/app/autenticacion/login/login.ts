@@ -1,13 +1,12 @@
-// RUTA: src/app/autenticacion/paginas/login/login.ts
+// RUTA: src/app/autenticacion/login/login.ts
 
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// SE AÑADE FormsModule AQUÍ
 import { FormsModule, AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AutenticacionService } from '../../core/servicios/autenticacion';
 
-// Validador de contraseña (se mantiene igual)
+// Validador (sin cambios)
 export function contrasenaSeguraValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -24,13 +23,11 @@ export function contrasenaSeguraValidator(): ValidatorFn {
 @Component({
   selector: 'app-login',
   standalone: true,
-  // SE AÑADE FormsModule A LOS IMPORTS DEL COMPONENTE
   imports: [ CommonModule, ReactiveFormsModule, FormsModule, RouterModule ],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class Login implements OnInit {
-  // El resto del archivo no necesita ningún cambio
   formularioLogin: FormGroup;
   formularioRegistro: FormGroup;
   maxNombreApellidoLength = 20;
@@ -38,8 +35,11 @@ export class Login implements OnInit {
   modo = signal<'login' | 'registro'>('login');
   mensajeError = signal<string>('');
   cargando = signal<boolean>(false);
-  
   recordarme = false;
+
+  // --- INICIO DE NUEVOS CAMBIOS ---
+  mostrarContrasena = false;
+  // --- FIN DE NUEVOS CAMBIOS ---
 
   constructor(
     private fb: FormBuilder,
@@ -71,6 +71,12 @@ export class Login implements OnInit {
       this.formularioLogin.get('email')?.setValue(emailRecordado);
     }
   }
+
+  // --- INICIO DE NUEVOS CAMBIOS ---
+  toggleMostrarContrasena(): void {
+    this.mostrarContrasena = !this.mostrarContrasena;
+  }
+  // --- FIN DE NUEVOS CAMBIOS ---
 
   cambiarModo(): void {
     this.modo.set(this.modo() === 'login' ? 'registro' : 'login');
@@ -121,6 +127,10 @@ export class Login implements OnInit {
         }
       });
     }
+  }
+
+  get loginCtls() {
+    return this.formularioLogin.controls;
   }
 
   get registroCtls() {

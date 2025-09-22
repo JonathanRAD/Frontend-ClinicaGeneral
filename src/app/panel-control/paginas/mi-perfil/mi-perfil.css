@@ -1,0 +1,97 @@
+/* RUTA: src/app/panel-control/paginas/mi-perfil/mi-perfil.css */
+.profile-page {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+mat-card {
+  height: 100%;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1.5rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+/* ... (estilos existentes) ... */
+
+/* --- INICIO DE NUEVOS ESTILOS PARA LA PÁGINA DE PERFIL --- */
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.profile-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.profile-info {
+  margin-left: 20px;
+}
+
+.user-name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.user-role {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #0d6efd;
+  margin: 0;
+}
+
+.permissions-card .mat-card-content {
+  padding-top: 0;
+}
+
+.permissions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.permissions-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.permissions-list li:last-child {
+  border-bottom: none;
+}
+
+.permissions-list mat-icon {
+  color: #28a745; /* Verde de éxito */
+  margin-right: 12px;
+}
+
+/* --- FIN DE NUEVOS ESTILOS --- */

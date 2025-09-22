@@ -1,27 +1,98 @@
+/* RUTA: src/app/panel-control/componentes/layout/layout.css */
+
 .panel-wrapper {
-  /* Asegura que el layout ocupe toda la altura disponible bajo el navbar */
-  height: calc(100vh - 64px); 
+  height: 100vh;
 }
 
+/* --- ESTILOS MODERNIZADOS PARA EL SIDEBAR --- */
 .sidebar {
   width: 280px;
+  background-color: #2d3748; /* Un azul oscuro más suave que el negro */
+  border-right: 1px solid #4a5568;
 }
 
-.main-content {
-  flex-grow: 1; /* Ocupa el resto del espacio */
-  overflow-y: auto; /* Permite scroll si el contenido es largo */
-  background-color: #f8f9fa; /* Un fondo gris claro para el área de contenido */
+.sidebar-header {
+  padding-bottom: 0.5rem;
 }
 
-/* Estilos para los enlaces del menú lateral */
+.sidebar-header .fs-4 {
+  font-weight: 600;
+}
+
+.sidebar hr {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* --- ESTILOS PARA LOS ENLACES DEL MENÚ --- */
 .nav-link {
   font-size: 1rem;
+  padding: 12px 15px;
+  border-radius: 8px; /* Bordes redondeados */
+  margin-bottom: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.nav-link.active {
-  background-color: #0d6efd; /* Color primario de Bootstrap para el enlace activo */
-}
-
+/* Efecto al pasar el mouse */
 .nav-link:hover {
-  background-color: #343a40; /* Un gris oscuro un poco más claro para el hover */
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+/* Estilo para el enlace activo */
+.nav-link.active {
+  background-color: #0d6efd; /* Azul primario de Bootstrap */
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Contenido principal */
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #f8f9fc; /* Un gris muy claro y limpio */
+}
+/* ... (estilos existentes) ... */
+
+/* --- ESTILOS MODERNIZADOS PARA EL MENÚ DE USUARIO --- */
+.user-dropdown .dropdown-toggle {
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.user-dropdown .dropdown-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-dropdown .dropdown-menu {
+  background-color: #343a40; /* Un gris oscuro un poco más claro */
+  border: 1px solid #4a5568;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.user-dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.user-dropdown .dropdown-item:hover {
+  background-color: #0d6efd; /* Azul al pasar el mouse */
+}
+
+.user-dropdown .dropdown-item .bi {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.user-dropdown .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-item-logout:hover {
+  background-color: #dc3545 !important; /* Rojo para la acción de cerrar sesión */
+  color: white;
 }

@@ -9,6 +9,8 @@ import { GestionMedicos } from './paginas/gestion-medicos/gestion-medicos';
 import { GestionConfiguracion } from './paginas/gestion-configuracion/gestion-configuracion'; // <-- AÑADE ESTA LÍNEA
 import { HistoriaClinicaComponent } from './paginas/historia-clinica/historia-clinica'; 
 import { GestionReportesComponent } from './componentes/gestion-reportes/gestion-reportes';
+import { MiPerfilComponent } from './paginas/mi-perfil/mi-perfil'; 
+
 
 
 export default [
@@ -24,6 +26,7 @@ export default [
       { path: 'medicos', component: GestionMedicos },
       { path: 'configuracion', component: GestionConfiguracion },
       { path: 'reportes', component: GestionReportesComponent },
+      { path: 'mi-perfil', component: MiPerfilComponent },
       { path: '', redirectTo: 'inicio', pathMatch: 'full' }
     ]
   }

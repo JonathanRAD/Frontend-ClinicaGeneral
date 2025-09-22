@@ -16,9 +16,8 @@ import { AutenticacionService } from '../../../core/servicios/autenticacion'; //
 })
 export class Layout {
   // 2. INYECTA EL SERVICIO EN EL CONSTRUCTOR
-  constructor(private authService: AutenticacionService) {}
+  constructor(public authService: AutenticacionService) {}
 
-  // 3. AÑADE EL MÉTODO PARA CERRAR SESIÓN
   cerrarSesion(): void {
     this.authService.logout();
   }

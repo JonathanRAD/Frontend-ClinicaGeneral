@@ -1,11 +1,11 @@
 // RUTA: src/app/app.ts
-import { Component, signal, WritableSignal, effect } from '@angular/core'; // <-- Asegúrate de importar 'effect'
+import { Component, signal, WritableSignal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { Navbar } from './core/componentes/navbar/navbar';
 import { Footer } from './core/componentes/footer/footer';
-import { ThemeService } from './core/servicios/theme.service'; // <-- IMPORTA EL SERVICIO
+import { ThemeService } from './core/servicios/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -15,16 +15,24 @@ import { ThemeService } from './core/servicios/theme.service'; // <-- IMPORTA EL
   styleUrls: ['./app.css']
 })
 export class App {
-  mostrarLayoutPrincipal: WritableSignal<boolean> = signal(true);
+  // CAMBIO: Señales separadas para un mejor control
+  mostrarNavbar: WritableSignal<boolean> = signal(true);
+  mostrarFooter: WritableSignal<boolean> = signal(true);
 
-  constructor(private router: Router, private themeService: ThemeService) { // <-- INYECTA EL SERVICIO
+  constructor(private router: Router, private themeService: ThemeService) {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.mostrarLayoutPrincipal.set(!['/login', '/recuperar-contrasena'].includes(event.urlAfterRedirects));
+      const url = event.urlAfterRedirects;
+      const esPaginaAutenticacion = ['/login', '/recuperar-contrasena'].includes(url);
+      const esPanelDeControl = url.startsWith('/panel');
+
+      // El navbar se muestra en todas partes menos en las de autenticación
+      this.mostrarNavbar.set(!esPaginaAutenticacion && !esPanelDeControl);
+      // El footer solo se muestra en las páginas que NO son de autenticación Y NO son del panel
+      this.mostrarFooter.set(!esPaginaAutenticacion && !esPanelDeControl);
     });
 
-    // ESTE 'effect' APLICARÁ EL TEMA AUTOMÁTICAMENTE
     effect(() => {
       if (this.themeService.isDarkMode()) {
         document.body.classList.add('dark-theme');
