@@ -1,8 +1,9 @@
-// RUTA: src/app/panel-control/componentes/layout/layout.ts
-import { Component } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AutenticacionService } from '../../../core/servicios/autenticacion'; // <-- 1. IMPORTA EL SERVICIO
+import { AutenticacionService } from '../../../core/servicios/autenticacion';
+import { UsuarioService } from '../../servicios/usuario';
+import { UserProfile } from '../../modelos/usuario';
 
 @Component({
   selector: 'app-layout',
@@ -14,9 +15,19 @@ import { AutenticacionService } from '../../../core/servicios/autenticacion'; //
   templateUrl: './layout.html',
   styleUrls: ['./layout.css']
 })
-export class Layout {
-  // 2. INYECTA EL SERVICIO EN EL CONSTRUCTOR
-  constructor(public authService: AutenticacionService) {}
+export class LayoutComponent implements OnInit { // El nombre correcto es LayoutComponent
+  usuario: WritableSignal<UserProfile | null> = signal(null);
+
+  constructor(
+    public authService: AutenticacionService,
+    private usuarioService: UsuarioService
+  ) {}
+
+  ngOnInit(): void {
+    this.usuarioService.getMiPerfil().subscribe(perfil => {
+      this.usuario.set(perfil);
+    });
+  }
 
   cerrarSesion(): void {
     this.authService.logout();

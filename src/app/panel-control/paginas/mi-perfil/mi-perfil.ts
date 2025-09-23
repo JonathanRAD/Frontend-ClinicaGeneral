@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/paginas/mi-perfil/mi-perfil.ts
 import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,7 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UsuarioService, UserProfile } from '../../servicios/usuario';
+import { UsuarioService } from '../../servicios/usuario';
+// --- CORRECCIÓN: Importamos la interfaz desde el nuevo archivo de modelo ---
+import { UserProfile } from '../../modelos/usuario';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -41,7 +42,7 @@ export class MiPerfilComponent implements OnInit {
     this.perfilForm = this.fb.group({
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
-      email: [{ value: '', disabled: true }] // El email no se puede editar
+      email: [{ value: '', disabled: true }]
     });
 
     this.contrasenaForm = this.fb.group({
@@ -51,14 +52,14 @@ export class MiPerfilComponent implements OnInit {
     }, { validator: this.checkPasswords });
   }
 
-  
   ngOnInit(): void {
     this.usuarioService.getMiPerfil().subscribe(user => {
-      this.usuario.set(user); // Guardamos el usuario completo en la señal
+      this.usuario.set(user);
       this.perfilForm.patchValue(user);
-      this.permisos.set(this.mapearRolAPermisos(user.rol)); // Mapeamos los permisos
+      this.permisos.set(this.mapearRolAPermisos(user.rol));
     });
   }
+
   private mapearRolAPermisos(rol: string): string[] {
     const permisosPorRol: { [key: string]: string[] } = {
       'ADMINISTRADOR': ['Acceso total al sistema', 'Gestionar usuarios y roles', 'Ver reportes financieros', 'Configuración avanzada'],
@@ -80,26 +81,20 @@ export class MiPerfilComponent implements OnInit {
 
   cancelarEdicion(): void {
     this.modoEdicion = false;
-    this.ngOnInit(); // Recarga los datos originales
+    this.ngOnInit();
   }
 
   guardarPerfil(): void {
-    if (this.perfilForm.invalid || !this.usuario()) return; // Añadimos un chequeo por si el usuario es nulo
+    if (this.perfilForm.invalid || !this.usuario()) return;
 
-    // --- INICIO DE LA CORRECCIÓN ---
-    // Ahora incluimos TODOS los campos requeridos por la interfaz UserProfile
     const datosPerfil: UserProfile = {
-      nombres: this.perfilForm.value.nombres,
-      apellidos: this.perfilForm.value.apellidos,
-      email: this.perfilForm.getRawValue().email,
-      rol: this.usuario()!.rol, // Obtenemos el rol del usuario actual
-      fechaRegistro: this.usuario()!.fechaRegistro // Obtenemos la fecha del usuario actual
+      ...this.usuario()!,
+      ...this.perfilForm.getRawValue()
     };
-    // --- FIN DE LA CORRECCIÓN ---
 
     this.usuarioService.actualizarPerfil(datosPerfil).subscribe({
       next: (usuarioActualizado) => {
-        this.usuario.set(usuarioActualizado); // Actualizamos la señal con los nuevos datos
+        this.usuario.set(usuarioActualizado);
         this.snackBar.open('Perfil actualizado con éxito', 'Cerrar', { duration: 3000 });
         this.modoEdicion = false;
       },

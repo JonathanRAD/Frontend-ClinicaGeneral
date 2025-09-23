@@ -7,20 +7,22 @@
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
-      <!-- INICIO: Lógica de roles con *ngIf -->
+      <!-- --- INICIO DE LA LÓGICA DE ROLES AJUSTADA --- -->
       <li class="nav-item">
         <a routerLink="inicio" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-house-door-fill me-2"></i>
           Inicio
         </a>
       </li>
-      <!-- Visible para Administradores y Recepcionistas -->
-      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'RECEPCIONISTA'">
+
+      <!-- Visible para Administradores, Médicos y Recepcionistas -->
+      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'MEDICO' || authService.rolUsuario() === 'RECEPCIONISTA'">
         <a routerLink="pacientes" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-people-fill me-2"></i>
           Pacientes
         </a>
       </li>
+      
       <!-- Visible solo para Administradores -->
       <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR'">
         <a routerLink="medicos" routerLinkActive="active" class="nav-link text-white">
@@ -28,13 +30,15 @@
           Médicos
         </a>
       </li>
-      <!-- Visible para Administradores, Recepcionistas y Médicos -->
-      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'RECEPCIONISTA' || authService.rolUsuario() === 'MEDICO'">
+
+      <!-- Visible para Administradores, Médicos y Recepcionistas -->
+      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'MEDICO' || authService.rolUsuario() === 'RECEPCIONISTA'">
         <a routerLink="citas" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-calendar-event-fill me-2"></i>
           Citas
         </a>
       </li>
+
       <!-- Visible para Administradores y Cajeros -->
       <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'CAJERO'">
         <a routerLink="facturacion" routerLinkActive="active" class="nav-link text-white">
@@ -42,6 +46,7 @@
           Facturación
         </a>
       </li>
+
       <!-- Visible solo para Administradores -->
        <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR'">
         <a routerLink="reportes" routerLinkActive="active" class="nav-link text-white">
@@ -49,13 +54,22 @@
           Reportes
         </a>
       </li>
-      <!-- FIN: Lógica de roles con *ngIf -->
+      
+      <!-- Visible solo para Administradores -->
+      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR'">
+        <a routerLink="usuarios" routerLinkActive="active" class="nav-link text-white">
+          <i class="bi bi-person-vcard-fill me-2"></i>
+          Usuarios
+        </a>
+      </li>
+      <!-- --- FIN DE LA LÓGICA DE ROLES --- -->
     </ul>
     <hr>
     <div class="dropdown user-dropdown">
       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=40&auto=format&fit=crop" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>Dr. Admin</strong>
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=40&auto.format&fit=crop" alt="" width="32" height="32" class="rounded-circle me-2">
+        <!-- --- NOMBRE DE USUARIO DINÁMICO --- -->
+        <strong>{{ usuario()?.nombres || 'Usuario' }}</strong>
       </a>
       <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
         <li>
