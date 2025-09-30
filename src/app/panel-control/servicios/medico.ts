@@ -4,6 +4,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Medico } from '../modelos/medico';
 import { environment } from '../../environments/environment';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,9 @@ export class MedicoService {
     this.cargarMedicos();
   }
 
+  getMedicos(): Observable<Medico[]> {
+    return this.http.get<Medico[]>(this.apiUrl);
+  }
   cargarMedicos(): void {
     this.http.get<Medico[]>(this.apiUrl).subscribe({
       next: (medicosDesdeApi) => this.medicosSignal.set(medicosDesdeApi),

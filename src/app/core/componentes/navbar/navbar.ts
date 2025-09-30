@@ -14,8 +14,7 @@ export class Navbar {
   usuarioLogueado: WritableSignal<boolean>;
 
   constructor(
-    private authService: AutenticacionService,
-    private router: Router
+    public authService: AutenticacionService,
   ) {
     // Obtenemos la señal directamente del servicio
     this.usuarioLogueado = this.authService.usuarioLogueado;

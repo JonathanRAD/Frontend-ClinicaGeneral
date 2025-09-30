@@ -11,24 +11,38 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/inicio/agendar">Agendar Cita</a>
+        <li class="nav-item" *ngIf="usuarioLogueado() && authService.rolUsuario() === 'PACIENTE'">
+          <a class="nav-link" routerLink="/portal/agendar-cita">Agendar Cita</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/inicio/mis-citas">Mis Citas</a>
+        <li class="nav-item" *ngIf="usuarioLogueado() && authService.rolUsuario() === 'PACIENTE'">
+          <a class="nav-link" routerLink="/portal/mis-citas">Mis Citas</a>
         </li>
-        <li class="nav-item" *ngIf="usuarioLogueado()">
+
+        <li class="nav-item" *ngIf="usuarioLogueado() && authService.rolUsuario() !== 'PACIENTE'">
           <a class="nav-link" routerLink="/panel/inicio">Panel de Control</a>
         </li>
       </ul>
 
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
         <a *ngIf="!usuarioLogueado()" routerLink="/login" class="btn btn-outline-primary me-2 d-flex align-items-center">
           <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
         </a>
-        <button *ngIf="usuarioLogueado()" (click)="cerrarSesion()" class="btn btn-danger d-flex align-items-center">
-          <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
-        </button>
+
+        <div *ngIf="usuarioLogueado()" class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle d-flex align-items-center" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle me-2"></i> Mi Cuenta
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUserMenu">
+            <li>
+              <a class="dropdown-item" [routerLink]="authService.rolUsuario() === 'PACIENTE' ? '/portal/mi-perfil' : '/panel/mi-perfil'">
+                Mi Perfil
+              </a>
+            </li>
+            <li *ngIf="authService.rolUsuario() === 'PACIENTE'"><a class="dropdown-item" routerLink="/portal/mi-historial">Mi Historial Clínico</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" (click)="cerrarSesion()">Cerrar Sesión</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

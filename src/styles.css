@@ -234,3 +234,22 @@ body.dark-theme .form-container a {
 body.dark-theme .form-container a:hover {
   color: #ffffff !important;
 }
+/* ... (al final del archivo) ... */
+
+/* Estilos para notificaciones de éxito */
+.notificacion-exito {
+  background-color: #28a745; /* Verde */
+  color: white;
+}
+.notificacion-exito .mat-mdc-button.mat-mdc-snack-bar-action {
+  color: white;
+}
+
+/* Estilos para notificaciones de error */
+.notificacion-error {
+  background-color: #dc3545; /* Rojo */
+  color: white;
+}
+.notificacion-error .mat-mdc-button.mat-mdc-snack-bar-action {
+  color: white;
+}

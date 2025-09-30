@@ -3,14 +3,12 @@ import { Component, signal, WritableSignal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
-import { Navbar } from './core/componentes/navbar/navbar';
-import { Footer } from './core/componentes/footer/footer';
 import { ThemeService } from './core/servicios/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ CommonModule, RouterOutlet, Navbar, Footer ],
+  imports: [ CommonModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

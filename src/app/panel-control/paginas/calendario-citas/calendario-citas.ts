@@ -2,12 +2,12 @@ import { Component, Signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CitaService } from '../../servicios/cita';
 import { Cita } from '../../modelos/cita';
 import { TablaGenerica, ColumnConfig } from '../../../compartido/tabla-generica/tabla-generica';
 import { DialogoConfirmacion } from '../../componentes/dialogo-confirmacion/dialogo-confirmacion';
 import { FormularioCita } from '../../componentes/formulario-cita/formulario-cita';
+import { Notificacion } from '../../../core/servicios/notificacion'; // Correct import
 
 @Component({
   selector: 'app-calendario-citas',
@@ -19,24 +19,21 @@ import { FormularioCita } from '../../componentes/formulario-cita/formulario-cit
 export class CalendarioCitas {
   citasParaVista: Signal<Cita[]>;
 
-  // --- INICIO DE LA MODIFICACIÓN ---
-  // Se ha añadido la columna 'numeroTurno'
   columnasCitas: ColumnConfig[] = [
     { name: 'fechaHora', header: 'Fecha y Hora', isDate: true },
     { name: 'tiempoRestante', header: 'Tiempo Restante' },
-    { name: 'numeroTurno', header: 'Turno' }, 
+    { name: 'numeroTurno', header: 'Turno' },
     { name: 'paciente.nombres', header: 'Paciente' },
     { name: 'medico.nombres', header: 'Médico' },
     { name: 'consultorio', header: 'Consultorio' },
     { name: 'motivo', header: 'Motivo' },
     { name: 'estado', header: 'Estado' }
   ];
-  // --- FIN DE LA MODIFICACIÓN ---
 
   constructor(
     private citaService: CitaService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private notificacionService: Notificacion // Use correct class name
   ) {
     this.citasParaVista = computed(() => {
       const ahora = new Date();
@@ -81,8 +78,10 @@ export class CalendarioCitas {
     });
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
-        this.citaService.agendarCita(resultado);
-        this.snackBar.open('Cita agendada con éxito', 'Cerrar', { duration: 3000 });
+        this.citaService.crearCitaPanel(resultado).subscribe({
+          next: () => this.notificacionService.mostrar('Cita agendada con éxito'),
+          error: () => this.notificacionService.mostrar('Error al agendar la cita', 'error')
+        });
       }
     });
   }
@@ -96,8 +95,10 @@ export class CalendarioCitas {
     });
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
-        this.citaService.actualizarCita(cita.id, resultado);
-        this.snackBar.open('Cita actualizada correctamente', 'Cerrar', { duration: 3000 });
+        this.citaService.actualizarCitaPanel(cita.id, resultado).subscribe({
+          next: () => this.notificacionService.mostrar('Cita actualizada correctamente'),
+          error: () => this.notificacionService.mostrar('Error al actualizar la cita', 'error')
+        });
       }
     });
   }
@@ -112,8 +113,12 @@ export class CalendarioCitas {
     });
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
-        this.citaService.eliminarCita(cita.id);
-        this.snackBar.open('Cita cancelada', 'Cerrar', { duration: 3000 });
+        this.citaService.eliminarCitaPanel(cita.id).subscribe({
+          next: () => {
+            this.notificacionService.mostrar('Cita cancelada');
+          },
+          error: () => this.notificacionService.mostrar('Error al cancelar la cita', 'error')
+        });
       }
     });
   }

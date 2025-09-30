@@ -6,7 +6,7 @@ import { FormsModule, AbstractControl, FormBuilder, FormGroup, ValidationErrors,
 import { Router, RouterModule } from '@angular/router';
 import { AutenticacionService } from '../../core/servicios/autenticacion';
 
-// Validador (sin cambios)
+// Validador para asegurar que la contraseña cumple con los criterios de seguridad.
 export function contrasenaSeguraValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -36,21 +36,20 @@ export class Login implements OnInit {
   mensajeError = signal<string>('');
   cargando = signal<boolean>(false);
   recordarme = false;
-
-  // --- INICIO DE NUEVOS CAMBIOS ---
   mostrarContrasena = false;
-  // --- FIN DE NUEVOS CAMBIOS ---
 
   constructor(
     private fb: FormBuilder,
     private authService: AutenticacionService,
     private router: Router
   ) {
+    // Inicialización del formulario de Login
     this.formularioLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
     
+    // Inicialización del formulario de Registro
     this.formularioRegistro = this.fb.group({
         nombres: ['', [Validators.required, Validators.maxLength(this.maxNombreApellidoLength), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')]],
         apellidos: ['', [Validators.required, Validators.maxLength(this.maxNombreApellidoLength), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')]],
@@ -64,6 +63,7 @@ export class Login implements OnInit {
   }
 
   ngOnInit(): void {
+    // Revisa si el usuario guardó su email anteriormente
     const recordarmeGuardado = localStorage.getItem('recordarme');
     this.recordarme = recordarmeGuardado ? JSON.parse(recordarmeGuardado) : false;
     if (this.recordarme) {
@@ -72,11 +72,9 @@ export class Login implements OnInit {
     }
   }
 
-  // --- INICIO DE NUEVOS CAMBIOS ---
   toggleMostrarContrasena(): void {
     this.mostrarContrasena = !this.mostrarContrasena;
   }
-  // --- FIN DE NUEVOS CAMBIOS ---
 
   cambiarModo(): void {
     this.modo.set(this.modo() === 'login' ? 'registro' : 'login');
@@ -89,6 +87,16 @@ export class Login implements OnInit {
     this.mensajeError.set('');
     this.cargando.set(true);
 
+    // Función auxiliar para redirigir al usuario según su rol
+    const manejarRedireccion = () => {
+      const rol = this.authService.rolUsuario();
+      if (rol === 'PACIENTE') {
+        this.router.navigate(['/portal']); // Si es paciente, va a su portal
+      } else {
+        this.router.navigate(['/panel']); // Si es personal, va al panel de control
+      }
+    };
+
     if (this.modo() === 'login') {
       if (this.formularioLogin.invalid) {
         this.formularioLogin.markAllAsTouched();
@@ -99,6 +107,7 @@ export class Login implements OnInit {
       const { email, password } = this.formularioLogin.value;
       this.authService.login(email, password).subscribe({
         next: () => {
+          // Lógica para recordar el email
           if (this.recordarme) {
             localStorage.setItem('correoRecordado', email);
             localStorage.setItem('recordarme', JSON.stringify(true));
@@ -106,21 +115,22 @@ export class Login implements OnInit {
             localStorage.removeItem('correoRecordado');
             localStorage.removeItem('recordarme');
           }
-          this.router.navigate(['/panel']);
+          manejarRedireccion(); // Llama a la función de redirección
         },
         error: (err) => {
           this.mensajeError.set(err.error?.message || 'Ocurrió un error inesperado.');
           this.cargando.set(false);
         }
       });
-    } else {
+    } else { // Modo Registro
       if (this.formularioRegistro.invalid) {
         this.formularioRegistro.markAllAsTouched();
         this.cargando.set(false);
         return;
       }
+
       this.authService.register(this.formularioRegistro.value).subscribe({
-        next: () => this.router.navigate(['/panel']),
+        next: () => manejarRedireccion(), // Llama a la función de redirección
         error: (err) => {
           this.mensajeError.set(err.error?.message || 'Error en el registro.');
           this.cargando.set(false);

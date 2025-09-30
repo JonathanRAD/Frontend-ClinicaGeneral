@@ -1,9 +1,10 @@
-// RUTA: src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { autenticacionGuard } from './core/guards/autenticacion-guard';
+import { rolGuard } from './core/guards/rol-guard';
+import { pacienteGuard } from './core/guards/paciente-guard';
 
 export const routes: Routes = [
-  // RUTAS ESPECÍFICAS (login, etc.) VAN PRIMERO
+  // Rutas de autenticación (públicas)
   {
     path: 'login',
     loadComponent: () => import('./autenticacion/login/login').then(c => c.Login)
@@ -13,28 +14,28 @@ export const routes: Routes = [
     loadComponent: () => import('./autenticacion/recuperar-contrasena/recuperar-contrasena').then(c => c.RecuperarContrasena)
   },
 
-  // RUTAS DE MÓDULOS
+  // Ruta del Portal del Paciente (protegida)
   {
-    path: 'inicio',
-    loadChildren: () => import('./publico/publico.routes').then(m => m)
+    path: 'portal',
+    canActivate: [autenticacionGuard, pacienteGuard],
+    loadChildren: () => import('./portal/portal.routes').then(m => m.default)
   },
+
+  // Ruta del Panel de Control (protegida)
   {
     path: 'panel',
-    canActivate: [autenticacionGuard],
+    canActivate: [autenticacionGuard, rolGuard],
     loadChildren: () => import('./panel-control/panel-control.routes').then(m => m)
   },
 
-  // --- AÑADE ESTE BLOQUE AQUÍ ---
-  // Esta es la nueva regla. Si la ruta está vacía, redirige a '/inicio'.
-  // Debe estar DESPUÉS de las rutas específicas y ANTES del comodín.
+  // Redirección por defecto: si el usuario entra a la raíz, lo mandamos al login.
   {
     path: '',
-    redirectTo: '/inicio',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
-  // --- FIN DEL BLOQUE AÑADIDO ---
-
-  // RUTA COMODÍN (siempre al final)
+  
+  // Ruta para páginas no encontradas
   {
     path: '**',
     loadComponent: () => import('./core/componentes/no-encontrado/no-encontrado').then(c => c.NoEncontrado)

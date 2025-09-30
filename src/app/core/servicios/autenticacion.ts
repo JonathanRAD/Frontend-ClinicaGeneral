@@ -39,24 +39,45 @@ export class AutenticacionService {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     // Al iniciar el servicio, verificamos si ya existe un token válido
     const token = this.getToken();
     if (token) {
       this.usuarioLogueado.set(true);
       this.decodificarToken(token);
+      this.verificarTokenAlCargar();
+    }
+  }
+  private verificarTokenAlCargar(): void {
+    const token = this.getToken();
+    if (token) {
+      if (this.esTokenExpirado(token)) {
+        // Si el token está expirado, lo removemos como si hiciéramos logout
+        localStorage.removeItem('jwt_token');
+      } else {
+        // Si el token es válido, establecemos el estado de la aplicación
+        this.usuarioLogueado.set(true);
+        this.decodificarYEstablecerRol(token);
+      }
     }
   }
 
-  /**
-   * Envía las credenciales al backend para iniciar sesión.
-   */
+
   login(email: string, contrasena: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password: contrasena })
       .pipe(
         tap(response => {
           this.manejarRespuestaAutenticacion(response.token);
+
+          const rol = this.rolUsuario(); 
+
+          if (rol === 'PACIENTE') {
+            this.router.navigate(['/portal/mis-citas']); 
+          } else {
+            this.router.navigate(['/panel']);
+          }
+          // --- FIN DE LA LÓGICA ---
         })
       );
   }
@@ -106,9 +127,26 @@ export class AutenticacionService {
     this.decodificarToken(token);
   }
 
-  /**
-   * Decodifica el token JWT para extraer y almacenar el rol del usuario.
-   */
+  private decodificarYEstablecerRol(token: string): void {
+    try {
+      const payload: DecodedToken = jwtDecode(token);
+      this.rolUsuario.set(payload.rol || '');
+    } catch (error) {
+      console.error('Error al decodificar el token JWT:', error);
+      this.rolUsuario.set('');
+    }
+  }
+  private esTokenExpirado(token: string): boolean {
+    try {
+      const payload: DecodedToken = jwtDecode(token);
+      // El campo 'exp' está en segundos, Date.now() en milisegundos.
+      const fechaExpiracion = payload.exp * 1000;
+      return fechaExpiracion < Date.now();
+    } catch (error) {
+      // Si no se puede decodificar, lo tratamos como inválido/expirado.
+      return true;
+    }
+  }
   private decodificarToken(token: string): void {
     try {
       const payload: DecodedToken = jwtDecode(token);
