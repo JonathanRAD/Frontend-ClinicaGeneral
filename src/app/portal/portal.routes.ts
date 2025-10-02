@@ -1,33 +1,26 @@
 import { Routes } from '@angular/router';
-import { LayoutPortal } from './componentes/layout-portal/layout-portal';
+import { LayoutPortalComponent } from './componentes/layout-portal/layout-portal';
 
-export default [
+// =========== INICIO DE LA CORRECCIÓN ===========
+// Se han corregido los nombres de los componentes para que coincidan con tus archivos.
+// Por ejemplo, "MisCitas" en lugar de "MisCitasComponent".
+import { MisCitas } from './componentes/paginas/mis-citas/mis-citas';
+import { AgendarCita } from './componentes/paginas/agendar-cita/agendar-cita';
+import { MiHistorial } from './componentes/paginas/mi-historial/mi-historial';
+import { MiPerfil } from './componentes/paginas/mi-perfil/mi-perfil';
+// =========== FIN DE LA CORRECCIÓN ===========
+
+export const PORTAL_ROUTES: Routes = [
   {
     path: '',
-    component: LayoutPortal,
+    component: LayoutPortalComponent,
     children: [
-      {
-        path: 'mis-citas',
-        loadComponent: () => import('./componentes/paginas/mis-citas/mis-citas').then(c => c.MisCitas)
-      },
-      // --- AÑADE ESTA NUEVA RUTA ---
-      {
-        path: 'agendar-cita',
-        loadComponent: () => import('./componentes/paginas/agendar-cita/agendar-cita').then(c => c.AgendarCita)
-      },
-      {
-    path: 'mi-perfil',
-    loadComponent: () => import('./componentes/paginas/mi-perfil/mi-perfil').then(c => c.MiPerfil)
-      },
-      {
-    path: 'mi-historial',
-    loadComponent: () => import('./componentes/paginas/mi-historial/mi-historial').then(c => c.MiHistorial)
-      },
-      {
-        path: '',
-        redirectTo: 'mis-citas',
-        pathMatch: 'full'
-      }
+      // También se actualizan los nombres de los componentes aquí
+      { path: 'mis-citas', component: MisCitas },
+      { path: 'agendar-cita', component: AgendarCita },
+      { path: 'mi-historial', component: MiHistorial },
+      { path: 'mi-perfil', component: MiPerfil },
+      { path: '', redirectTo: 'mis-citas', pathMatch: 'full' }
     ]
   }
-] as Routes;
+];

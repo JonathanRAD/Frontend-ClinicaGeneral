@@ -18,7 +18,7 @@ export const routes: Routes = [
   {
     path: 'portal',
     canActivate: [autenticacionGuard, pacienteGuard],
-    loadChildren: () => import('./portal/portal.routes').then(m => m.default)
+    loadChildren: () => import('./portal/portal.routes').then(m => m.PORTAL_ROUTES)
   },
 
   // Ruta del Panel de Control (protegida)
@@ -35,7 +35,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   
-  // Ruta para páginas no encontradas
+  // Ruta para páginas no encontradasa
   {
     path: '**',
     loadComponent: () => import('./core/componentes/no-encontrado/no-encontrado').then(c => c.NoEncontrado)

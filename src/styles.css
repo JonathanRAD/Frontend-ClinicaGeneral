@@ -253,3 +253,68 @@ body.dark-theme .form-container a:hover {
 .notificacion-error .mat-mdc-button.mat-mdc-snack-bar-action {
   color: white;
 }
+
+/* RUTA: src/styles.css */
+
+/* ===============================================
+ * PALETA DE COLORES Y VARIABLES GLOBALES
+ * =============================================== */
+:root {
+  --color-primario: #3498db; /* Azul profesional y calmado */
+  --color-primario-hover: #2980b9;
+  --color-acento: #2ecc71; /* Verde para acciones positivas y salud */
+  --color-acento-hover: #27ae60;
+  --color-peligro: #e74c3c; /* Rojo para alertas y eliminaciones */
+  --color-advertencia: #f39c12; /* Amarillo para advertencias */
+
+  --color-fondo-panel: #f4f7fc; /* Un gris azulado muy claro para el contenido */
+  --color-fondo-sidebar: #2c3e50; /* Azul oscuro para la barra lateral */
+  --color-fondo-tarjeta: #ffffff; /* Blanco puro para las tarjetas */
+
+  --color-texto-principal: #34495e;
+  --color-texto-secundario: #7f8c8d;
+  --color-texto-claro: #ffffff;
+
+  --sombra-tarjeta: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --borde-radio: 12px;
+}
+
+/* RUTA: src/styles.css */
+
+/* ... (después de la paleta de colores) ... */
+
+/* ===============================================
+ * ESTILOS GLOBALES DE LA APLICACIÓN
+ * =============================================== */
+body {
+  background-color: var(--color-fondo-panel);
+  color: var(--color-texto-principal);
+}
+
+/* Títulos de página estandarizados */
+.container-fluid > .d-flex.justify-content-between {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e7ee;
+  margin-bottom: 2rem !important;
+}
+
+.container-fluid .h3 {
+  font-weight: 700;
+  color: var(--color-texto-principal);
+}
+
+/* Ajustes a botones de Angular Material para usar nuestros colores */
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: var(--color-primario);
+}
+.mat-mdc-raised-button.mat-accent {
+  --mdc-protected-button-container-color: var(--color-acento);
+}
+.mat-mdc-raised-button.mat-warn {
+  --mdc-protected-button-container-color: var(--color-peligro);
+}
+
+/* Mejoras en modales */
+.mat-mdc-dialog-title {
+  color: var(--color-fondo-sidebar);
+}

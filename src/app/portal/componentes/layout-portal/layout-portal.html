@@ -1,5 +1,35 @@
-<app-navbar></app-navbar>
-<main class="container my-4 flex-grow-1">
-  <router-outlet></router-outlet>
-</main>
-<app-footer></app-footer>
+<div class="portal-container">
+  <nav class="portal-nav">
+    <div class="nav-content">
+      <div class="nav-brand">
+        <mat-icon svgIcon="logo-clinica"></mat-icon>
+        <span>Clínica Bienestar</span>
+      </div>
+      <div class="nav-links">
+        <a routerLink="mis-citas" routerLinkActive="active">Mis Citas</a>
+        <a routerLink="agendar-cita" routerLinkActive="active">Agendar Cita</a>
+        <a routerLink="mi-historial" routerLinkActive="active">Mi Historial</a>
+      </div>
+      <div class="nav-user">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon>account_circle</mat-icon>
+          <span>{{ nombreUsuario }}</span>
+          <mat-icon>expand_more</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <a mat-menu-item routerLink="mi-perfil">
+            <mat-icon>person</mat-icon>
+            <span>Mi Perfil</span>
+          </a>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar Sesión</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </nav>
+  <main class="portal-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

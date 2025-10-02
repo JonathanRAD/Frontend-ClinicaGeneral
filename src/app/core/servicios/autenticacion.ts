@@ -63,6 +63,7 @@ export class AutenticacionService {
     }
   }
 
+  
 
   login(email: string, contrasena: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password: contrasena })
@@ -116,6 +117,18 @@ export class AutenticacionService {
    */
   getToken(): string | null {
     return localStorage.getItem('jwt_token');
+  }
+  getNombreUsuario(): string | null {
+    const token = this.getToken();
+    if (token && !this.esTokenExpirado(token)) {
+      try {
+        const payload: DecodedToken = jwtDecode(token);
+        return payload.sub; // 'sub' contiene el email
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
   }
 
   /**

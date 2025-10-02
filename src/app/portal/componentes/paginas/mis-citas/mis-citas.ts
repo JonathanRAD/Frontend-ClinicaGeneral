@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   standalone: true,
   imports: [CommonModule, DatePipe, Spinner, RouterModule], // DialogoConfirmacion no se importa aquí
   templateUrl: './mis-citas.html',
+  styleUrls: ['./mis-citas.css']
 })
 export class MisCitas implements OnInit {
   citas = signal<Cita[]>([]);

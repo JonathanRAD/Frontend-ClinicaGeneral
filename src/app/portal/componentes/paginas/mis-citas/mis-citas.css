@@ -1,0 +1,31 @@
+.page-header { margin-bottom: 2rem; }
+.page-title { font-weight: 700; color: var(--color-fondo-sidebar); }
+.spinner-container { display: flex; justify-content: center; padding: 4rem 0; }
+.alerta-error { /* ... */ }
+
+.cita-card {
+  display: flex;
+  background-color: var(--color-fondo-tarjeta);
+  border-radius: var(--borde-radio);
+  box-shadow: var(--sombra-tarjeta);
+  padding: 1.5rem; margin-bottom: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cita-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+.fecha-container {
+  text-align: center;
+  margin-right: 1.5rem; padding-right: 1.5rem;
+  border-right: 1px solid #e0e7ee; min-width: 80px;
+}
+.fecha-dia { font-size: 2.5rem; font-weight: 700; color: var(--color-primario); line-height: 1; }
+.fecha-mes-ano { font-size: 0.9rem; color: var(--color-texto-secundario); text-transform: uppercase; }
+.info-container { flex-grow: 1; }
+.motivo-cita { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-texto-principal); }
+.detalle-cita { display: flex; align-items: center; color: var(--color-texto-secundario); margin-bottom: 0.5rem; }
+.detalle-cita mat-icon { font-size: 1.1rem; height: 1.1rem; width: 1.1rem; margin-right: 10px; }
+.acciones-container { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-width: 120px; }
+.acciones-container .badge { margin-bottom: 1rem; }
+.no-citas { text-align: center; padding: 3rem; background-color: var(--color-fondo-tarjeta); border-radius: var(--borde-radio); }
+.no-citas mat-icon { font-size: 4rem; height: 4rem; width: 4rem; color: #bdc3c7; }
+.no-citas h2 { margin-top: 1rem; }
+.no-citas p { color: var(--color-texto-secundario); margin-bottom: 1.5rem; }

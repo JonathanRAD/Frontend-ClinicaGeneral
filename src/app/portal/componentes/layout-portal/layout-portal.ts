@@ -1,12 +1,29 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Navbar } from '../../../core/componentes/navbar/navbar';
-import { Footer } from '../../../core/componentes/footer/footer';
+import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { AutenticacionService } from '../../../core/servicios/autenticacion';
 
 @Component({
   selector: 'app-layout-portal',
   standalone: true,
-  imports: [RouterOutlet, Navbar, Footer],
+  imports: [RouterModule, MatIconModule, MatButtonModule, MatMenuModule],
   templateUrl: './layout-portal.html',
+  // ===== CAMBIO AQUÍ =====
+  styleUrls: ['./layout-portal.css'] 
 })
-export class LayoutPortal {}
+export class LayoutPortalComponent {
+  nombreUsuario: string = '';
+
+  constructor(private authService: AutenticacionService, private router: Router) {}
+
+  ngOnInit() {
+    this.nombreUsuario = this.authService.getNombreUsuario() || 'Paciente';
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+}
