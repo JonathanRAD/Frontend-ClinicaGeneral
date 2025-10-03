@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <div class="page-header">
+    <h1 class="page-title">Nuestros Servicios</h1>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4" *ngFor="let servicio of servicios">
+      <mat-card class="service-card">
+        <mat-card-content>
+          <mat-icon class="service-icon">{{ servicio.icon }}</mat-icon>
+          <h2>{{ servicio.nombre }}</h2>
+          <p>{{ servicio.desc }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

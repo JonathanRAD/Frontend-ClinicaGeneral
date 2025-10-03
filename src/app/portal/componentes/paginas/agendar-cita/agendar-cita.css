@@ -1,0 +1,45 @@
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--color-fondo-sidebar);
+}
+
+.initial-loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+  gap: 1.5rem;
+  color: var(--color-texto-secundario);
+}
+
+.initial-loading-container .error-icon {
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+}
+
+.agendar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Espacio entre los campos */
+  padding-top: 1rem;
+}
+
+mat-card-actions {
+  padding: 0 !important;
+  margin-top: 1rem;
+}
+
+.alerta-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+

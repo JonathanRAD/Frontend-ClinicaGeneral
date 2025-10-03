@@ -1,0 +1,26 @@
+/* RUTA: src/app/portal/componentes/paginas/nuestros-medicos/nuestros-medicos.component.css */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.page-title { font-weight: 700; color: var(--color-fondo-sidebar); }
+.spinner-container { text-align: center; padding: 4rem 0; }
+.filtro-especialidad { min-width: 250px; }
+
+.medico-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer; /* <-- Indica que la tarjeta es clickeable */
+}
+.medico-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+.medico-avatar {
+  background-color: var(--color-primario);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

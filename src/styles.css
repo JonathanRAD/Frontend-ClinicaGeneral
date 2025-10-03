@@ -318,3 +318,7 @@ body {
 .mat-mdc-dialog-title {
   color: var(--color-fondo-sidebar);
 }
+/* RUTA: src/styles.css */
+.mat-horizontal-stepper-content {
+  overflow: visible !important;
+}

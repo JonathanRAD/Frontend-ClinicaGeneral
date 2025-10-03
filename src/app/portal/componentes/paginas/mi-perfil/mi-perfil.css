@@ -1,0 +1,49 @@
+/* RUTA: src/app/portal/componentes/paginas/mi-perfil/mi-perfil.css */
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--color-fondo-sidebar);
+}
+
+.mi-perfil-page {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+mat-card {
+  box-shadow: var(--sombra-tarjeta);
+  border-radius: var(--borde-radio);
+}
+
+mat-card-content {
+  padding-top: 1.5rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 0;
+}
+
+.alerta-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}

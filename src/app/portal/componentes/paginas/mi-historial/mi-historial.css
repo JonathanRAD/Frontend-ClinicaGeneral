@@ -1,0 +1,103 @@
+/* RUTA: src/app/portal/componentes/paginas/mi-historial/mi-historial.css */
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--color-fondo-sidebar);
+}
+
+.historial-page {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Tarjeta de información del paciente */
+.info-general-card {
+  box-shadow: var(--sombra-tarjeta);
+  border-radius: var(--borde-radio);
+}
+
+.info-section {
+  padding: 1rem 0;
+}
+
+.info-section h6 {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--color-texto-secundario);
+  margin-bottom: 0.5rem;
+}
+
+.info-section h6 mat-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+  height: 1.2rem;
+  width: 1.2rem;
+}
+
+.info-section p {
+  color: var(--color-texto-principal);
+  white-space: pre-wrap; /* Respeta saltos de línea */
+  margin: 0;
+}
+
+/* Acordeón de consultas */
+.consultas-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-texto-principal);
+  margin-bottom: 1.5rem;
+}
+
+.consulta-panel {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07) !important;
+  border-radius: var(--borde-radio) !important;
+  margin-bottom: 1rem;
+}
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  align-items: center;
+}
+
+.mat-expansion-panel-header-title mat-icon {
+  margin-right: 12px;
+  color: var(--color-primario);
+}
+
+.consulta-contenido {
+  padding-top: 1rem;
+}
+
+.detalle-consulta {
+  margin-bottom: 1rem;
+}
+
+.detalle-consulta strong {
+  color: var(--color-texto-secundario);
+  font-weight: 600;
+}
+
+.detalle-consulta p {
+  margin: 0.25rem 0 0 0;
+  white-space: pre-wrap;
+}
+
+/* Estados de carga y sin citas */
+.spinner-container, .no-citas {
+  text-align: center;
+  padding: 3rem;
+}
+.no-citas mat-icon {
+  font-size: 4rem; height: 4rem; width: 4rem; color: #bdc3c7;
+}
+.no-citas h2 { margin-top: 1rem; }
+.no-citas p { color: var(--color-texto-secundario); }

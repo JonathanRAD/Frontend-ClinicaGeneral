@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <div class="page-header">
+    <h1 class="page-title">Nuestro Staff Médico</h1>
+    
+    <mat-form-field appearance="outline" class="filtro-especialidad">
+      <mat-label>Filtrar por Especialidad</mat-label>
+      <mat-select [(ngModel)]="especialidadSeleccionada" (ngModelChange)="especialidadSeleccionada.set($event)">
+        <mat-option value="todos">Todas las especialidades</mat-option>
+        <mat-option *ngFor="let esp of especialidades()" [value]="esp">{{ esp }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="cargando()" class="spinner-container">
+    <app-spinner></app-spinner>
+  </div>
+
+  <div *ngIf="!cargando()" class="row g-4">
+    <div class="col-md-6 col-lg-4" *ngFor="let medico of medicosFiltrados()">
+      <mat-card class="medico-card" (click)="verPerfil(medico)">
+        <mat-card-header>
+          <div mat-card-avatar class="medico-avatar"><mat-icon>account_circle</mat-icon></div>
+          <mat-card-title>Dr(a). {{ medico.nombres }} {{ medico.apellidos }}</mat-card-title>
+          <mat-card-subtitle>{{ medico.especialidad }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+    
+    <div *ngIf="medicosFiltrados().length === 0" class="col-12 text-center text-muted mt-5">
+      <h4>No se encontraron médicos para la especialidad seleccionada.</h4>
+    </div>
+  </div>
+</div>

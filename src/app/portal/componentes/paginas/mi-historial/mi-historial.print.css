@@ -1,0 +1,75 @@
+/* RUTA: src/app/portal/componentes/paginas/mi-historial/mi-historial.print.css */
+
+/* Estilos que se aplican SOLO al imprimir */
+@media print {
+
+  /* Ocultamos todo lo que no es relevante para el informe impreso */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Hacemos visible únicamente el contenedor del historial y su contenido */
+  .historial-imprimible, .historial-imprimible * {
+    visibility: visible;
+  }
+
+  .historial-imprimible {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Reseteamos colores y fuentes para una impresión limpia */
+  .historial-imprimible {
+    font-family: 'Times New Roman', Times, serif;
+    color: #000;
+    background-color: #fff;
+  }
+
+  /* Estilos para el encabezado del documento */
+  .print-header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .print-header h1 {
+    margin: 0;
+  }
+
+  /* Quitamos sombras y colores de las tarjetas */
+  .print-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    -webkit-print-color-adjust: exact; /* Evita que el navegador quite los colores */
+  }
+
+  h2, h3, h4, h5, h6 {
+    color: #000 !important;
+  }
+
+  /* Aseguramos que los paneles del acordeón se muestren expandidos */
+  .mat-expansion-panel {
+    box-shadow: none !important;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+
+  .mat-expansion-panel-header {
+    font-size: 14pt;
+    font-weight: bold;
+  }
+
+  .mat-expansion-panel-body {
+    display: block !important;
+    padding: 1rem;
+  }
+
+  p {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+}

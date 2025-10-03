@@ -1,15 +1,25 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HistoriaClinicaService } from '../../../../panel-control/servicios/historia-clinica';
 import { HistoriaClinica } from '../../../../panel-control/modelos/historia-clinica';
 import { Spinner } from '../../../../compartido/spinner/spinner';
 import { RouterModule } from '@angular/router';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button'; // <-- Importar MatButtonModule
+
 @Component({
   selector: 'app-mi-historial',
   standalone: true,
-  imports: [CommonModule, Spinner, RouterModule],
+  imports: [
+    CommonModule, Spinner, RouterModule, DatePipe, MatCardModule,
+    MatExpansionModule, MatIconModule, MatDividerModule, MatButtonModule // <-- Añadir MatButtonModule
+  ],
   templateUrl: './mi-historial.html',
+  styleUrls: ['./mi-historial.css']
 })
 export class MiHistorial implements OnInit {
   historia = signal<HistoriaClinica | null>(null);
@@ -35,5 +45,10 @@ export class MiHistorial implements OnInit {
         this.cargando.set(false);
       }
     });
+  }
+
+  // --- NUEVA FUNCIÓN PARA IMPRIMIR ---
+  imprimirHistorial(): void {
+    window.print();
   }
 }

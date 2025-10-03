@@ -1,55 +1,73 @@
-<div class="container mt-4">
-  <h1 class="h2 mb-4">Mi Historial Clínico</h1>
+<div class="historial-imprimible">
 
-  <div *ngIf="cargando()" class="text-center my-5">
-    <app-spinner></app-spinner>
-    <p class="mt-2">Cargando tu historial...</p>
+  <div class="print-header">
+    <h1>Clínica Bienestar - Historial Clínico</h1>
   </div>
 
-  <div *ngIf="error() && !cargando()" class="alert alert-warning">
-    {{ error() }}
-  </div>
-
-  <div *ngIf="!cargando() && historia() as hist">
-    <div class="card shadow-sm mb-4">
-      <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Información General</h5>
-      </div>
-      <div class="card-body">
-        <p><strong>Paciente:</strong> {{ hist.paciente.nombres }} {{ hist.paciente.apellidos }}</p>
-        <p><strong>DNI:</strong> {{ hist.paciente.dni }}</p>
-        <p><strong>Teléfono:</strong> {{ hist.paciente.telefono }}</p>
-        <hr>
-        <p><strong>Antecedentes:</strong> {{ hist.antecedentes || 'No registrados' }}</p>
-        <p><strong>Alergias:</strong> {{ hist.alergias || 'No registradas' }}</p>
-        <p><strong>Enfermedades Crónicas:</strong> {{ hist.enfermedadesCronicas || 'No registradas' }}</p>
-      </div>
+  <div class="container mt-4 historial-page">
+    <div class="page-header">
+      <h1 class="page-title">Mi Historial Clínico</h1>
+      <button mat-raised-button color="primary" (click)="imprimirHistorial()">
+        <mat-icon>print</mat-icon>
+        <span>Imprimir / Guardar como PDF</span>
+      </button>
     </div>
 
-    <h3 class="h4 mb-3">Historial de Consultas</h3>
-    <div *ngIf="hist.consultas && hist.consultas.length > 0; else noConsultas" class="accordion" id="accordionConsultas">
-      <div *ngFor="let consulta of hist.consultas; let i = index" class="accordion-item">
-        <h2 class="accordion-header" [id]="'heading' + i">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'collapse' + i">
-            <strong>Consulta del {{ consulta.fechaConsulta | date:'fullDate':'':'es' }}</strong> - Atendido por Dr(a). {{ consulta.medico.apellidos }}
-          </button>
-        </h2>
-        <div [id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionConsultas">
-          <div class="accordion-body">
-            <p><strong>Motivo:</strong> {{ consulta.motivo }}</p>
-            <p><strong>Diagnóstico:</strong> {{ consulta.diagnostico }}</p>
-            <p><strong>Tratamiento:</strong> {{ consulta.tratamiento }}</p>
-          </div>
+    <div *ngIf="cargando()" class="spinner-container">
+      <app-spinner></app-spinner>
+      <p class="mt-2 text-muted">Cargando tu historial...</p>
+    </div>
+    <div *ngIf="error() && !cargando()" class="alerta-error">
+      {{ error() }}
+    </div>
+
+    <div *ngIf="!cargando() && historia() as hist">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <mat-card class="info-general-card print-card">
+            <mat-card-header>
+              <mat-card-title>{{ hist.paciente.nombres }} {{ hist.paciente.apellidos }}</mat-card-title>
+              <mat-card-subtitle>DNI: {{ hist.paciente.dni }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="info-section">
+                <h6><mat-icon>assignment</mat-icon> Antecedentes</h6>
+                <p>{{ hist.antecedentes || 'No registrados' }}</p>
+              </div>
+              <mat-divider></mat-divider>
+              <div class="info-section">
+                <h6><mat-icon>warning</mat-icon> Alergias</h6>
+                <p>{{ hist.alergias || 'No registradas' }}</p>
+              </div>
+              <mat-divider></mat-divider>
+              <div class="info-section">
+                <h6><mat-icon>local_hospital</mat-icon> Enfermedades Crónicas</h6>
+                <p>{{ hist.enfermedadesCronicas || 'No registradas' }}</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div class="col-lg-8">
+          <h2 class="consultas-title">Historial de Consultas</h2>
+          <mat-accordion *ngIf="hist.consultas && hist.consultas.length > 0; else noConsultas" multi>
+            <mat-expansion-panel *ngFor="let consulta of hist.consultas" class="consulta-panel">
+              <mat-expansion-panel-header>
+                <mat-panel-title><mat-icon>event</mat-icon><span>{{ consulta.fechaConsulta | date:'fullDate':'':'es' }}</span></mat-panel-title>
+                <mat-panel-description>Atendido por Dr(a). {{ consulta.medico.apellidos }}</mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="consulta-contenido">
+                <div class="detalle-consulta"><strong>Motivo:</strong><p>{{ consulta.motivo }}</p></div>
+                <div class="detalle-consulta"><strong>Diagnóstico:</strong><p>{{ consulta.diagnostico }}</p></div>
+                <div class="detalle-consulta"><strong>Tratamiento:</strong><p>{{ consulta.tratamiento }}</p></div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <ng-template #noConsultas>
+            <div class="no-citas"><mat-icon>folder_off</mat-icon><h2>Sin Consultas</h2><p>Aún no tienes consultas registradas en tu historial.</p></div>
+          </ng-template>
         </div>
       </div>
     </div>
-    <ng-template #noConsultas>
-      <div class="card text-center p-4">
-        <div class="card-body">
-          <i class="fas fa-file-medical-alt fa-3x text-muted mb-3"></i>
-          <p>Aún no tienes consultas registradas en tu historial.</p>
-        </div>
-      </div>
-    </ng-template>
   </div>
 </div>

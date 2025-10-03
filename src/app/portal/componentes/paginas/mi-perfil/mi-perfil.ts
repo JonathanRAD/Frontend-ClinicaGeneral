@@ -1,18 +1,43 @@
+// RUTA: src/app/portal/componentes/paginas/mi-perfil/mi-perfil.ts
+
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-
-// --- Usando las importaciones correctas según tu estructura ---
 import { PerfilPacienteService } from '../../../services/perfil-paciente.service';
 import { Notificacion } from '../../../../core/servicios/notificacion';
 import { Spinner } from '../../../../compartido/spinner/spinner';
 import { Patient } from '../../../../panel-control/modelos/patient';
+
+// --- NUEVOS IMPORTS DE ANGULAR MATERIAL ---
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
 @Component({
   selector: 'app-mi-perfil',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, Spinner],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    Spinner,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './mi-perfil.html',
+  styleUrls: ['./mi-perfil.css']
 })
 export class MiPerfil implements OnInit {
   formularioPerfil: FormGroup;
@@ -41,16 +66,12 @@ export class MiPerfil implements OnInit {
   ngOnInit(): void {
     this.perfilService.getMiPerfil().subscribe({
       next: (perfil: Patient) => {
-        // --- INICIO DE LA CORRECCIÓN DEFINITIVA PARA LA FECHA ---
         this.formularioPerfil.patchValue({
           ...perfil,
-          // Sobreescribimos solo la fecha de nacimiento con el formato string que necesita el input
-          fechaNacimiento: perfil.fechaNacimiento 
-            ? new Date(perfil.fechaNacimiento).toISOString().split('T')[0] 
+          fechaNacimiento: perfil.fechaNacimiento
+            ? new Date(perfil.fechaNacimiento).toISOString().split('T')[0]
             : ''
         });
-        // --- FIN DE LA CORRECCIÓN ---
-
         this.cargando.set(false);
       },
       error: () => {

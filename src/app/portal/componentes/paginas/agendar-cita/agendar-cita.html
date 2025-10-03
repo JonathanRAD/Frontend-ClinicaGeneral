@@ -1,52 +1,83 @@
-<div class="container mt-4">
-  <h1 class="h2 mb-4">Agendar una Nueva Cita</h1>
-  
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <form [formGroup]="formularioCita" (ngSubmit)="agendarCita()">
-        
-        <div class="mb-3">
-          <label for="medico" class="form-label">Especialista</label>
-          <select id="medico" class="form-select" formControlName="medicoId">
-            <option value="" disabled>Seleccione un médico...</option>
-            <option *ngFor="let medico of medicos()" [value]="medico.id">
-              Dr(a). {{ medico.nombres }} {{ medico.apellidos }} ({{ medico.especialidad }})
-            </option>
-          </select>
-          <div *ngIf="formularioCita.get('medicoId')?.touched && formularioCita.get('medicoId')?.invalid" class="text-danger mt-1">
-            <small>Debe seleccionar un médico.</small>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="fechaHora" class="form-label">Fecha y Hora</label>
-          <input type="datetime-local" id="fechaHora" class="form-control" formControlName="fechaHora">
-          <div *ngIf="formularioCita.get('fechaHora')?.touched && formularioCita.get('fechaHora')?.invalid" class="text-danger mt-1">
-            <small>Debe seleccionar una fecha y hora.</small>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="motivo" class="form-label">Motivo de la Cita</label>
-          <textarea id="motivo" class="form-control" formControlName="motivo" rows="4" placeholder="Describa brevemente el motivo de su visita..."></textarea>
-          <div *ngIf="formularioCita.get('motivo')?.touched && formularioCita.get('motivo')?.invalid" class="text-danger mt-1">
-            <small>El motivo es requerido.</small>
-          </div>
-        </div>
-
-        <div *ngIf="error()" class="alert alert-danger">
-          {{ error() }}
-        </div>
-
-        <div class="d-flex justify-content-end">
-          <button type="button" class="btn btn-secondary me-2" [routerLink]="['/portal/mis-citas']">Cancelar</button>
-          <button type="submit" class="btn btn-primary" [disabled]="cargando()">
-            <span *ngIf="!cargando()">Agendar Cita</span>
-            <app-spinner *ngIf="cargando()"></app-spinner>
-          </button>
-        </div>
-
-      </form>
-    </div>
+<div class="container mt-4 agendar-cita-page">
+  <div class="page-header">
+    <h1 class="page-title">Agendar una Nueva Cita</h1>
   </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Complete los detalles de la cita</mat-card-title>
+      <mat-card-subtitle>Seleccione el especialista, la fecha y el motivo de su visita.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+      <!-- Indicador de carga inicial -->
+      <div *ngIf="cargandoMedicos()" class="initial-loading-container">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando especialistas...</p>
+      </div>
+
+      <!-- Mensaje de error si la carga falla -->
+      <div *ngIf="error() && cargandoMedicos()" class="initial-loading-container">
+         <mat-icon color="warn" class="error-icon">error_outline</mat-icon>
+         <p>{{ error() }}</p>
+      </div>
+
+      <!-- Formulario principal (se muestra cuando la carga ha terminado) -->
+      <form *ngIf="!cargandoMedicos() && !error()" [formGroup]="formularioCita" (ngSubmit)="agendarCita()" class="agendar-form">
+        
+        <!-- Selección de Médico -->
+        <mat-form-field appearance="outline">
+          <mat-label>Especialista</mat-label>
+          <mat-select formControlName="medicoId">
+            <mat-option *ngFor="let medico of medicos()" [value]="medico.id">
+              Dr(a). {{ medico.nombres }} {{ medico.apellidos }} ({{ medico.especialidad }})
+            </mat-option>
+          </mat-select>
+          <mat-error>Debe seleccionar un médico.</mat-error>
+        </mat-form-field>
+
+        <!-- Selección de Fecha y Hora -->
+        <div class="row g-3">
+          <div class="col-md-7">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Fecha de la Cita</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="fecha" [min]="minDate" required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error>La fecha es requerida.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Hora</mat-label>
+              <mat-select formControlName="hora" required>
+                <mat-option *ngFor="let hora of horasDisponibles" [value]="hora">{{ hora }}</mat-option>
+              </mat-select>
+              <mat-error>La hora es requerida.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Motivo de la Cita -->
+        <mat-form-field appearance="outline">
+          <mat-label>Motivo de la Cita</mat-label>
+          <textarea matInput formControlName="motivo" rows="4" placeholder="Describa brevemente el motivo de su visita..." required></textarea>
+          <mat-error>El motivo es requerido.</mat-error>
+        </mat-form-field>
+
+        <!-- Mensaje de Error de envío -->
+        <div *ngIf="error() && !cargando()" class="alerta-error">{{ error() }}</div>
+
+        <!-- Acciones -->
+        <mat-card-actions align="end">
+          <button type="button" mat-stroked-button routerLink="/portal/mis-citas">Cancelar</button>
+          <button type="submit" mat-raised-button color="primary" [disabled]="cargando()">
+            <span *ngIf="!cargando()">Confirmar Cita</span>
+            <mat-spinner *ngIf="cargando()" diameter="20" class="ms-2"></mat-spinner>
+          </button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>
+

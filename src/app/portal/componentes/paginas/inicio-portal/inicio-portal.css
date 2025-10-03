@@ -1,0 +1,58 @@
+/* RUTA: src/app/portal/componentes/paginas/inicio-portal/inicio-portal.component.css */
+.welcome-title { font-weight: 700; color: var(--color-fondo-sidebar); }
+.welcome-subtitle { color: var(--color-texto-secundario); margin-bottom: 2rem; }
+
+.mat-mdc-card {
+  border-radius: var(--borde-radio);
+}
+
+/* Tarjeta de Próxima Cita */
+.proxima-cita-card {
+  background: linear-gradient(135deg, var(--color-primario), #5dade2);
+  color: white;
+}
+.proxima-cita-card .mat-mdc-card-header .mat-icon { color: white !important; }
+.proxima-cita-card .mat-mdc-card-header-text { margin: 0; }
+.proxima-cita-card .mat-mdc-card-title { color: white; }
+.proxima-cita-card .mat-mdc-card-subtitle { color: rgba(255, 255, 255, 0.8); }
+
+.cita-info { padding: 1rem; }
+.cita-info h2 { font-weight: 300; font-size: 1.5rem; margin: 0; }
+.cita-info .hora { font-size: 2.5rem; font-weight: 700; }
+.cita-info mat-divider { margin: 1rem 0; border-top-color: rgba(255, 255, 255, 0.3); }
+.detalle-cita p { margin: 0.5rem 0; }
+.no-citas-info { text-align: center; padding: 2rem; }
+.no-citas-info p { font-size: 1.1rem; margin-bottom: 1.5rem; color: rgba(255, 255, 255, 0.9); }
+
+/* Tarjeta de Accesos Rápidos (Rediseñada) */
+.acciones-card .mat-mdc-card-content {
+  padding: 0 !important;
+}
+.acciones-card .mat-mdc-list-item-unscoped-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.acciones-card a[mat-list-item] {
+  color: var(--color-texto-principal);
+  transition: background-color 0.2s ease;
+}
+.acciones-card a[mat-list-item]:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+.acciones-card a[mat-list-item] mat-icon {
+  color: var(--color-primario);
+}
+
+/* Tarjeta de Última Actividad y Consejo */
+.ultima-actividad-card, .consejo-card {
+    background-color: var(--color-fondo-tarjeta);
+}
+
+.consejo-card .mat-icon {
+    color: var(--color-acento);
+}
+
+.ultima-actividad-card .mat-icon {
+    color: var(--color-advertencia);
+}

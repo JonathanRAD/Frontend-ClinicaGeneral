@@ -1,8 +1,14 @@
 .portal-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%; /* Asegura que el portal llene el espacio vertical disponible */
   background-color: var(--color-fondo-panel);
+}
+
+.portal-content {
+  flex: 1; /* Hace que el área de contenido crezca, empujando el footer hacia abajo */
+  overflow-y: auto; /* Añade scroll solo al contenido si es necesario */
+  padding: 2.5rem;
 }
 .portal-nav {
   background-color: var(--color-fondo-tarjeta);
@@ -46,8 +52,6 @@
   font-weight: 500;
 }
 .nav-user .mat-icon { margin-right: 8px; }
-.portal-content {
-  flex-grow: 1;
-  overflow-y: auto;
-  padding: 2.5rem;
-}
+
+
+

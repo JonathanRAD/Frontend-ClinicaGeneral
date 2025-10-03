@@ -1,30 +1,120 @@
-.page-header { margin-bottom: 2rem; }
-.page-title { font-weight: 700; color: var(--color-fondo-sidebar); }
-.spinner-container { display: flex; justify-content: center; padding: 4rem 0; }
-.alerta-error { /* ... */ }
+/* RUTA: src/app/portal/componentes/paginas/mis-citas/mis-citas.css */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-weight: 700;
+  color: var(--color-fondo-sidebar);
+}
 
 .cita-card {
-  display: flex;
-  background-color: var(--color-fondo-tarjeta);
-  border-radius: var(--borde-radio);
-  box-shadow: var(--sombra-tarjeta);
-  padding: 1.5rem; margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  --mat-card-padding: 0;
 }
-.cita-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+
+.cita-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor del resumen */
+.cita-summary {
+  display: flex;
+  padding: 1.25rem;
+  align-items: center;
+}
+
 .fecha-container {
   text-align: center;
-  margin-right: 1.5rem; padding-right: 1.5rem;
-  border-right: 1px solid #e0e7ee; min-width: 80px;
+  margin-right: 1.5rem;
+  padding-right: 1.5rem;
+  border-right: 1px solid #e0e7ee;
+  min-width: 80px;
 }
-.fecha-dia { font-size: 2.5rem; font-weight: 700; color: var(--color-primario); line-height: 1; }
-.fecha-mes-ano { font-size: 0.9rem; color: var(--color-texto-secundario); text-transform: uppercase; }
+.fecha-dia {
+  font-size: 2.5rem; font-weight: 700; color: var(--color-primario); line-height: 1;
+}
+.fecha-mes-ano {
+  font-size: 0.9rem; color: var(--color-texto-secundario); text-transform: uppercase;
+}
 .info-container { flex-grow: 1; }
-.motivo-cita { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--color-texto-principal); }
-.detalle-cita { display: flex; align-items: center; color: var(--color-texto-secundario); margin-bottom: 0.5rem; }
+.medico-nombre { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+.detalle-cita { display: flex; align-items: center; color: var(--color-texto-secundario); }
 .detalle-cita mat-icon { font-size: 1.1rem; height: 1.1rem; width: 1.1rem; margin-right: 10px; }
-.acciones-container { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-width: 120px; }
-.acciones-container .badge { margin-bottom: 1rem; }
+
+.estado-container { text-align: right; }
+.badge {
+  padding: 0.4em 0.8em;
+  border-radius: 12px;
+  font-weight: 600;
+  color: white;
+}
+.badge-primary { background-color: var(--color-primario); }
+.badge-secondary { background-color: #6c757d; }
+.badge-danger { background-color: var(--color-peligro); }
+.badge-light { background-color: #f8f9fa; color: #212529; }
+
+
+/* --- ESTILOS PARA LA ANIMACIÓN --- */
+
+.cita-details-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.cita-details-content {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition-delay: 0.1s;
+  padding: 0 1.25rem 1rem 1.25rem;
+}
+
+.is-expanded .cita-details-wrapper {
+  max-height: 200px; /* Un valor mayor al contenido que se expandirá */
+}
+
+.is-expanded .cita-details-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.detalle-expandido {
+  padding: 1rem 0;
+}
+.detalle-item {
+  display: flex;
+  align-items: center;
+  color: var(--color-texto-secundario);
+  margin-bottom: 0.75rem;
+}
+.detalle-item mat-icon {
+  margin-right: 10px;
+}
+.mat-mdc-tab-body-content {
+  padding-top: 2rem;
+}
+
+.tab-content {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* --- Estados de carga y sin citas --- */
+.spinner-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4rem 0; }
 .no-citas { text-align: center; padding: 3rem; background-color: var(--color-fondo-tarjeta); border-radius: var(--borde-radio); }
 .no-citas mat-icon { font-size: 4rem; height: 4rem; width: 4rem; color: #bdc3c7; }
 .no-citas h2 { margin-top: 1rem; }

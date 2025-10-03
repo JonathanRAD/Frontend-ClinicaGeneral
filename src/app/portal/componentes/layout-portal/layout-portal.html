@@ -2,13 +2,15 @@
   <nav class="portal-nav">
     <div class="nav-content">
       <div class="nav-brand">
-        <mat-icon svgIcon="logo-clinica"></mat-icon>
+        <mat-icon>local_hospital</mat-icon>
         <span>Clínica Bienestar</span>
       </div>
       <div class="nav-links">
+        <a routerLink="inicio" routerLinkActive="active">Inicio</a>
         <a routerLink="mis-citas" routerLinkActive="active">Mis Citas</a>
         <a routerLink="agendar-cita" routerLinkActive="active">Agendar Cita</a>
-        <a routerLink="mi-historial" routerLinkActive="active">Mi Historial</a>
+        <a routerLink="nuestros-medicos" routerLinkActive="active">Nuestros Médicos</a>
+        <a routerLink="servicios" routerLinkActive="active">Servicios</a>
       </div>
       <div class="nav-user">
         <button mat-button [matMenuTriggerFor]="menu">
@@ -21,6 +23,11 @@
             <mat-icon>person</mat-icon>
             <span>Mi Perfil</span>
           </a>
+          <a mat-menu-item routerLink="mi-historial">
+            <mat-icon>history_edu</mat-icon>
+            <span>Mi Historial</span>
+          </a>
+          <mat-divider></mat-divider>
           <button mat-menu-item (click)="logout()">
             <mat-icon>logout</mat-icon>
             <span>Cerrar Sesión</span>
@@ -32,4 +39,6 @@
   <main class="portal-content">
     <router-outlet></router-outlet>
   </main>
+  
 </div>
+<app-footer></app-footer>

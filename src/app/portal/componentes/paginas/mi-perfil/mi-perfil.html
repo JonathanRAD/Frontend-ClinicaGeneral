@@ -1,60 +1,102 @@
-<div class="container mt-4">
-  <h1 class="h2 mb-4">Mi Perfil</h1>
-
-  <div *ngIf="cargando()" class="text-center my-5">
-    <app-spinner></app-spinner>
-    <p>Cargando tu información...</p>
+<div class="container mt-4 mi-perfil-page">
+  <div class="page-header">
+    <h1 class="page-title">Mi Perfil</h1>
   </div>
 
-  <div *ngIf="error() && !cargando()" class="alert alert-danger">{{ error() }}</div>
+  <div *ngIf="cargando()" class="spinner-container">
+    <app-spinner></app-spinner>
+    <p class="mt-2 text-muted">Cargando tu información...</p>
+  </div>
 
-  <div *ngIf="!cargando()" class="card shadow-sm">
-    <div class="card-body">
-      <form [formGroup]="formularioPerfil" (ngSubmit)="guardarCambios()">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Nombres</label>
-            <input type="text" class="form-control" formControlName="nombres" readonly>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Apellidos</label>
-            <input type="text" class="form-control" formControlName="apellidos" readonly>
-          </div>
+  <div *ngIf="error() && !cargando()" class="alerta-error">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="!cargando()" class="fade-in">
+    <form [formGroup]="formularioPerfil" (ngSubmit)="guardarCambios()">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Información Personal</mat-card-title>
+              <mat-card-subtitle>Estos son tus datos personales y de contacto.</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Nombres</mat-label>
+                    <input matInput formControlName="nombres" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Apellidos</mat-label>
+                    <input matInput formControlName="apellidos" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>DNI</mat-label>
+                    <input matInput formControlName="dni">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput formControlName="telefono">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Fecha de Nacimiento</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput formControlName="direccion">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
-        <hr>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="dni" class="form-label">DNI</label>
-            <input type="text" id="dni" class="form-control" formControlName="dni">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" id="telefono" class="form-control" formControlName="telefono">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-            <input type="date" id="fechaNacimiento" class="form-control" formControlName="fechaNacimiento">
-          </div>
-           <div class="col-md-6 mb-3">
-            <label for="direccion" class="form-label">Dirección</label>
-            <input type="text" id="direccion" class="form-control" formControlName="direccion">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="peso" class="form-label">Peso (kg)</label>
-            <input type="number" id="peso" class="form-control" formControlName="peso">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="altura" class="form-label">Altura (m)</label>
-            <input type="number" step="0.01" id="altura" class="form-control" formControlName="altura">
-          </div>
+
+        <div class="col-lg-4">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Datos Médicos</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row g-3">
+                <div class="col-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Peso (kg)</mat-label>
+                    <input matInput type="number" formControlName="peso">
+                  </mat-form-field>
+                </div>
+                <div class="col-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Altura (m)</mat-label>
+                    <input matInput type="number" step="0.01" formControlName="altura">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
-        <div class="d-flex justify-content-end mt-3">
-          <button type="submit" class="btn btn-primary" [disabled]="guardando()">
-            <span *ngIf="!guardando()">Guardar Cambios</span>
-            <app-spinner *ngIf="guardando()"></app-spinner>
-          </button>
-        </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button type="submit" mat-raised-button color="primary" [disabled]="guardando()">
+          <span *ngIf="!guardando()">Guardar Cambios</span>
+          <mat-spinner *ngIf="guardando()" diameter="20" class="ms-2"></mat-spinner>
+        </button>
+      </div>
+    </form>
   </div>
 </div>

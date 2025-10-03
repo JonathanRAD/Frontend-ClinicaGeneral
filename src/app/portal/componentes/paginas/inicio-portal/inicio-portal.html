@@ -1,0 +1,81 @@
+<div class="container mt-4">
+  <h1 class="welcome-title">Bienvenido, {{ nombreUsuario() }}</h1>
+  <p class="welcome-subtitle">Aquí tienes un resumen de tu actividad en Clínica Bienestar.</p>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <mat-card class="proxima-cita-card mb-4">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>event_upcoming</mat-icon>
+          <mat-card-title>Tu Próxima Cita</mat-card-title>
+        </mat-card-header>
+        <mat-card-content *ngIf="proximaCita() as cita; else noHayCitas">
+          <div class="cita-info">
+            <h2>{{ cita.fechaHora | date:'fullDate':'':'es' }}</h2>
+            <p class="hora">{{ cita.fechaHora | date:'shortTime' }}</p>
+            <mat-divider></mat-divider>
+            <div class="detalle-cita">
+              <p><strong>Médico:</strong> Dr(a). {{ cita.medico.nombres }} {{ cita.medico.apellidos }}</p>
+              <p><strong>Especialidad:</strong> {{ cita.medico.especialidad }}</p>
+              <p><strong>Consultorio:</strong> {{ cita.consultorio }}</p>
+            </div>
+          </div>
+        </mat-card-content>
+        <ng-template #noHayCitas>
+          <mat-card-content class="no-citas-info">
+            <p>No tienes próximas citas programadas.</p>
+            <a mat-flat-button color="primary" routerLink="/portal/agendar-cita">Agendar una ahora</a>
+          </mat-card-content>
+        </ng-template>
+      </mat-card>
+
+      <mat-card *ngIf="ultimaCitaCompletada() as ultimaCita" class="ultima-actividad-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>history</mat-icon>
+            <mat-card-title>Tu Última Cita Completada</mat-card-title>
+            <mat-card-subtitle>{{ ultimaCita.fechaHora | date:'longDate':'':'es' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Fuiste atendido por el Dr(a). <strong>{{ ultimaCita.medico.apellidos }}</strong> en la especialidad de <strong>{{ ultimaCita.medico.especialidad }}</strong>.</p>
+          <a mat-button color="primary" routerLink="/portal/mi-historial">Ver detalles en mi historial</a>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+    <div class="col-lg-4">
+      <mat-card class="acciones-card mb-4">
+        <mat-card-header>
+            <mat-card-title>Accesos Rápidos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list">
+            <a mat-list-item role="listitem" routerLink="/portal/mis-citas">
+              <mat-icon matListItemIcon>list_alt</mat-icon>
+              <span>Ver Todas mis Citas</span>
+            </a>
+            <a mat-list-item role="listitem" routerLink="/portal/mi-historial">
+              <mat-icon matListItemIcon>history_edu</mat-icon>
+              <span>Consultar mi Historial</span>
+            </a>
+            <a mat-list-item role="listitem" routerLink="/portal/mi-perfil">
+              <mat-icon matListItemIcon>person</mat-icon>
+              <span>Editar mi Perfil</span>
+            </a>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="consejo-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>{{ consejoDelDia().icon }}</mat-icon>
+          <mat-card-title>Consejo del Día</mat-card-title>
+          <mat-card-subtitle>{{ consejoDelDia().titulo }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ consejoDelDia().contenido }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
