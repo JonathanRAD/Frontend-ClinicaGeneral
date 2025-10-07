@@ -12,14 +12,35 @@
     {{ error() }}
   </div>
 
-  <div *ngIf="!cargando()" class="fade-in">
-    <form [formGroup]="formularioPerfil" (ngSubmit)="guardarCambios()">
-      <div class="row g-4">
-        <div class="col-lg-8">
+  <div *ngIf="!cargando() && !error()" class="fade-in">
+    <div class="row g-4">
+
+      <div class="col-lg-4">
+        <mat-card class="profile-avatar-card text-center">
+          <mat-card-content>
+            <div class="avatar-container mb-3">
+              <mat-icon class="profile-avatar-icon">account_circle</mat-icon>
+              <button mat-icon-button class="edit-avatar-button">
+                <mat-icon>photo_camera</mat-icon>
+              </button>
+            </div>
+            <h2 class="profile-name">{{ formularioPerfil.get('nombres')?.value }} {{ formularioPerfil.get('apellidos')?.value }}</h2>
+            <p class="profile-email text-muted">{{ formularioPerfil.get('email')?.value }}</p>
+            <mat-divider></mat-divider>
+            <button mat-stroked-button class="mt-4" (click)="abrirDialogoContrasena()">
+              <mat-icon>lock_reset</mat-icon>
+              Cambiar Contraseña
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="col-lg-8">
+        <form [formGroup]="formularioPerfil" (ngSubmit)="guardarCambios()">
           <mat-card>
             <mat-card-header>
-              <mat-card-title>Información Personal</mat-card-title>
-              <mat-card-subtitle>Estos son tus datos personales y de contacto.</mat-card-subtitle>
+              <mat-card-title>Información Personal y Médica</mat-card-title>
+              <mat-card-subtitle>Mantén tus datos actualizados para una mejor atención.</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
               <div class="row g-3">
@@ -61,25 +82,13 @@
                     <input matInput formControlName="direccion">
                   </mat-form-field>
                 </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-        <div class="col-lg-4">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>Datos Médicos</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <div class="row g-3">
-                <div class="col-12">
+                <div class="col-md-6">
                   <mat-form-field appearance="outline">
                     <mat-label>Peso (kg)</mat-label>
                     <input matInput type="number" formControlName="peso">
                   </mat-form-field>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                   <mat-form-field appearance="outline">
                     <mat-label>Altura (m)</mat-label>
                     <input matInput type="number" step="0.01" formControlName="altura">
@@ -87,16 +96,16 @@
                 </div>
               </div>
             </mat-card-content>
+            <mat-card-actions align="end" class="p-3">
+              <button type="submit" mat-raised-button color="primary" [disabled]="guardando() || formularioPerfil.invalid">
+                <span *ngIf="!guardando()">Guardar Cambios</span>
+                <mat-progress-spinner *ngIf="guardando()" mode="indeterminate" diameter="20" class="ms-2"></mat-progress-spinner>
+              </button>
+            </mat-card-actions>
           </mat-card>
-        </div>
+        </form>
       </div>
 
-      <div class="d-flex justify-content-end mt-4">
-        <button type="submit" mat-raised-button color="primary" [disabled]="guardando()">
-          <span *ngIf="!guardando()">Guardar Cambios</span>
-          <mat-spinner *ngIf="guardando()" diameter="20" class="ms-2"></mat-spinner>
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>

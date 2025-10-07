@@ -17,6 +17,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatStepperModule } from '@angular/material/stepper';
+
 
 @Component({
   selector: 'app-agendar-cita',
@@ -24,22 +26,29 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   imports: [
     CommonModule, ReactiveFormsModule, RouterModule, MatCardModule, MatFormFieldModule,
     MatSelectModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatNativeDateModule,
-    MatIconModule, MatProgressSpinnerModule
+    MatIconModule, MatProgressSpinnerModule, MatStepperModule
   ],
   templateUrl: './agendar-cita.html',
   styleUrls: ['./agendar-cita.css']
 })
 export class AgendarCita implements OnInit {
-  // --- VOLVEMOS A UN SOLO FORMULARIO ---
-  formularioCita: FormGroup;
+  
+  // --- SEÑALES PARA CONTROLAR EL WIZARD ---
+  paso = signal<'especialidad' | 'medico' | 'fecha'>('especialidad');
+  especialidadSeleccionada = signal<string | null>(null);
 
-  medicos = signal<Medico[]>([]);
+  formularioCita: FormGroup;
+  
+  private todosLosMedicos = signal<Medico[]>([]);
+  medicosFiltrados: Signal<Medico[]>;
+  especialidades: Signal<string[]>;
+
   cargando = signal(false);
   cargandoMedicos = signal(true);
   error = signal<string | null>(null);
   minDate: Date;
   horasDisponibles: string[] = [];
-
+  
   constructor(
     private fb: FormBuilder,
     private citaService: CitaService,
@@ -50,19 +59,29 @@ export class AgendarCita implements OnInit {
     this.minDate = new Date();
     this.generarHoras();
 
-    // --- INICIALIZACIÓN DEL FORMULARIO ÚNICO ---
     this.formularioCita = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: [new Date(), Validators.required],
       hora: ['', Validators.required],
       motivo: ['', [Validators.required, Validators.maxLength(300)]]
     });
+    
+    this.especialidades = computed(() => 
+      [...new Set(this.todosLosMedicos().map(m => m.especialidad))]
+    );
+
+    this.medicosFiltrados = computed(() => {
+      if (!this.especialidadSeleccionada()) {
+        return [];
+      }
+      return this.todosLosMedicos().filter(m => m.especialidad === this.especialidadSeleccionada());
+    });
   }
 
   ngOnInit(): void {
     this.medicoService.getMedicos().subscribe({
       next: (data: Medico[]) => {
-        this.medicos.set(data);
+        this.todosLosMedicos.set(data);
         this.cargandoMedicos.set(false);
       },
       error: () => {
@@ -72,6 +91,22 @@ export class AgendarCita implements OnInit {
     });
   }
 
+  // --- MÉTODOS PARA EL WIZARD ---
+  seleccionarEspecialidad(especialidad: string): void {
+    this.especialidadSeleccionada.set(especialidad);
+    this.paso.set('medico');
+  }
+
+  seleccionarMedico(medicoId: string): void {
+    this.formularioCita.get('medicoId')?.setValue(medicoId);
+    this.paso.set('fecha');
+  }
+
+  volverAPaso(paso: 'especialidad' | 'medico'): void {
+    this.paso.set(paso);
+  }
+  
+  // --- MÉTODOS EXISTENTES ---
   private generarHoras(): void {
     for (let h = 8; h < 18; h++) {
       this.horasDisponibles.push(`${h.toString().padStart(2, '0')}:00`);
@@ -110,5 +145,10 @@ export class AgendarCita implements OnInit {
       }
     });
   }
+  
+  // --- GETTERS PARA LA PLANTILLA ---
+  get medicoSeleccionado(): Medico | undefined {
+    const medicoId = this.formularioCita.get('medicoId')?.value;
+    return this.todosLosMedicos().find(m => m.id === medicoId);
+  }
 }
-

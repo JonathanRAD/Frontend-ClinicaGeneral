@@ -47,13 +47,15 @@
 .ascenso-card { grid-column: 1 / 3; grid-row: 1 / 3; animation-delay: 0.1s; }
 .campamento-card { grid-column: 3 / 4; grid-row: 1 / 2; animation-delay: 0.2s; }
 .clima-salud-card { grid-column: 3 / 4; grid-row: 2 / 3; animation-delay: 0.3s; }
-.guia-experto-card { grid-column: 1 / 3; grid-row: 3 / 4; animation-delay: 0.4s; } /* Ajustado para estar debajo */
+.guia-experto-card { grid-column: 1 / 2; grid-row: 3 / 4; animation-delay: 0.4s; }
+.quick-access-card { grid-column: 2 / 4; grid-row: 3 / 4; animation-delay: 0.5s; }
+
 
 /* 1. Tu Ascenso de Hoy */
 .ascenso-grid {
   display: grid;
   grid-template-columns: 200px 1fr;
-  align-items: center;
+  align-items: start; /* <-- ESTE ES EL CAMBIO */
   gap: 2.5rem;
   height: 100%;
 }
@@ -77,6 +79,7 @@
 .actividades-lista {
   list-style: none; padding: 0; margin: 0;
   display: flex; flex-direction: column; gap: 1.25rem;
+  /* Se quitó justify-content: center */
 }
 .actividades-lista li {
   display: flex; align-items: center; gap: 1rem;
@@ -156,6 +159,42 @@
 }
 .guia-contenido { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; }
 
+/* 5. Accesos Rápidos */
+.quick-access-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.quick-access-button {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: flex-start; 
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-radius: 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: var(--color-texto-principal);
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.quick-access-button:hover {
+  transform: translateY(-3px);
+  background-color: #eaf3fb;
+  color: var(--color-primario);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.quick-access-button mat-icon {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 1rem 0 0; 
+}
+
+
 /* Animaciones y Placeholder */
 .no-content-placeholder { text-align: center; padding: 2rem 1rem; color: var(--color-texto-secundario); }
 .no-content-placeholder .mat-icon { font-size: 3rem; width: 3rem; height: 3rem; }
@@ -168,10 +207,11 @@
   .zenith-grid {
     grid-template-columns: 1fr;
   }
-  .ascenso-card, .campamento-card, .clima-salud-card, .guia-experto-card {
+  .ascenso-card, .campamento-card, .clima-salud-card, .guia-experto-card, .quick-access-card {
     grid-column: auto;
   }
 }
 @media (max-width: 768px) {
   .ascenso-grid { grid-template-columns: 1fr; text-align: center; }
+  .quick-access-buttons { grid-template-columns: 1fr; }
 }

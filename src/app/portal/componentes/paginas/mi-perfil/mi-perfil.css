@@ -47,3 +47,42 @@ mat-form-field {
   margin-bottom: 1.5rem;
   text-align: center;
 }
+
+/* --- NUEVOS ESTILOS PARA LA TARJETA DE PERFIL --- */
+.profile-avatar-card {
+  padding: 2rem 1.5rem;
+}
+
+.avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.profile-avatar-icon {
+  font-size: 120px;
+  width: 120px;
+  height: 120px;
+  color: #e2e8f0;
+}
+
+.edit-avatar-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  color: var(--color-primario);
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.profile-email {
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}

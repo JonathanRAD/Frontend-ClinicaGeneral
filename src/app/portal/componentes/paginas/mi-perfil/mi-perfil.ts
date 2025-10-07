@@ -8,8 +8,9 @@ import { PerfilPacienteService } from '../../../services/perfil-paciente.service
 import { Notificacion } from '../../../../core/servicios/notificacion';
 import { Spinner } from '../../../../compartido/spinner/spinner';
 import { Patient } from '../../../../panel-control/modelos/patient';
+import { AutenticacionService } from '../../../../core/servicios/autenticacion'; // <-- PASO 1: IMPORTAR EL SERVICIO
 
-// --- NUEVOS IMPORTS DE ANGULAR MATERIAL ---
+// --- IMPORTS DE ANGULAR MATERIAL ---
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @Component({
@@ -34,7 +37,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDividerModule
   ],
   templateUrl: './mi-perfil.html',
   styleUrls: ['./mi-perfil.css']
@@ -48,12 +52,15 @@ export class MiPerfil implements OnInit {
   constructor(
     private fb: FormBuilder,
     private perfilService: PerfilPacienteService,
-    private notificacion: Notificacion
+    private notificacion: Notificacion,
+    private dialog: MatDialog,
+    private authService: AutenticacionService // <-- PASO 2: INYECTAR EL SERVICIO
   ) {
     this.formularioPerfil = this.fb.group({
       id: [null],
       nombres: [{ value: '', disabled: true }],
       apellidos: [{ value: '', disabled: true }],
+      email: [{ value: '', disabled: true }],
       dni: ['', [Validators.required, Validators.pattern('^[0-9]{8,12}$')]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9,15}$')]],
       fechaNacimiento: ['', Validators.required],
@@ -68,6 +75,7 @@ export class MiPerfil implements OnInit {
       next: (perfil: Patient) => {
         this.formularioPerfil.patchValue({
           ...perfil,
+          email: this.authService.getNombreUsuario(), 
           fechaNacimiento: perfil.fechaNacimiento
             ? new Date(perfil.fechaNacimiento).toISOString().split('T')[0]
             : ''
@@ -101,5 +109,10 @@ export class MiPerfil implements OnInit {
         this.guardando.set(false);
       }
     });
+  }
+
+  abrirDialogoContrasena(): void {
+    console.log('Abriendo diálogo para cambiar contraseña...');
+    this.notificacion.mostrar('Funcionalidad de cambio de contraseña en desarrollo.', 'exito');
   }
 }

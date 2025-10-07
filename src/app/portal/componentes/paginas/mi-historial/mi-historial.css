@@ -18,77 +18,118 @@
   to { opacity: 1; }
 }
 
-/* Tarjeta de información del paciente */
-.info-general-card {
-  box-shadow: var(--sombra-tarjeta);
+/* --- SECCIÓN DE CONDICIONES CLAVE --- */
+.key-conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.condition-card {
+  border-left: 5px solid;
   border-radius: var(--borde-radio);
+  box-shadow: var(--sombra-tarjeta);
 }
-
-.info-section {
-  padding: 1rem 0;
-}
-
-.info-section h6 {
+.condition-card .mat-card-avatar {
+  border-radius: 50%;
+  color: white;
   display: flex;
+  justify-content: center;
   align-items: center;
+}
+.allergy-card { border-color: var(--color-advertencia); }
+.allergy-card .mat-card-avatar { background-color: var(--color-advertencia); }
+
+.chronic-card { border-color: var(--color-peligro); }
+.chronic-card .mat-card-avatar { background-color: var(--color-peligro); }
+
+.history-card { border-color: var(--color-primario); }
+.history-card .mat-card-avatar { background-color: var(--color-primario); }
+
+.condition-card mat-card-content p {
+  color: var(--color-texto-secundario);
+  white-space: pre-wrap;
+  margin-top: 0.5rem;
+}
+
+/* --- HISTORIAL DE CONSULTAS (TIMELINE) --- */
+.timeline-container {
+  position: relative;
+  padding-left: 3rem;
+}
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 10px;
+  width: 4px;
+  height: calc(100% - 1rem);
+  background-color: #e0e7ee;
+  border-radius: 2px;
+}
+
+.timeline-header {
   font-weight: 600;
   color: var(--color-texto-secundario);
-  margin-bottom: 0.5rem;
+  margin: 2.5rem 0 1.5rem -2rem;
+  background-color: #f8f9fa;
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  position: relative;
+  z-index: 1;
 }
 
-.info-section h6 mat-icon {
-  margin-right: 8px;
-  font-size: 1.2rem;
-  height: 1.2rem;
-  width: 1.2rem;
+.timeline-item {
+  position: relative;
+  margin-bottom: 1rem;
 }
 
-.info-section p {
-  color: var(--color-texto-principal);
-  white-space: pre-wrap; /* Respeta saltos de línea */
-  margin: 0;
-}
-
-/* Acordeón de consultas */
-.consultas-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-texto-principal);
-  margin-bottom: 1.5rem;
+.timeline-dot {
+  position: absolute;
+  top: 1.25rem;
+  left: -2.5rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: white;
+  border: 4px solid #bdc3c7;
+  z-index: 2;
 }
 
 .consulta-panel {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07) !important;
   border-radius: var(--borde-radio) !important;
-  margin-bottom: 1rem;
 }
 
 .mat-expansion-panel-header-title,
 .mat-expansion-panel-header-description {
   align-items: center;
 }
-
 .mat-expansion-panel-header-title mat-icon {
   margin-right: 12px;
   color: var(--color-primario);
 }
+.mat-expansion-panel-header-description {
+  color: var(--color-texto-secundario);
+}
 
 .consulta-contenido {
-  padding-top: 1rem;
+  padding: 1rem 0 0.5rem 0;
 }
-
 .detalle-consulta {
-  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
 }
-
 .detalle-consulta strong {
-  color: var(--color-texto-secundario);
+  color: var(--color-texto-principal);
   font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
 }
-
 .detalle-consulta p {
-  margin: 0.25rem 0 0 0;
+  margin: 0;
   white-space: pre-wrap;
+  color: var(--color-texto-secundario);
 }
 
 /* Estados de carga y sin citas */
@@ -96,6 +137,7 @@
   text-align: center;
   padding: 3rem;
 }
+.no-citas { border: 2px dashed #e0e7ee; border-radius: var(--borde-radio); position: relative;}
 .no-citas mat-icon {
   font-size: 4rem; height: 4rem; width: 4rem; color: #bdc3c7;
 }

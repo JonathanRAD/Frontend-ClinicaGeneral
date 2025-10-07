@@ -27,12 +27,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem; /* Espacio entre los campos */
-  padding-top: 1rem;
-}
-
-mat-card-actions {
-  padding: 0 !important;
-  margin-top: 1rem;
+  padding-top: 1.5rem;
 }
 
 .alerta-error {
@@ -43,3 +38,131 @@ mat-card-actions {
   text-align: center;
 }
 
+/* --- ESTILOS PARA EL WIZARD (ASISTENTE) - CORREGIDOS --- */
+.progress-bar-container {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto 3.5rem auto;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #a0aec0;
+  transition: color 0.4s ease;
+}
+
+.progress-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  color: #a0aec0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  border: 2px solid #e2e8f0;
+  transition: all 0.4s ease;
+  flex-shrink: 0; /* Evita que el círculo se encoja */
+}
+
+.progress-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Estado Activo */
+.progress-step.active .progress-dot {
+  border-color: var(--color-primario);
+  color: var(--color-primario);
+}
+.progress-step.active .progress-label {
+  color: var(--color-primario);
+  font-weight: 600;
+}
+
+/* Estado Completado */
+.progress-step.completed .progress-dot {
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+  color: white;
+}
+.progress-step.completed .progress-label {
+  color: var(--color-texto-principal);
+}
+
+.progress-line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: #e2e8f0;
+  transition: background-color 0.4s ease;
+}
+.progress-line.completed {
+  background-color: var(--color-primario);
+}
+
+
+.wizard-step {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.step-title {
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.selectable-card {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+}
+.selectable-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-tarjeta);
+  border-color: #cce6f9;
+}
+.selectable-card mat-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+.selectable-card mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: var(--color-primario);
+}
+.selectable-card span {
+  font-weight: 500;
+  text-align: center;
+}
+
+.resumen-seleccion {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e9ecef;
+}
+.resumen-seleccion p {
+  margin: 0;
+  color: var(--color-texto-secundario);
+}
+
+.wizard-actions {
+  margin-top: 2rem;
+  text-align: center;
+}
