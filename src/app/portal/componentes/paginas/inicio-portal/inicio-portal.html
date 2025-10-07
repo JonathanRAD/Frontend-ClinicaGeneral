@@ -1,81 +1,84 @@
-<div class="container mt-4">
-  <h1 class="welcome-title">Bienvenido, {{ nombreUsuario() }}</h1>
-  <p class="welcome-subtitle">Aquí tienes un resumen de tu actividad en Clínica Bienestar.</p>
+<div class="container-fluid zenith-container">
 
-  <div class="row g-4">
-    <div class="col-lg-8">
-      <mat-card class="proxima-cita-card mb-4">
-        <mat-card-header>
-          <mat-icon mat-card-avatar>event_upcoming</mat-icon>
-          <mat-card-title>Tu Próxima Cita</mat-card-title>
-        </mat-card-header>
-        <mat-card-content *ngIf="proximaCita() as cita; else noHayCitas">
-          <div class="cita-info">
-            <h2>{{ cita.fechaHora | date:'fullDate':'':'es' }}</h2>
-            <p class="hora">{{ cita.fechaHora | date:'shortTime' }}</p>
-            <mat-divider></mat-divider>
-            <div class="detalle-cita">
-              <p><strong>Médico:</strong> Dr(a). {{ cita.medico.nombres }} {{ cita.medico.apellidos }}</p>
-              <p><strong>Especialidad:</strong> {{ cita.medico.especialidad }}</p>
-              <p><strong>Consultorio:</strong> {{ cita.consultorio }}</p>
-            </div>
+  <header class="zenith-header">
+    <h1>Tu Resumen de Bienestar</h1>
+    <p>Hola {{ nombreUsuario() }}, bienvenido a tu centro de control personal.</p>
+  </header>
+
+  <div class="zenith-grid">
+
+    <div class="grid-item ascenso-card">
+      <h2 class="section-title">Tu Ascenso de Hoy</h2>
+      <div class="ascenso-grid">
+        <div class="progreso-container">
+          <svg viewBox="0 0 36 36" class="progreso-circular">
+            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path class="circle" [style.stroke-dasharray]="progresoActividades() + ', 100'" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <text x="18" y="20.35" class="progreso-texto">{{ progresoActividades() }}%</text>
+          </svg>
+          <p>Progreso Diario</p>
+        </div>
+        <ul class="actividades-lista">
+          <li *ngFor="let actividad of actividadesDiarias()" (click)="toggleActividad(actividad.id)" [class.completado]="actividad.completado">
+            <mat-icon class="check-icon">{{ actividad.completado ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            <div class="actividad-icon"><mat-icon>{{ actividad.icono }}</mat-icon></div>
+            <span>{{ actividad.descripcion }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-item campamento-card">
+      <h2 class="section-title">Próximo Campamento Base</h2>
+      <ng-container *ngIf="proximaCita() as cita; else noCitasCampamento">
+        <div class="campamento-content">
+          <div class="campamento-fecha">
+            <span class="dia">{{ cita.fechaHora | date:'d' }}</span>
+            <span class="mes">{{ cita.fechaHora | date:'MMM' | uppercase }}</span>
           </div>
-        </mat-card-content>
-        <ng-template #noHayCitas>
-          <mat-card-content class="no-citas-info">
-            <p>No tienes próximas citas programadas.</p>
-            <a mat-flat-button color="primary" routerLink="/portal/agendar-cita">Agendar una ahora</a>
-          </mat-card-content>
-        </ng-template>
-      </mat-card>
-
-      <mat-card *ngIf="ultimaCitaCompletada() as ultimaCita" class="ultima-actividad-card">
-        <mat-card-header>
-            <mat-icon mat-card-avatar>history</mat-icon>
-            <mat-card-title>Tu Última Cita Completada</mat-card-title>
-            <mat-card-subtitle>{{ ultimaCita.fechaHora | date:'longDate':'':'es' }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Fuiste atendido por el Dr(a). <strong>{{ ultimaCita.medico.apellidos }}</strong> en la especialidad de <strong>{{ ultimaCita.medico.especialidad }}</strong>.</p>
-          <a mat-button color="primary" routerLink="/portal/mi-historial">Ver detalles en mi historial</a>
-        </mat-card-content>
-      </mat-card>
-
+          <div class="campamento-info">
+            <h3>{{ cita.medico.especialidad }}</h3>
+            <p>con Dr(a). {{ cita.medico.nombres }} {{ cita.medico.apellidos }}</p>
+          </div>
+          <a mat-icon-button class="campamento-action" routerLink="/portal/mis-citas" matTooltip="Ver detalles">
+            <mat-icon>arrow_forward</mat-icon>
+          </a>
+        </div>
+      </ng-container>
+      <ng-template #noCitasCampamento>
+        <div class="no-content-placeholder">
+          <mat-icon>landscape</mat-icon>
+          <h3>El horizonte está despejado</h3>
+          <p>No tienes citas próximas. ¡Disfruta el camino!</p>
+        </div>
+      </ng-template>
     </div>
 
-    <div class="col-lg-4">
-      <mat-card class="acciones-card mb-4">
-        <mat-card-header>
-            <mat-card-title>Accesos Rápidos</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list role="list">
-            <a mat-list-item role="listitem" routerLink="/portal/mis-citas">
-              <mat-icon matListItemIcon>list_alt</mat-icon>
-              <span>Ver Todas mis Citas</span>
-            </a>
-            <a mat-list-item role="listitem" routerLink="/portal/mi-historial">
-              <mat-icon matListItemIcon>history_edu</mat-icon>
-              <span>Consultar mi Historial</span>
-            </a>
-            <a mat-list-item role="listitem" routerLink="/portal/mi-perfil">
-              <mat-icon matListItemIcon>person</mat-icon>
-              <span>Editar mi Perfil</span>
-            </a>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="consejo-card">
-        <mat-card-header>
-          <mat-icon mat-card-avatar>{{ consejoDelDia().icon }}</mat-icon>
-          <mat-card-title>Consejo del Día</mat-card-title>
-          <mat-card-subtitle>{{ consejoDelDia().titulo }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>{{ consejoDelDia().contenido }}</p>
-        </mat-card-content>
-      </mat-card>
+    <div class="grid-item clima-salud-card">
+      <div class="clima-widget">
+        <mat-icon class="clima-icon accent">science</mat-icon>
+        <span class="clima-valor">{{ resultadosPendientes() }}</span>
+        <span class="clima-label">Resultados</span>
+      </div>
+      <div class="clima-widget">
+        <mat-icon class="clima-icon warn">receipt_long</mat-icon>
+        <span class="clima-valor">{{ recetasActivas() }}</span>
+        <span class="clima-label">Recetas</span>
+      </div>
+      <div class="clima-widget">
+        <mat-icon class="clima-icon primary">forum</mat-icon>
+        <span class="clima-valor">{{ mensajesNoLeidos() }}</span>
+        <span class="clima-label">Mensajes</span>
+      </div>
     </div>
+
+    <div class="grid-item guia-experto-card" *ngIf="consejoDelDia() as consejo">
+      <div class="guia-header">
+        <div class="guia-icon"><mat-icon>{{ consejo.icono }}</mat-icon></div>
+        <h2 class="section-title">{{ consejo.titulo }}</h2>
+      </div>
+      <p class="guia-contenido">{{ consejo.contenido }}</p>
+    </div>
+
   </div>
 </div>

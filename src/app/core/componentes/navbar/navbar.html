@@ -1,49 +1,55 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-  <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center fw-bold" routerLink="/">
-      <img src="https://placehold.co/40x40/3498db/ffffff?text=CB" alt="Logo" class="d-inline-block align-text-top me-2 rounded-circle">
-      ClínicaBienestar
-    </a>
+<ng-container *ngIf="esPortal">
+  <nav class="navbar navbar-expand-lg bg-light shadow-sm portal-nav-hybrid">
+    <div class="container-fluid">
+      
+      <a class="navbar-brand d-flex align-items-center fw-bold" routerLink="inicio" (click)="closeMenu()">
+        <mat-icon class="d-inline-block align-text-top me-2">local_hospital</mat-icon>
+        <span>Clínica Bienestar</span>
+      </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-label="Toggle navigation">
+        <mat-icon>{{ isMenuOpen() ? 'close' : 'menu' }}</mat-icon>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item" *ngIf="usuarioLogueado() && authService.rolUsuario() === 'PACIENTE'">
-          <a class="nav-link" routerLink="/portal/agendar-cita">Agendar Cita</a>
-        </li>
-        <li class="nav-item" *ngIf="usuarioLogueado() && authService.rolUsuario() === 'PACIENTE'">
-          <a class="nav-link" routerLink="/portal/mis-citas">Mis Citas</a>
-        </li>
-
-        <li class="nav-item" *ngIf="usuarioLogueado() && authService.rolUsuario() !== 'PACIENTE'">
-          <a class="nav-link" routerLink="/panel/inicio">Panel de Control</a>
-        </li>
-      </ul>
-
-      <div class="d-flex align-items-center">
-        <a *ngIf="!usuarioLogueado()" routerLink="/login" class="btn btn-outline-primary me-2 d-flex align-items-center">
-          <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
-        </a>
-
-        <div *ngIf="usuarioLogueado()" class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle d-flex align-items-center" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-person-circle me-2"></i> Mi Cuenta
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUserMenu">
-            <li>
-              <a class="dropdown-item" [routerLink]="authService.rolUsuario() === 'PACIENTE' ? '/portal/mi-perfil' : '/panel/mi-perfil'">
-                Mi Perfil
-              </a>
-            </li>
-            <li *ngIf="authService.rolUsuario() === 'PACIENTE'"><a class="dropdown-item" routerLink="/portal/mi-historial">Mi Historial Clínico</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" (click)="cerrarSesion()">Cerrar Sesión</a></li>
-          </ul>
-        </div>
+      <div class="nav-collapse-wrapper" [class.is-open]="isMenuOpen()">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="inicio" routerLinkActive="active" (click)="closeMenu()">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="mis-citas" routerLinkActive="active" (click)="closeMenu()">Mis Citas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="agendar-cita" routerLinkActive="active" (click)="closeMenu()">Agendar Cita</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="nuestros-medicos" routerLinkActive="active" (click)="closeMenu()">Nuestros Médicos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="servicios" routerLinkActive="active" (click)="closeMenu()">Servicios</a>
+          </li>
+        </ul>
+        
+        <ul class="navbar-nav user-nav-section">
+           <li class="nav-item nav-user">
+             <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+               <mat-icon>account_circle</mat-icon>
+               <span>{{ nombreUsuario }}</span>
+               <mat-icon class="expand-icon">expand_more</mat-icon>
+             </button>
+             <mat-menu #userMenu="matMenu" xPosition="before">
+               <a mat-menu-item routerLink="mi-perfil" (click)="closeMenu()"><mat-icon>person</mat-icon><span>Mi Perfil</span></a>
+               <a mat-menu-item routerLink="mi-historial" (click)="closeMenu()"><mat-icon>history_edu</mat-icon><span>Mi Historial</span></a>
+               <mat-divider></mat-divider>
+               <button mat-menu-item (click)="cerrarSesion()"><mat-icon>logout</mat-icon><span>Cerrar Sesión</span></button>
+             </mat-menu>
+           </li>
+        </ul>
       </div>
+
     </div>
-  </div>
-</nav>
+  </nav>
+</ng-container>
+
+<ng-container *ngIf="!esPortal">
+  </ng-container>

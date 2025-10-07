@@ -1,5 +1,3 @@
-// RUTA: src/app/portal/componentes/paginas/inicio-portal/inicio-portal.component.ts
-
 import { Component, OnInit, signal, computed, Signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -7,23 +5,32 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatListModule } from '@angular/material/list'; // <-- Importar MatListModule
+import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AutenticacionService } from '../../../../core/servicios/autenticacion';
 import { CitaService } from '../../../../panel-control/servicios/cita';
 import { Cita } from '../../../../panel-control/modelos/cita';
+
+// --- INTERFACES PARA EL DASHBOARD "ZENITH" ---
+interface ActividadDiaria {
+  id: number;
+  descripcion: string;
+  icono: string;
+  completado: boolean;
+}
+
+interface Consejo {
+  titulo: string;
+  contenido: string;
+  icono: string;
+}
 
 @Component({
   selector: 'app-inicio-portal',
   standalone: true,
   imports: [
-    CommonModule,
-    RouterModule,
-    DatePipe,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    MatListModule // <-- Añadir MatListModule a los imports
+    CommonModule, RouterModule, DatePipe, MatCardModule, MatButtonModule,
+    MatIconModule, MatDividerModule, MatListModule, MatTooltipModule
   ],
   templateUrl: './inicio-portal.html',
   styleUrls: ['./inicio-portal.css']
@@ -31,28 +38,38 @@ import { Cita } from '../../../../panel-control/modelos/cita';
 export class InicioPortalComponent implements OnInit {
   nombreUsuario = signal('');
   proximaCita: Signal<Cita | undefined>;
+  
+  // --- SEÑALES PARA LOS NUEVOS MÓDULOS ---
+  actividadesDiarias = signal<ActividadDiaria[]>([]);
+  progresoActividades: Signal<number>; // Porcentaje 0-100
+  consejoDelDia = signal<Consejo | null>(null);
 
-  // --- NUEVO: Señal para la última cita completada ---
-  ultimaCitaCompletada: Signal<Cita | undefined>;
-
-  // --- NUEVO: Señal para el consejo del día ---
-  consejoDelDia = signal<{ titulo: string; contenido: string; icon: string; }>({ titulo: '', contenido: '', icon: '' });
-
+  // Métricas para el "Vistazo al Clima"
+  resultadosPendientes = signal(1);
+  mensajesNoLeidos = signal(2);
+  recetasActivas = signal(3);
+  
   private citas = signal<Cita[]>([]);
-  private consejos = [
-    { titulo: 'Mantente Hidratado', contenido: 'Beber suficiente agua durante el día es clave para tu energía y bienestar general.', icon: 'water_drop' },
-    { titulo: 'Pausa Activa', contenido: 'Si trabajas sentado, levántate y estira cada hora para mejorar tu circulación.', icon: 'self_improvement' },
-    { titulo: 'Descanso es Clave', contenido: 'Asegúrate de dormir entre 7 y 8 horas cada noche para una buena salud física y mental.', icon: 'bedtime' },
-    { titulo: 'Snacks Saludables', contenido: 'Opta por frutas o frutos secos en lugar de snacks procesados para mantener tu energía.', icon: 'restaurant' }
+  private todosLosConsejos: Consejo[] = [
+    { titulo: 'El Poder de la Hidratación', contenido: 'Comienza tu día con un vaso de agua para activar tu metabolismo y mejorar tu concentración.', icono: 'water_drop' },
+    { titulo: 'Mindfulness en 5 Minutos', contenido: 'Dedica 5 minutos a respirar profundamente. Reduce el estrés y mejora tu enfoque.', icono: 'self_improvement' },
+    { titulo: 'Nutrición Inteligente', contenido: 'Incluye al menos un vegetal de hoja verde en tu almuerzo para un aporte extra de vitaminas.', icono: 'restaurant' },
+    { titulo: 'Pausa Activa', contenido: 'Por cada hora de trabajo sentado, levántate y camina durante 5 minutos. Tu espalda te lo agradecerá.', icono: 'directions_walk' },
+    { titulo: 'Calidad del Sueño', contenido: 'Evita pantallas (móvil, TV) al menos 30 minutos antes de dormir para un descanso más profundo.', icono: 'bedtime' },
+    { titulo: 'La Regla de los Colores', contenido: 'Intenta que tu plato de comida tenga al menos tres colores diferentes de alimentos naturales.', icono: 'palette' },
+    { titulo: 'Conexión Social', contenido: 'Llama o visita a un ser querido. Las conexiones sociales son vitales para la salud mental.', icono: 'people' },
+    { titulo: 'Estiramiento Matutino', contenido: 'Antes de levantarte, estira suavemente tus brazos y piernas para despertar tus músculos.', icono: 'accessibility_new' },
+    { titulo: 'Snack de Energía', contenido: 'Un puñado de almendras o nueces es un snack perfecto para combatir la fatiga de media tarde.', icono: 'bolt' },
+    { titulo: 'Gratitud Diaria', contenido: 'Antes de dormir, piensa en tres cosas por las que te sientas agradecido hoy. Fomenta una mentalidad positiva.', icono: 'volunteer_activism' }
   ];
 
   constructor(
     private authService: AutenticacionService,
     private citaService: CitaService
   ) {
-    this.nombreUsuario.set(this.authService.getNombreUsuario()?.split('@')[0] || 'Paciente');
+    const nombre = this.authService.getNombreUsuario()?.split('@')[0] || 'Paciente';
+    this.nombreUsuario.set(nombre.charAt(0).toUpperCase() + nombre.slice(1));
 
-    // Cómputo para la próxima cita (sin cambios)
     this.proximaCita = computed(() => {
       const ahora = new Date();
       return this.citas()
@@ -60,17 +77,38 @@ export class InicioPortalComponent implements OnInit {
         .sort((a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime())[0];
     });
 
-    // --- NUEVO: Cómputo para la última cita completada ---
-    this.ultimaCitaCompletada = computed(() => {
-      return this.citas()
-        .filter(c => c.estado.toLowerCase() === 'completada')
-        .sort((a, b) => new Date(b.fechaHora).getTime() - new Date(a.fechaHora).getTime())[0];
+    this.progresoActividades = computed(() => {
+      const actividades = this.actividadesDiarias();
+      if (actividades.length === 0) return 100;
+      const completadas = actividades.filter(a => a.completado).length;
+      return Math.round((completadas / actividades.length) * 100);
     });
   }
 
   ngOnInit(): void {
-    this.citaService.getMisCitas().subscribe(data => this.citas.set(data));
-    // --- NUEVO: Seleccionar un consejo al azar al iniciar ---
-    this.consejoDelDia.set(this.consejos[Math.floor(Math.random() * this.consejos.length)]);
+    this.citaService.getMisCitas().subscribe(citas => this.citas.set(citas));
+    this.cargarDatosDashboard();
+  }
+  
+  private cargarDatosDashboard(): void {
+    // Carga las actividades diarias
+    this.actividadesDiarias.set([
+      { id: 1, descripcion: 'Tomar vitamina D', icono: 'wb_sunny', completado: true },
+      { id: 2, descripcion: 'Caminata de 30 minutos', icono: 'directions_walk', completado: false },
+      { id: 3, descripcion: 'Beber 2L de agua', icono: 'local_drink', completado: false },
+      { id: 4, descripcion: 'Leer 15 minutos', icono: 'menu_book', completado: false },
+    ]);
+
+    // Selecciona un consejo al azar
+    this.consejoDelDia.set(this.todosLosConsejos[Math.floor(Math.random() * this.todosLosConsejos.length)]);
+  }
+
+  // Cambia el estado de una actividad
+  toggleActividad(id: number): void {
+    this.actividadesDiarias.update(actividades => 
+      actividades.map(act => 
+        act.id === id ? { ...act, completado: !act.completado } : act
+      )
+    );
   }
 }

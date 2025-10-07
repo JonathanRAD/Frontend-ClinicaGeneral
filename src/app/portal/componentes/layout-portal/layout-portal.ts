@@ -1,37 +1,21 @@
 // RUTA: src/app/portal/componentes/layout-portal/layout-portal.ts
 
 import { Component } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { AutenticacionService } from '../../../core/servicios/autenticacion';
-
-// --- CORRECCIÓN: Se importa MatDividerModule ---
-import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
 import { Footer } from '../../../core/componentes/footer/footer';
+import { Navbar } from '../../../core/componentes/navbar/navbar'; // Asegúrate de importar Navbar
 
 @Component({
   selector: 'app-layout-portal',
   standalone: true,
-  // --- CORRECCIÓN: Se añade MatDividerModule a los imports ---
-  imports: [RouterModule, MatIconModule, MatButtonModule, MatMenuModule, MatDividerModule, Footer],
+  imports: [
+    RouterModule,
+    Footer,
+    Navbar, // Añade el navbar a los imports
+  ],
   templateUrl: './layout-portal.html',
   styleUrls: ['./layout-portal.css']
 })
 export class LayoutPortalComponent {
-  nombreUsuario: string = '';
-
-  constructor(private authService: AutenticacionService, private router: Router) {}
-
-  ngOnInit() {
-    // Obtenemos solo el nombre de usuario del email para mostrarlo
-    const email = this.authService.getNombreUsuario() || 'paciente';
-    this.nombreUsuario = email.split('@')[0];
-  }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
+  // ¡Este componente ahora está limpio y solo se encarga de la estructura!
 }
