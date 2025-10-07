@@ -1,26 +1,99 @@
-/* RUTA: src/app/portal/componentes/paginas/nuestros-medicos/nuestros-medicos.component.css */
+/* RUTA: src/app/portal/componentes/paginas/nuestros-medicos/nuestros-medicos.css */
 .page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 2rem;
 }
-.page-title { font-weight: 700; color: var(--color-fondo-sidebar); }
-.spinner-container { text-align: center; padding: 4rem 0; }
-.filtro-especialidad { min-width: 250px; }
+.page-title { 
+  font-weight: 700; 
+  color: var(--color-fondo-sidebar); 
+}
+.spinner-container { 
+  text-align: center; 
+  padding: 4rem 0; 
+}
 
+/* --- TARJETA DE FILTROS --- */
+.filters-card {
+  margin-bottom: 2.5rem;
+  padding: 1rem 1.5rem;
+  box-shadow: none;
+  border: 1px solid #e0e7ee;
+  border-radius: var(--borde-radio);
+}
+.filter-controls {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-field {
+  flex: 2 1 300px;
+}
+.specialty-field {
+  flex: 1 1 250px;
+}
+.mat-form-field {
+  width: 100%;
+}
+
+/* --- TARJETA DE MÉDICO --- */
 .medico-card {
   transition: transform 0.3s, box-shadow 0.3s;
-  cursor: pointer; /* <-- Indica que la tarjeta es clickeable */
+  border-radius: var(--borde-radio);
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Asegura que todas las tarjetas tengan la misma altura */
 }
 .medico-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--sombra-tarjeta);
 }
+
 .medico-avatar {
-  background-color: var(--color-primario);
-  color: white;
+  background-color: #eaf3fb;
+  color: var(--color-primario);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.medico-avatar .mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.specialty-chip {
+  display: inline-block;
+  background-color: #eaf3fb;
+  color: var(--color-primario);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.medico-bio {
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+  flex-grow: 1; /* Empuja las acciones al final */
+}
+
+.mat-card-actions {
+  padding: 0 16px 16px 16px !important;
+  display: flex;
+  gap: 0.5rem;
+}
+.mat-card-actions button {
+  flex: 1; /* Hace que los botones ocupen el mismo espacio */
+}
+
+/* --- ESTADO VACÍO --- */
+.empty-state {
+  padding: 3rem 0;
+}
+.empty-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  color: #bdc3c7;
 }

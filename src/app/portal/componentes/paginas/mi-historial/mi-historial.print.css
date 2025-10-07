@@ -44,31 +44,33 @@
     border: 1px solid #ccc;
     padding: 1rem;
     margin-bottom: 1.5rem;
-    -webkit-print-color-adjust: exact; /* Evita que el navegador quite los colores */
+    -webkit-print-color-adjust: exact;
   }
 
   h2, h3, h4, h5, h6 {
     color: #000 !important;
   }
 
-  /* Aseguramos que los paneles del acordeón se muestren expandidos */
+  /* Estilos base para los paneles en impresión */
   .mat-expansion-panel {
     box-shadow: none !important;
     border: 1px solid #ccc;
     margin-bottom: 1rem;
+    page-break-inside: avoid; /* Evita que los paneles se corten entre páginas */
   }
 
   .mat-expansion-panel-header {
     font-size: 14pt;
     font-weight: bold;
+    border-bottom: 1px solid #ccc;
   }
 
-  .mat-expansion-panel-body {
-    display: block !important;
-    padding: 1rem;
+  /* Ocultamos la flecha de expansión en la impresión */
+  .mat-expansion-indicator {
+    display: none !important;
   }
 
-  p {
+  p, strong {
     font-size: 12pt;
     line-height: 1.5;
   }

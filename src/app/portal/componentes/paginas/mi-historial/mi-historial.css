@@ -1,6 +1,9 @@
 /* RUTA: src/app/portal/componentes/paginas/mi-historial/mi-historial.css */
 
 .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 2rem;
 }
 
@@ -87,7 +90,7 @@
 
 .timeline-dot {
   position: absolute;
-  top: 1.25rem;
+  top: 1.6rem;
   left: -2.5rem;
   width: 16px;
   height: 16px;
@@ -102,20 +105,16 @@
   border-radius: var(--borde-radio) !important;
 }
 
-.mat-expansion-panel-header-title,
-.mat-expansion-panel-header-description {
+.mat-expansion-panel-header-title {
   align-items: center;
 }
 .mat-expansion-panel-header-title mat-icon {
   margin-right: 12px;
   color: var(--color-primario);
 }
-.mat-expansion-panel-header-description {
-  color: var(--color-texto-secundario);
-}
 
 .consulta-contenido {
-  padding: 1rem 0 0.5rem 0;
+  padding-top: 0 !important; /* Ajuste para el nuevo elemento */
 }
 .detalle-consulta {
   padding: 1rem 1.5rem;
@@ -132,6 +131,19 @@
   color: var(--color-texto-secundario);
 }
 
+/* --- NUEVO ESTILO PARA LA INFO DEL MÉDICO --- */
+.detalle-medico {
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+}
+.detalle-medico strong {
+  color: var(--color-texto-secundario);
+}
+.detalle-medico p {
+  color: var(--color-texto-principal);
+  font-weight: 500;
+}
+
 /* Estados de carga y sin citas */
 .spinner-container, .no-citas {
   text-align: center;
@@ -143,3 +155,34 @@
 }
 .no-citas h2 { margin-top: 1rem; }
 .no-citas p { color: var(--color-texto-secundario); }
+
+/* --- ESTILOS RESPONSIVE SIMPLIFICADOS --- */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .timeline-container {
+    padding-left: 2rem;
+  }
+
+  .timeline-container::before {
+    left: 5px;
+  }
+
+  .timeline-dot {
+    top: 1.25rem;
+    left: -1.75rem;
+  }
+  
+  .timeline-header {
+    margin-left: -1rem;
+  }
+
+  /* Ya no se necesita el estilo complejo para el header del panel */
+  .mat-expansion-panel-header-title {
+    font-size: 0.9rem;
+  }
+}

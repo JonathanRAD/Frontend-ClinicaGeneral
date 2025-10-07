@@ -1,33 +1,54 @@
 <div class="container mt-4">
   <div class="page-header">
     <h1 class="page-title">Nuestro Staff Médico</h1>
-    
-    <mat-form-field appearance="outline" class="filtro-especialidad">
-      <mat-label>Filtrar por Especialidad</mat-label>
-      <mat-select [(ngModel)]="especialidadSeleccionada" (ngModelChange)="especialidadSeleccionada.set($event)">
-        <mat-option value="todos">Todas las especialidades</mat-option>
-        <mat-option *ngFor="let esp of especialidades()" [value]="esp">{{ esp }}</mat-option>
-      </mat-select>
-    </mat-form-field>
   </div>
+
+  <mat-card class="filters-card">
+    <div class="filter-controls">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar por nombre</mat-label>
+        <input matInput (input)="nombreBusqueda.set($event.target.value)" placeholder="Ej: Dr. García">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="specialty-field">
+        <mat-label>Filtrar por Especialidad</mat-label>
+        <mat-select [(ngModel)]="especialidadSeleccionada" (ngModelChange)="especialidadSeleccionada.set($event)">
+          <mat-option value="todos">Todas las especialidades</mat-option>
+          <mat-option *ngFor="let esp of especialidades()" [value]="esp">{{ esp }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card>
 
   <div *ngIf="cargando()" class="spinner-container">
     <app-spinner></app-spinner>
   </div>
 
-  <div *ngIf="!cargando()" class="row g-4">
+  <div *ngIf="!cargando()" class="row g-4 mt-2">
     <div class="col-md-6 col-lg-4" *ngFor="let medico of medicosFiltrados()">
-      <mat-card class="medico-card" (click)="verPerfil(medico)">
+      <mat-card class="medico-card">
         <mat-card-header>
           <div mat-card-avatar class="medico-avatar"><mat-icon>account_circle</mat-icon></div>
-          <mat-card-title>Dr(a). {{ medico.nombres }} {{ medico.apellidos }}</mat-card-title>
-          <mat-card-subtitle>{{ medico.especialidad }}</mat-card-subtitle>
+          <mat-card-title>{{ medico.nombres }} {{ medico.apellidos }}</mat-card-title>
+          <mat-card-subtitle>
+            <span class="specialty-chip">{{ medico.especialidad }}</span>
+          </mat-card-subtitle>
         </mat-card-header>
+        <mat-card-content>
+          <p class="medico-bio">Con más de 10 años de experiencia, el Dr(a). {{ medico.apellidos }} se especializa en el diagnóstico y tratamiento de enfermedades complejas.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-stroked-button (click)="verPerfil(medico)">Ver Perfil</button>
+          <button mat-flat-button color="primary" (click)="agendarCitaConMedico(medico)">Agendar Cita</button>
+        </mat-card-actions>
       </mat-card>
     </div>
     
-    <div *ngIf="medicosFiltrados().length === 0" class="col-12 text-center text-muted mt-5">
-      <h4>No se encontraron médicos para la especialidad seleccionada.</h4>
+    <div *ngIf="medicosFiltrados().length === 0 && !cargando()" class="col-12 text-center text-muted mt-5 empty-state">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <h4>No se encontraron médicos</h4>
+      <p>Intenta ajustar los filtros de búsqueda.</p>
     </div>
   </div>
 </div>

@@ -13,13 +13,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { PerfilMedicoComponent } from '../../../dialogos/perfil-medico/perfil-medico';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nuestros-medicos',
   standalone: true,
   imports: [
     CommonModule, MatCardModule, MatIconModule, Spinner,
-    MatDialogModule, MatFormFieldModule, MatSelectModule, FormsModule
+    MatDialogModule, MatFormFieldModule, MatSelectModule, FormsModule,
+    MatInputModule, MatButtonModule
   ],
   templateUrl: './nuestros-medicos.html',
   styleUrls: ['./nuestros-medicos.css']
@@ -32,21 +36,27 @@ export class NuestrosMedicosComponent implements OnInit {
   // --- SEÑALES PARA EL FILTRO ---
   especialidades: Signal<string[]>;
   especialidadSeleccionada = signal<string>('todos');
+  nombreBusqueda = signal<string>(''); // Nueva señal para la búsqueda por nombre
   medicosFiltrados: Signal<Medico[]>;
 
   constructor(
     private medicoService: MedicoService,
-    public dialog: MatDialog // Inyectamos MatDialog
+    public dialog: MatDialog,
+    private router: Router // Inyectamos el Router
   ) {
     this.especialidades = computed(() => 
-      [...new Set(this.medicos().map(m => m.especialidad))]
+      [...new Set(this.medicos().map(m => m.especialidad))].sort()
     );
 
     this.medicosFiltrados = computed(() => {
-      if (this.especialidadSeleccionada() === 'todos') {
-        return this.medicos();
-      }
-      return this.medicos().filter(m => m.especialidad === this.especialidadSeleccionada());
+      const especialidad = this.especialidadSeleccionada();
+      const busqueda = this.nombreBusqueda().toLowerCase();
+
+      return this.medicos().filter(medico => {
+        const porEspecialidad = especialidad === 'todos' || medico.especialidad === especialidad;
+        const porNombre = `${medico.nombres} ${medico.apellidos}`.toLowerCase().includes(busqueda);
+        return porEspecialidad && porNombre;
+      });
     });
   }
 
@@ -57,12 +67,16 @@ export class NuestrosMedicosComponent implements OnInit {
     });
   }
 
-  // --- MÉTODO PARA ABRIR EL MODAL ---
   verPerfil(medico: Medico): void {
     this.dialog.open(PerfilMedicoComponent, {
       width: '500px',
       data: medico,
       panelClass: 'custom-dialog-container'
     });
+  }
+  
+  agendarCitaConMedico(medico: Medico): void {
+    // Navegamos a la página de agendar cita y pasamos el ID del médico como parámetro
+    this.router.navigate(['/portal/agendar-cita'], { queryParams: { medicoId: medico.id } });
   }
 }

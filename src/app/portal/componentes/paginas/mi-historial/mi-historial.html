@@ -57,7 +57,7 @@
 
       <div class="timeline-container">
         <h2 class="timeline-header">Historial de Consultas</h2>
-        <ng-container *ngIf="hist.consultas && hist.consultas.length > 0; else noConsultas">
+        <mat-accordion multi *ngIf="hist.consultas && hist.consultas.length > 0; else noConsultas">
           <div *ngFor="let consulta of hist.consultas" class="timeline-item">
             <div class="timeline-dot"></div>
             <mat-expansion-panel class="consulta-panel">
@@ -66,11 +66,14 @@
                   <mat-icon>event</mat-icon>
                   <span>{{ consulta.fechaConsulta | date:'fullDate':'':'es' }}</span>
                 </mat-panel-title>
-                <mat-panel-description>
-                  Atendido por Dr(a). {{ consulta.medico.apellidos }} ({{ consulta.medico.especialidad }})
-                </mat-panel-description>
               </mat-expansion-panel-header>
+
               <div class="consulta-contenido">
+                <div class="detalle-consulta detalle-medico">
+                  <strong>Atendido por:</strong>
+                  <p>Dr(a). {{ consulta.medico.nombres }} {{ consulta.medico.apellidos }} ({{ consulta.medico.especialidad }})</p>
+                </div>
+                <mat-divider></mat-divider>
                 <div class="detalle-consulta"><strong>Motivo:</strong><p>{{ consulta.motivo }}</p></div>
                 <mat-divider></mat-divider>
                 <div class="detalle-consulta"><strong>Diagnóstico:</strong><p>{{ consulta.diagnostico }}</p></div>
@@ -79,7 +82,7 @@
               </div>
             </mat-expansion-panel>
           </div>
-        </ng-container>
+        </mat-accordion>
         <ng-template #noConsultas>
           <div class="no-citas"><mat-icon>folder_off</mat-icon><h2>Sin Consultas</h2><p>Aún no tienes consultas registradas en tu historial.</p></div>
         </ng-template>
