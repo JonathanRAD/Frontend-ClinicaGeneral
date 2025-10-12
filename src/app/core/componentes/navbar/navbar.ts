@@ -3,7 +3,7 @@
 import { Component, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AutenticacionService } from '../../servicios/autenticacion';
+import { AutenticacionService } from '../../../services/autenticacion';
 
 // Importaciones de Angular Material
 import { MatButtonModule } from '@angular/material/button';

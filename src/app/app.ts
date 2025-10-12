@@ -3,7 +3,7 @@ import { Component, signal, WritableSignal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
-import { ThemeService } from './core/servicios/theme.service';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',

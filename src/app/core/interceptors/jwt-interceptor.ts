@@ -2,7 +2,7 @@
 
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AutenticacionService } from '../servicios/autenticacion';
+import { AutenticacionService } from '../../services/autenticacion';
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AutenticacionService);
