@@ -1,4 +1,3 @@
-// RUTA: src/app/app.ts
 import { Component, signal, WritableSignal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
@@ -13,7 +12,6 @@ import { ThemeService } from './services/theme.service';
   styleUrls: ['./app.css']
 })
 export class App {
-  // CAMBIO: Señales separadas para un mejor control
   mostrarNavbar: WritableSignal<boolean> = signal(true);
   mostrarFooter: WritableSignal<boolean> = signal(true);
 
@@ -25,9 +23,7 @@ export class App {
       const esPaginaAutenticacion = ['/login', '/recuperar-contrasena'].includes(url);
       const esPanelDeControl = url.startsWith('/panel');
 
-      // El navbar se muestra en todas partes menos en las de autenticación
       this.mostrarNavbar.set(!esPaginaAutenticacion && !esPanelDeControl);
-      // El footer solo se muestra en las páginas que NO son de autenticación Y NO son del panel
       this.mostrarFooter.set(!esPaginaAutenticacion && !esPanelDeControl);
     });
 

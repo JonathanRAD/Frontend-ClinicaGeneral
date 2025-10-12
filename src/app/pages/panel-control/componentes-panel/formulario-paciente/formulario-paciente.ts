@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core'; // 1. Importa ViewEncapsulation
+import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -25,7 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   templateUrl: './formulario-paciente.html',
   styleUrls: ['./formulario-paciente.css'],
-  encapsulation: ViewEncapsulation.None // 2. Añade esta línea
+  encapsulation: ViewEncapsulation.None 
 })
 export class FormularioPaciente implements OnInit {
   pacienteForm: FormGroup;
@@ -43,10 +43,9 @@ export class FormularioPaciente implements OnInit {
       apellidos: ['', Validators.required],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       fechaNacimiento: ['', Validators.required],
-      // --- NUEVOS CAMPOS CON VALIDACIONES ---
-      peso: [null, [Validators.min(1), Validators.max(500)]], // Peso en kg
-      altura: [null, [Validators.min(0.5), Validators.max(2.5)]], // Altura en metros
-      ritmoCardiaco: [null, [Validators.min(30), Validators.max(220)]] // Pulsaciones por minuto
+      peso: [null, [Validators.min(1), Validators.max(500)]], 
+      altura: [null, [Validators.min(0.5), Validators.max(2.5)]], 
+      ritmoCardiaco: [null, [Validators.min(30), Validators.max(220)]] 
     });
   }
 

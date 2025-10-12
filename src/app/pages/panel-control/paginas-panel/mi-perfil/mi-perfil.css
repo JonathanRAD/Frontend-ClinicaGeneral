@@ -1,4 +1,4 @@
-/* RUTA: src/app/panel-control/paginas/mi-perfil/mi-perfil.css */
+
 .profile-page {
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -28,10 +28,6 @@ mat-form-field {
     transform: translateY(0);
   }
 }
-/* ... (estilos existentes) ... */
-
-/* --- INICIO DE NUEVOS ESTILOS PARA LA PÁGINA DE PERFIL --- */
-
 .profile-header {
   display: flex;
   align-items: center;
@@ -90,8 +86,6 @@ mat-form-field {
 }
 
 .permissions-list mat-icon {
-  color: #28a745; /* Verde de éxito */
+  color: #28a745; 
   margin-right: 12px;
 }
-
-/* --- FIN DE NUEVOS ESTILOS --- */

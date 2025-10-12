@@ -1,4 +1,3 @@
-// RUTA: src/app/portal/componentes/paginas/mis-citas/mis-citas.ts
 
 import { Component, OnInit, signal, computed, Signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -54,14 +53,11 @@ export class MisCitas implements OnInit {
   ) {
     const ahora = new Date();
 
-    // Filtra las citas que aún no han ocurrido
     this.citasProximas = computed(() => 
       this.citas()
         .filter(c => new Date(c.fechaHora) >= ahora && c.estado.toLowerCase() === 'programada')
         .sort((a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime())
     );
-
-    // Filtra las citas que ya pasaron o fueron canceladas
     this.citasPasadas = computed(() => 
       this.citas()
         .filter(c => new Date(c.fechaHora) < ahora || c.estado.toLowerCase() !== 'programada')
@@ -94,7 +90,7 @@ export class MisCitas implements OnInit {
   }
 
   confirmarCancelacion(event: MouseEvent, cita: Cita): void {
-    event.stopPropagation(); // Evita que el clic en el botón expanda/colapse la tarjeta
+    event.stopPropagation(); 
     const dialogRef = this.dialog.open(DialogoConfirmacion, {
       width: '450px',
       data: {
@@ -122,13 +118,10 @@ export class MisCitas implements OnInit {
     });
   }
    agregarAlCalendario(event: MouseEvent, cita: Cita): void {
-    event.stopPropagation(); // Evita que se active el toggle de la tarjeta
+    event.stopPropagation();
 
     const fechaInicio = new Date(cita.fechaHora);
-    // Sumamos 1 hora para la duración del evento
     const fechaFin = new Date(fechaInicio.getTime() + 60 * 60 * 1000);
-
-    // Formateamos las fechas a UTC para el archivo .ics
     const formatICSDate = (date: Date) => date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
     const contenidoICS = [

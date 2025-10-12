@@ -1,11 +1,10 @@
-/* RUTA: src/app/core/componentes/footer/footer.css */
+
 
 .footer {
-  background-color: var(--color-fondo-sidebar); /* Fondo azul oscuro */
-  color: rgba(255, 255, 255, 0.7); /* Texto principal ligeramente atenuado */
+  background-color: var(--color-fondo-sidebar); 
+  color: rgba(255, 255, 255, 0.7); 
 }
 
-/* Títulos y logo con color blanco puro para mayor contraste */
 .footer h6,
 .footer .bi-heart-pulse-fill {
   color: var(--color-texto-claro);
@@ -18,7 +17,7 @@
 }
 
 .footer a.text-reset:hover {
-  color: var(--color-texto-claro) !important; /* Blanco puro en hover */
+  color: var(--color-texto-claro) !important; 
   text-decoration: underline;
 }
 
@@ -29,10 +28,10 @@
 
 .social-icons i:hover {
   transform: scale(1.2);
-  color: var(--color-texto-claro); /* También se ilumina el icono en hover */
+  color: var(--color-texto-claro);
 }
 
 .copyright-section {
-  background-color: rgba(0, 0, 0, 0.2); /* Un fondo sutilmente más oscuro para la sección de copyright */
+  background-color: rgba(0, 0, 0, 0.2); 
   color: rgba(255, 255, 255, 0.6);
 }

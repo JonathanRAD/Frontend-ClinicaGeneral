@@ -1,9 +1,7 @@
 <div class="d-flex justify-content-center align-items-center vh-100 bg-light-subtle">
   <div class="card shadow border-0 rounded-4 text-center recuperar-card">
 
-    <!-- Vista de Confirmación -->
     <div *ngIf="solicitudEnviada" class="vista-contenido p-4 p-md-5">
-      <!-- Icono libre en el header de confirmación -->
       <div class="card-header-confirmacion">
         <i class="bi bi-check-lg"></i>
       </div>
@@ -16,17 +14,13 @@
       </a>
     </div>
 
-    <!-- Vista del Formulario -->
     <div *ngIf="!solicitudEnviada" class="vista-contenido">
-      <!-- ENCABEZADO DE TARJETA CON COLOR -->
       <div class="card-header-custom text-white">
-        <!-- Ícono directamente sobre el fondo, sin contenedor -->
         <i class="bi bi-shield-lock-fill"></i>
         <h2 class="fw-bold mb-1 mt-3">Recuperar Contraseña</h2>
         <p class="opacity-75 mb-0">Ingresa tu correo para recibir un enlace.</p>
       </div>
 
-      <!-- CUERPO DE TARJETA -->
       <div class="card-body-custom p-4 p-md-5">
         <form (ngSubmit)="enviarSolicitud()">
           <div class="mb-3 text-start">

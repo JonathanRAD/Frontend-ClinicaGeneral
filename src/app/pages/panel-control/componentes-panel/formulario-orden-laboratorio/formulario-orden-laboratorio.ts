@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/componentes/formulario-orden-laboratorio/formulario-orden-laboratorio.ts
 
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';

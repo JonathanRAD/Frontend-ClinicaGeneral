@@ -1,10 +1,10 @@
-/* RUTA: src/app/panel-control/componentes/dialogo-confirmacion/dialogo-confirmacion.css */
+
 
 .confirm-dialog-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #c9302c; /* Rojo oscuro para el título */
+  color: #c9302c; 
   padding: 20px 24px 0 24px;
 }
 

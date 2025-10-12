@@ -26,7 +26,7 @@
 .agendar-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espacio entre los campos */
+  gap: 1.5rem;
   padding-top: 1.5rem;
 }
 
@@ -38,7 +38,6 @@
   text-align: center;
 }
 
-/* --- ESTILOS PARA EL WIZARD (ASISTENTE) - CORREGIDOS --- */
 .progress-bar-container {
   display: flex;
   align-items: center;
@@ -66,7 +65,7 @@
   font-weight: 600;
   border: 2px solid #e2e8f0;
   transition: all 0.4s ease;
-  flex-shrink: 0; /* Evita que el círculo se encoja */
+  flex-shrink: 0;
 }
 
 .progress-label {
@@ -74,7 +73,6 @@
   font-weight: 500;
 }
 
-/* Estado Activo */
 .progress-step.active .progress-dot {
   border-color: var(--color-primario);
   color: var(--color-primario);
@@ -84,7 +82,6 @@
   font-weight: 600;
 }
 
-/* Estado Completado */
 .progress-step.completed .progress-dot {
   background-color: var(--color-primario);
   border-color: var(--color-primario);

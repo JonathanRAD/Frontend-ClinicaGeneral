@@ -1,4 +1,3 @@
-// RUTA: src/app/portal/componentes/paginas/mi-historial/mi-historial.ts
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HistoriaClinicaService } from '../../../../services/historia-clinica';
@@ -50,9 +49,7 @@ export class MiHistorial implements OnInit {
     });
   }
 
-  // --- FUNCIÓN DE IMPRESIÓN CORREGIDA Y ROBUSTA ---
   imprimirHistorial(): void {
-    // 1. Verificamos si el acordeón existe en la página
     if (this.accordion) {
       this.accordion.openAll();
 
@@ -61,7 +58,6 @@ export class MiHistorial implements OnInit {
         this.accordion.closeAll();
       }, 500);
     } else {
-      // Si no hay acordeón (porque no hay consultas), simplemente imprimimos.
       window.print();
     }
   }

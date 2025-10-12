@@ -1,17 +1,12 @@
-<!-- RUTA: src/app/panel-control/paginas/inicio/inicio.html -->
 
 <div class="dashboard-container">
-  <!-- Encabezado -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h2 fw-bold">Dashboard de Actividad</h1>
     <span class="text-muted">{{ fechaActual | date:'fullDate' }}</span>
   </div>
 
-  <!-- Fila Principal -->
   <div class="row g-4">
-    <!-- Columna Izquierda (Gráficos y Tarjetas) -->
     <div class="col-xl-8">
-      <!-- Tarjetas de Estadísticas -->
       <div class="row g-4 mb-4">
         <div class="col-md-4">
           <mat-card class="stat-card h-100">
@@ -47,7 +42,6 @@
           </mat-card>
         </div>
       </div>
-      <!-- Gráfico de Ingresos -->
       <mat-card class="h-100 chart-card">
         <mat-card-header><mat-card-title>Tendencia de Ingresos (Pagado)</mat-card-title></mat-card-header>
         <mat-card-content class="chart-container">
@@ -56,9 +50,7 @@
       </mat-card>
     </div>
 
-    <!-- Columna Derecha (Acciones y Actividad) -->
     <div class="col-xl-4">
-      <!-- Accesos Rápidos -->
       <mat-card class="mb-4">
         <mat-card-header><mat-card-title>Accesos Rápidos</mat-card-title></mat-card-header>
         <mat-card-content class="d-flex flex-column gap-3 p-3">
@@ -71,7 +63,6 @@
         </mat-card-content>
       </mat-card>
       
-      <!-- Actividad Reciente -->
       <mat-card>
         <mat-card-header><mat-card-title>Actividad Reciente</mat-card-title></mat-card-header>
         <mat-card-content class="p-0">

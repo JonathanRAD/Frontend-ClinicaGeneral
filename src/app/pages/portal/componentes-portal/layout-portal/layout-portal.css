@@ -1,14 +1,14 @@
-/* ... (tus estilos existentes van aquí arriba) ... */
+
 .portal-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Asegura que el portal llene el espacio vertical disponible */
+  min-height: 100vh; 
   background-color: var(--color-fondo-panel);
 }
 
 .portal-content {
-  flex: 1; /* Hace que el área de contenido crezca, empujando el footer hacia abajo */
-  overflow-y: auto; /* Añade scroll solo al contenido si es necesario */
+  flex: 1;
+  overflow-y: auto; 
   padding: 2.5rem;
 }
 .portal-nav {
@@ -36,7 +36,6 @@
   margin-right: 10px;
 }
 
-/* Contenedor de enlaces y menú de usuario */
 .nav-collapsible {
   display: flex;
   align-items: center;
@@ -63,9 +62,6 @@
 .nav-user .mat-icon { margin-right: 8px; }
 
 
-/* --- INICIO DE NUEVOS ESTILOS RESPONSIVE --- */
-
-/* Botón de hamburguesa: oculto por defecto en pantallas grandes */
 .nav-toggle-button {
   display: none;
   background: none;
@@ -74,23 +70,20 @@
   color: var(--color-texto-principal);
 }
 
-/* Media Query para pantallas pequeñas (tablets y móviles) */
 @media (max-width: 991.98px) {
   .portal-nav {
     padding: 0 1rem;
   }
   
-  /* Hacemos visible el botón de hamburguesa */
   .nav-toggle-button {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
-  /* Preparamos el contenedor de enlaces para estar oculto y posicionado */
+
   .nav-collapsible {
     position: absolute;
-    top: 70px; /* Justo debajo del navbar */
+    top: 70px; 
     left: 0;
     right: 0;
     width: 100%;
@@ -99,16 +92,14 @@
     align-items: flex-start;
     padding: 1rem;
     box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    
-    /* Transiciones para la animación de despliegue */
+
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
   }
 
-  /* Cuando el menú está abierto, se expande */
   .nav-collapsible.is-open {
-    max-height: 500px; /* Un valor suficientemente grande */
+    max-height: 500px; 
   }
 
   .nav-links {

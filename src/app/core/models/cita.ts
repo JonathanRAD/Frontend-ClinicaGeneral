@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/modelos/cita.ts
 
 import { Patient } from './patient';
 import { Medico } from './medico';

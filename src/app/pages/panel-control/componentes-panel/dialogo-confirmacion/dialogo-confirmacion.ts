@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/componentes/dialogo-confirmacion/dialogo-confirmacion.ts
 
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,13 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./dialogo-confirmacion.css']
 })
 export class DialogoConfirmacion {
-  // Inyectamos los datos (título y mensaje) que se le pasan al abrirlo
   constructor(
     public dialogRef: MatDialogRef<DialogoConfirmacion>,
     @Inject(MAT_DIALOG_DATA) public data: { titulo: string; mensaje: string }
   ) {}
 
-  // Función para el botón "Cancelar"
   onNoClick(): void {
     this.dialogRef.close();
   }

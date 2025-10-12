@@ -1,4 +1,4 @@
-// src/app/autenticacion/paginas/recuperar-contrasena/recuperar-contrasena.ts
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,8 +20,7 @@ export class RecuperarContrasena {
 
   enviarSolicitud() {
     if (this.email) {
-      // En un proyecto real, aquí llamaríamos a un servicio de autenticación.
-      // Por ahora, solo simulamos el flujo.
+
       this.correoEnviado = this.email;
       this.solicitudEnviada = true;
       console.log(`Solicitud de recuperación para: ${this.email}`);

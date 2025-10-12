@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/componentes/formulario-medico/formulario-medico.ts
 
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';

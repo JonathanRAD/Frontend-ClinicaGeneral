@@ -1,4 +1,3 @@
-/* RUTA: src/app/portal/componentes/paginas/mi-perfil/mi-perfil.css */
 
 .page-header {
   margin-bottom: 2rem;
@@ -48,7 +47,6 @@ mat-form-field {
   text-align: center;
 }
 
-/* --- NUEVOS ESTILOS PARA LA TARJETA DE PERFIL --- */
 .profile-avatar-card {
   padding: 2rem 1.5rem;
 }

@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/servicios/cita.service.ts
 
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -40,12 +39,11 @@ export class CitaService {
       }
     });
   }
-   // --- NUEVO MÉTODO PARA CANCELAR CITA DESDE EL PORTAL ---
   /**
    * Envía la solicitud para cancelar una cita del paciente autenticado.
    * @param id El ID de la cita a cancelar.
    */
-  cancelarMiCita(id: string): Observable<void> { // <-- Cambiado a 'string'
+  cancelarMiCita(id: string): Observable<void> { 
     return this.http.delete<void>(`${this.apiUrl}/mis-citas/${id}`);
   }
 

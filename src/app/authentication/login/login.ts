@@ -1,4 +1,3 @@
-// RUTA: src/app/autenticacion/login/login.ts
 
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,7 +5,7 @@ import { FormsModule, AbstractControl, FormBuilder, FormGroup, ValidationErrors,
 import { Router, RouterModule } from '@angular/router';
 import { AutenticacionService } from '../../services/autenticacion';
 
-// Validador para asegurar que la contraseña cumple con los criterios de seguridad.
+
 export function contrasenaSeguraValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -43,13 +42,11 @@ export class Login implements OnInit {
     private authService: AutenticacionService,
     private router: Router
   ) {
-    // Inicialización del formulario de Login
     this.formularioLogin = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
-    
-    // Inicialización del formulario de Registro
+
     this.formularioRegistro = this.fb.group({
         nombres: ['', [Validators.required, Validators.maxLength(this.maxNombreApellidoLength), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')]],
         apellidos: ['', [Validators.required, Validators.maxLength(this.maxNombreApellidoLength), Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')]],
@@ -63,7 +60,6 @@ export class Login implements OnInit {
   }
 
   ngOnInit(): void {
-    // Revisa si el usuario guardó su email anteriormente
     const recordarmeGuardado = localStorage.getItem('recordarme');
     this.recordarme = recordarmeGuardado ? JSON.parse(recordarmeGuardado) : false;
     if (this.recordarme) {
@@ -86,14 +82,12 @@ export class Login implements OnInit {
   enviarFormulario(): void {
     this.mensajeError.set('');
     this.cargando.set(true);
-
-    // Función auxiliar para redirigir al usuario según su rol
     const manejarRedireccion = () => {
       const rol = this.authService.rolUsuario();
       if (rol === 'PACIENTE') {
-        this.router.navigate(['/portal']); // Si es paciente, va a su portal
+        this.router.navigate(['/portal']); 
       } else {
-        this.router.navigate(['/panel']); // Si es personal, va al panel de control
+        this.router.navigate(['/panel']); 
       }
     };
 
@@ -107,7 +101,6 @@ export class Login implements OnInit {
       const { email, password } = this.formularioLogin.value;
       this.authService.login(email, password).subscribe({
         next: () => {
-          // Lógica para recordar el email
           if (this.recordarme) {
             localStorage.setItem('correoRecordado', email);
             localStorage.setItem('recordarme', JSON.stringify(true));
@@ -115,14 +108,14 @@ export class Login implements OnInit {
             localStorage.removeItem('correoRecordado');
             localStorage.removeItem('recordarme');
           }
-          manejarRedireccion(); // Llama a la función de redirección
+          manejarRedireccion();
         },
         error: (err) => {
           this.mensajeError.set(err.error?.message || 'Ocurrió un error inesperado.');
           this.cargando.set(false);
         }
       });
-    } else { // Modo Registro
+    } else { 
       if (this.formularioRegistro.invalid) {
         this.formularioRegistro.markAllAsTouched();
         this.cargando.set(false);
@@ -130,7 +123,7 @@ export class Login implements OnInit {
       }
 
       this.authService.register(this.formularioRegistro.value).subscribe({
-        next: () => manejarRedireccion(), // Llama a la función de redirección
+        next: () => manejarRedireccion(), 
         error: (err) => {
           this.mensajeError.set(err.error?.message || 'Error en el registro.');
           this.cargando.set(false);

@@ -1,6 +1,4 @@
-/* RUTA: src/app/autenticacion/login/login.css */
 
-/* ... (Estilos de panel y fondo) ... */
 .info-panel {
   background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto.format&fit=crop') no-repeat center center;
   background-size: cover;
@@ -42,20 +40,14 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.6s ease-in-out;
 }
-
-/* --- ESTILOS REFACTORIZADOS PARA INPUTS CON ÍCONOS --- */
-
 .input-wrapper {
   position: relative;
 }
 
-/* Estilo para los inputs dentro de un wrapper */
 .input-wrapper .form-control {
-  /* Espacio a la derecha para que el texto no choque con el ícono */
   padding-right: 2.5rem; 
 }
 
-/* Estilo para todos los íconos a la derecha */
 .input-wrapper .input-icon-right {
   position: absolute;
   top: 50%;
@@ -66,32 +58,31 @@
   transition: transform 0.2s ease-in-out, color 0.2s ease;
 }
 
-/* Estilo específico para el ícono del ojo para que sea interactivo */
 .input-wrapper .toggle-password {
   cursor: pointer;
 }
 
 .input-wrapper .toggle-password:hover {
-  color: #2b6cb0; /* Azul oscuro al pasar el mouse */
+  color: #2b6cb0; 
 }
 
 .input-wrapper .toggle-password:active {
-  transform: translateY(-50%) scale(0.9); /* Animación de clic */
+  transform: translateY(-50%) scale(0.9); 
 }
-/* El input de contraseña necesita padding en ambos lados */
+
 #login-password, #reg-password {
-  padding-right: 2.5rem; /* Espacio para el ícono de la derecha */
+  padding-right: 2.5rem;
 }
 
 
 .validation-error {
-  color: #dc3545; /* Color de peligro de Bootstrap */
-  font-size: 0.875em; /* Ligeramente más pequeño */
+  color: #dc3545; 
+  font-size: 0.875em; 
   text-align: left;
   margin-top: 0.25rem;
   padding-left: 0.25rem;
 }
-/* Animaciones */
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

@@ -1,16 +1,15 @@
-/* RUTA: src/app/portal/componentes/paginas/servicios/servicios.css */
+
 
 .services-container {
   display: flex;
-  height: calc(100vh - 70px - 5rem); /* Altura total menos navbar y padding */
-  margin: -2.5rem; /* Compensa el padding del layout-portal */
+  height: calc(100vh - 70px - 5rem); 
+  margin: -2.5rem; 
   background-color: #fff;
   border-radius: var(--borde-radio);
   overflow: hidden;
   box-shadow: var(--sombra-tarjeta);
 }
 
-/* --- COLUMNA IZQUIERDA: MENÚ --- */
 .services-menu {
   width: 350px;
   flex-shrink: 0;
@@ -70,13 +69,12 @@
   color: white;
 }
 
-/* --- COLUMNA DERECHA: VISUALIZACIÓN --- */
 .services-display {
   flex-grow: 1;
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Alinea contenido arriba y abajo */
+  justify-content: space-between; 
   padding: 3rem;
   color: white;
 }
@@ -113,13 +111,12 @@
 }
 
 .find-specialist-button {
-  margin-top: auto; /* Empuja el botón al final */
+  margin-top: auto; 
   width: fit-content;
   padding: 0.75rem 2rem;
   font-weight: 600;
 }
 
-/* --- WIDGETS DE INFORMACIÓN --- */
 .info-widgets-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -137,7 +134,7 @@
 }
 
 .highlight-widget {
-  grid-column: 1 / -1; /* Ocupa todo el ancho */
+  grid-column: 1 / -1; 
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 2rem;
@@ -176,8 +173,6 @@
   color: var(--color-primario);
 }
 
-
-/* ANIMACIONES */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

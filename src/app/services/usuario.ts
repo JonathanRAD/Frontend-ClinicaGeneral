@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../environments/environment';
 import { Rol } from '../core/models/rol';
-// --- CORRECCIÓN CLAVE ---
 import { UserProfile, ChangePasswordPayload, CreateUserPayload } from './../core/models/usuario';
 
 @Injectable({

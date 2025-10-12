@@ -1,4 +1,3 @@
-// RUTA: src/app/portal/componentes/dialogos/perfil-medico/perfil-medico.component.ts
 import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -28,7 +27,6 @@ export class PerfilMedicoComponent {
 
   agendarCita(): void {
     this.dialogRef.close();
-    // Navegamos a la página de agendar cita, podríamos pasar el ID del médico en el futuro
     this.router.navigate(['/portal/agendar-cita']);
   }
 

@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/componentes/gestion-reportes/gestion-reportes.ts
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +6,7 @@ import { ReporteService } from '../../../../services/reporte';
 import { CitaService } from '../../../../services/cita';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogoPrevisualizacionComponent } from '../dialogo-previsualizacion/dialogo-previsualizacion';
-import { MatMenuModule } from '@angular/material/menu'; // <-- AÑADE ESTA LÍNEA
+import { MatMenuModule } from '@angular/material/menu'; 
 
 
 @Component({
@@ -25,17 +24,14 @@ export class GestionReportesComponent {
     public dialog: MatDialog
   ) {}
 
-  // Descarga el reporte en formato CSV
   descargarReporteCitasCSV(): void {
     this.reporteService.generarReporteDeCitasCSV();
   }
 
-  // Descarga el reporte en formato XLSX
   descargarReporteCitasXLSX(): void {
     this.reporteService.generarReporteDeCitasXLSX();
   }
 
-  // Abre la ventana de previsualización
   previsualizarReporteCitas(): void {
     const citas = this.citaService.citas().slice(0, 5);
     if (citas.length === 0) {

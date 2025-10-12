@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/paginas/gestion-facturacion/gestion-facturacion.ts
 
 import { Component, Signal,signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -49,19 +48,14 @@ export class GestionFacturacion {
   }
 
    onSeleccionarFactura(factura: Factura) {
-    // Si la factura seleccionada es la misma, no hacemos nada
     if (this.facturaSeleccionada()?.id === factura.id) {
       return;
     }
 
-    // 1. Inicia la animación de salida
     this.isAnimatingOut.set(true);
 
-    // 2. Espera a que termine la animación de salida (150ms)
     setTimeout(() => {
-      // 3. Cambia los datos de la factura
       this.facturaSeleccionada.set(factura);
-      // 4. Desactiva la animación de salida (esto permitirá que se ejecute la de entrada)
       this.isAnimatingOut.set(false);
     }, 150);
   }
@@ -98,15 +92,13 @@ export class GestionFacturacion {
 
     dialogRef.afterClosed().subscribe(resultado => {
       if (resultado) {
-        // --- INICIO DE LA CORRECCIÓN ---
-        // Se ha añadido la propiedad `montoPagado` que faltaba en el payload
         const payload: FacturaPayload = {
             citaId: resultado.citaId,
             monto: resultado.monto,
             estado: resultado.estado,
-            montoPagado: resultado.montoPagado // <-- ESTA LÍNEA FALTABA
+            montoPagado: resultado.montoPagado 
         };
-        // --- FIN DE LA CORRECCIÓN ---
+
 
         this.facturacionService.actualizarFactura(factura.id, payload);
         this.snackBar.open('Factura actualizada correctamente', 'Cerrar', { duration: 3000 });

@@ -10,8 +10,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AutenticacionService } from '../../../../services/autenticacion';
 import { CitaService } from '../../../../services/cita';
 import { Cita } from '../../../../core/models/cita';
-
-// --- INTERFACES PARA EL DASHBOARD "ZENITH" ---
 interface ActividadDiaria {
   id: number;
   descripcion: string;
@@ -39,12 +37,9 @@ export class InicioPortalComponent implements OnInit {
   nombreUsuario = signal('');
   proximaCita: Signal<Cita | undefined>;
   
-  // --- SEÑALES PARA LOS NUEVOS MÓDULOS ---
   actividadesDiarias = signal<ActividadDiaria[]>([]);
-  progresoActividades: Signal<number>; // Porcentaje 0-100
+  progresoActividades: Signal<number>; 
   consejoDelDia = signal<Consejo | null>(null);
-
-  // Métricas para el "Vistazo al Clima"
   resultadosPendientes = signal(1);
   mensajesNoLeidos = signal(2);
   recetasActivas = signal(3);
@@ -91,19 +86,14 @@ export class InicioPortalComponent implements OnInit {
   }
   
   private cargarDatosDashboard(): void {
-    // Carga las actividades diarias
     this.actividadesDiarias.set([
       { id: 1, descripcion: 'Tomar vitamina D', icono: 'wb_sunny', completado: true },
       { id: 2, descripcion: 'Caminata de 30 minutos', icono: 'directions_walk', completado: false },
       { id: 3, descripcion: 'Beber 2L de agua', icono: 'local_drink', completado: false },
       { id: 4, descripcion: 'Leer 15 minutos', icono: 'menu_book', completado: false },
     ]);
-
-    // Selecciona un consejo al azar
     this.consejoDelDia.set(this.todosLosConsejos[Math.floor(Math.random() * this.todosLosConsejos.length)]);
   }
-
-  // Cambia el estado de una actividad
   toggleActividad(id: number): void {
     this.actividadesDiarias.update(actividades => 
       actividades.map(act => 

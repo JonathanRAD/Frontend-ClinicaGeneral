@@ -33,10 +33,10 @@
 }
 
 .info-group p {
-  white-space: pre-wrap; /* Respeta los saltos de línea en el texto */
+  white-space: pre-wrap;
   color: #343a40;
 }
-/* ... (estilos existentes) ... */
+
 
 .icon-large {
   font-size: 48px;

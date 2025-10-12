@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/componentes/formulario-facturacion/formulario-facturacion.ts
 
 import { Component, Inject, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';

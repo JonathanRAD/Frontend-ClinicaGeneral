@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/modelos/seguro-medico.ts
 
 import { Patient } from './patient';
 

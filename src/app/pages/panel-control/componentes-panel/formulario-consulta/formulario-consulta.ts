@@ -32,9 +32,9 @@ export class FormularioConsultaComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<FormularioConsultaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private medicoService: MedicoService // Inyectamos el servicio de médicos
+    private medicoService: MedicoService 
   ) {
-    this.medicos = this.medicoService.medicos; // Obtenemos la señal de médicos
+    this.medicos = this.medicoService.medicos; 
     this.consultaForm = this.fb.group({
       motivo: ['', [Validators.required, Validators.maxLength(500)]],
       diagnostico: ['', [Validators.required, Validators.maxLength(1000)]],
@@ -44,7 +44,6 @@ export class FormularioConsultaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Si se quisiera editar una consulta en el futuro, la lógica iría aquí
   }
 
   guardar(): void {

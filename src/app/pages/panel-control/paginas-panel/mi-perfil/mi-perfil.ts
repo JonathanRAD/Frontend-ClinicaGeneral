@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsuarioService } from '../../../../services/usuario';
-// --- CORRECCIÓN: Importamos la interfaz desde el nuevo archivo de modelo ---
 import { UserProfile } from '../../../../core/models/usuario';
 
 @Component({

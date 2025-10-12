@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/modelos/rol.ts
 
 export enum Rol {
     ADMINISTRADOR = 'ADMINISTRADOR',

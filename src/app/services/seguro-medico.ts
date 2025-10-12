@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/servicios/seguro-medico.service.ts
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

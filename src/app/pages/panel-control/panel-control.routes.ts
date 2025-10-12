@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-// --- CORRECCIÓN: Se importa LayoutComponent en lugar de Layout ---
 import { LayoutComponent } from './componentes-panel/layout/layout';
 import { Inicio } from './paginas-panel/inicio/inicio';
 import { GestionPacientes } from './paginas-panel/gestion-pacientes/gestion-pacientes';
@@ -15,7 +14,6 @@ import { GestionUsuariosComponent } from './paginas-panel/gestion-usuarios/gesti
 export default [
   {
     path: '',
-    // --- CORRECCIÓN: Se usa el nombre correcto del componente ---
     component: LayoutComponent,
     children: [
       { path: 'inicio', component: Inicio },

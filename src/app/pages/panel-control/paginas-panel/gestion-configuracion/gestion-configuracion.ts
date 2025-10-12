@@ -1,4 +1,3 @@
-// RUTA: frontend-clinica/src/app/panel-control/paginas/gestion-configuracion/gestion-configuracion.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';

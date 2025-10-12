@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/paginas/gestion-medicos/gestion-medicos.ts
 
 import { Component, Signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,7 +28,7 @@ export class GestionMedicos {
     { name: 'nombres', header: 'Nombres' },
     { name: 'apellidos', header: 'Apellidos' },
     { name: 'especialidad', header: 'Especialidad' },
-    { name: 'edad', header: 'Edad' } // <-- NUEVA COLUMNA
+    { name: 'edad', header: 'Edad' } 
   ];
 
   constructor(

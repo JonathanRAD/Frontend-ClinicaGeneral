@@ -133,7 +133,6 @@ export class HistoriaClinicaComponent implements OnInit {
     });
   }
   
-  // --- FUNCIÓN RESTAURADA ---
   validarSeguro(): void {
     if (!this.pacienteId()) return;
     this.seguroService.validarSeguro(this.pacienteId()).subscribe({

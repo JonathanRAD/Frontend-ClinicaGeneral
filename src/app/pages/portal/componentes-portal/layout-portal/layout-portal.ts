@@ -1,4 +1,3 @@
-// RUTA: src/app/portal/componentes/layout-portal/layout-portal.ts
 
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -11,11 +10,10 @@ import { Navbar } from '../../../../core/componentes/navbar/navbar';
   imports: [
     RouterModule,
     Footer,
-    Navbar, // Añade el navbar a los imports
+    Navbar, 
   ],
   templateUrl: './layout-portal.html',
   styleUrls: ['./layout-portal.css']
 })
 export class LayoutPortalComponent {
-  // ¡Este componente ahora está limpio y solo se encarga de la estructura!
 }

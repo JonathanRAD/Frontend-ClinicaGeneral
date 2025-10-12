@@ -1,39 +1,33 @@
-/* RUTA: src/app/core/componentes/navbar/navbar.css */
 
-/* --- TEMA Y DISEÑO MEJORADO DEL NAVBAR --- */
 .portal-nav-hybrid {
-  /* Fondo sutil: blanco con un ligero degradado para dar profundidad */
+
   background: linear-gradient(to bottom, #ffffff 95%, #f8f9fa 100%) !important;
   height: 70px;
   padding: 0 1rem;
-  border-bottom: 1px solid #dee2e6; /* Borde inferior más definido */
-  /* Quitamos box-shadow para un look más plano y moderno, el borde es suficiente */
+  border-bottom: 1px solid #dee2e6; 
+
 }
 
-/* --- LOGO Y MARCA --- */
 .portal-nav-hybrid .navbar-brand {
   transition: transform 0.2s ease-in-out;
 }
 .portal-nav-hybrid .navbar-brand:hover {
-  transform: scale(1.03); /* Efecto sutil al pasar el mouse */
+  transform: scale(1.03); 
 }
 .portal-nav-hybrid .navbar-brand mat-icon {
   color: var(--color-primario);
 }
 
-/* --- ENLACES DE NAVEGACIÓN --- */
-/* Propuesta 2: Estilo "Subrayado Animado" */
 .portal-nav-hybrid .nav-link {
   font-weight: 500;
   color: #6c757d;
   padding: 0.5rem 1rem;
-  border-radius: 0; /* Sin bordes redondeados */
-  position: relative; /* Necesario para la línea */
+  border-radius: 0;
+  position: relative;
   background-color: transparent;
   transition: color 0.3s ease;
 }
 
-/* La línea (pseudo-elemento) que aparece */
 .portal-nav-hybrid .nav-link::after {
   content: '';
   position: absolute;
@@ -52,7 +46,6 @@
   background-color: transparent;
 }
 
-/* El enlace activo tiene color y la línea ocupa todo el ancho */
 .portal-nav-hybrid .nav-link.active {
   color: var(--color-primario);
   font-weight: 600;
@@ -60,10 +53,9 @@
 
 .portal-nav-hybrid .nav-link.active::after,
 .portal-nav-hybrid .nav-link:hover::after {
-  width: 80%; /* La línea crece al pasar el mouse o al estar activo */
+  width: 80%; 
 }
 
-/* --- BOTÓN HAMBURGUESA --- */
 .portal-nav-hybrid .navbar-toggler {
   border: none;
   font-size: 1.5rem;
@@ -77,11 +69,10 @@
   box-shadow: none;
 }
 
-/* --- MENÚ DE USUARIO --- */
 .portal-nav-hybrid .user-menu-button {
   font-weight: 500;
   color: #343a40;
-  border-radius: 20px; /* Bordes más redondeados para un look de "píldora" */
+  border-radius: 20px; 
   padding: 0.4rem 0.8rem;
   background-color: #f8f9fa;
   border: 1px solid #dee2e6;
@@ -91,11 +82,6 @@
   background-color: #e9ecef;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-
-
-/* ============================================= */
-/* --- LÓGICA RESPONSIVE (SIN CAMBIOS ESTRUCTURALES) --- */
-/* ============================================= */
 @media (min-width: 992px) {
   .nav-collapse-wrapper {
     display: flex;
@@ -112,7 +98,7 @@
     right: 0;
     background-color: #ffffff;
     padding: 1rem;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.15); /* Sombra más pronunciada para destacar sobre el contenido */
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
     border-top: 1px solid #e9ecef;
     z-index: 1000;
     opacity: 0;
@@ -138,7 +124,6 @@
     padding-top: 0.5rem;
   }
 
-  /* El botón de usuario ocupa todo el ancho en móvil */
   .portal-nav-hybrid .user-menu-button {
       width: 100%;
       justify-content: flex-start;

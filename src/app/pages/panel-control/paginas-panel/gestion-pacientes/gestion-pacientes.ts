@@ -6,7 +6,6 @@ import { Patient } from '../../../../core/models/patient';
 import { TablaGenerica, ColumnConfig } from '../../../../shared/tabla-generica/tabla-generica';
 import { MatDialog } from '@angular/material/dialog';
 import { FormularioPaciente } from '../../componentes-panel/formulario-paciente/formulario-paciente';
-// Importa el componente del diálogo de confirmación que creaste
 import { DialogoConfirmacion } from '../../componentes-panel/dialogo-confirmacion/dialogo-confirmacion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -29,7 +28,6 @@ export class GestionPacientes {
     { name: 'nombres', header: 'Nombres' },
     { name: 'apellidos', header: 'Apellidos' },
     { name: 'telefono', header: 'Teléfono' },
-    // --- NUEVAS COLUMNAS ---
     { name: 'ritmoCardiaco', header: 'Ritmo Cardíaco' },
     { name: 'imc', header: 'IMC' }
   ];
@@ -43,16 +41,13 @@ export class GestionPacientes {
     this.pacientesParaVista = computed(() => {
       return this.pacienteService.pacientes().map(paciente => {
         const imc = this.calcularIMC(paciente.peso, paciente.altura);
-        // Devuelve un nuevo objeto que extiende el paciente y añade el IMC
         return { ...paciente, imc: imc };
       });
     });
   }
   private calcularIMC(peso?: number, altura?: number): number | undefined {
     if (peso && altura && altura > 0) {
-      // Fórmula del IMC: peso / (altura * altura)
       const imc = peso / (altura * altura);
-      // Redondea a 2 decimales
       return parseFloat(imc.toFixed(2));
     }
     return undefined;
@@ -92,7 +87,6 @@ export class GestionPacientes {
     });
   }
 
-  // MÉTODO CORREGIDO: Este ya NO usa confirm()
   onEliminarPaciente(paciente: Patient) {
     const dialogRef = this.dialog.open(DialogoConfirmacion, {
       width: '450px',
@@ -103,7 +97,6 @@ export class GestionPacientes {
     });
 
     dialogRef.afterClosed().subscribe(resultado => {
-      // Si el usuario hace clic en "Sí, Eliminar", el resultado será 'true'
       if (resultado) {
         this.pacienteService.eliminarPaciente(paciente.id);
         this.snackBar.open('Paciente eliminado', 'Cerrar', { duration: 3000 });

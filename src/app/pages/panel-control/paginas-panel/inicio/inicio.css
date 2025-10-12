@@ -1,4 +1,4 @@
-/* RUTA: src/app/panel-control/paginas/inicio/inicio.css */
+
 
 .dashboard-container {
   padding: 2rem;
@@ -38,8 +38,8 @@
 }
 
 .icon-pacientes { background: linear-gradient(45deg, #0d6efd, #5a96f6); }
-.icon-citas { background: linear-gradient(45deg, #6f42c1, #8a63d2); } /* Color morado para citas */
-.icon-ingresos { background: linear-gradient(45deg, #198754, #2abb5b); } /* Color verde para ingresos */
+.icon-citas { background: linear-gradient(45deg, #6f42c1, #8a63d2); } 
+.icon-ingresos { background: linear-gradient(45deg, #198754, #2abb5b); }
 
 .stat-label {
   font-size: 0.9rem;
@@ -62,7 +62,6 @@
   padding: 1rem;
 }
 
-/* Estilos para accesos rápidos y listas */
 .mat-mdc-flat-button {
   width: 100%;
   text-align: left;
@@ -72,5 +71,5 @@
 }
 
 .mat-mdc-list-item-icon {
-  color: #6c757d; /* Gris para los íconos de la lista */
+  color: #6c757d; 
 }

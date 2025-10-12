@@ -15,7 +15,7 @@ import { UserProfile } from '../../../../core/models/usuario';
   templateUrl: './layout.html',
   styleUrls: ['./layout.css']
 })
-export class LayoutComponent implements OnInit { // El nombre correcto es LayoutComponent
+export class LayoutComponent implements OnInit { 
   usuario: WritableSignal<UserProfile | null> = signal(null);
 
   constructor(

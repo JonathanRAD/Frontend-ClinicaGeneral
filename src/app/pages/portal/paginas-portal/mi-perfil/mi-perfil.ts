@@ -1,4 +1,3 @@
-// RUTA: src/app/portal/componentes/paginas/mi-perfil/mi-perfil.ts
 
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,9 +7,7 @@ import { PerfilPacienteService } from '../../../../services/perfil-paciente.serv
 import { Notificacion } from '../../../../services/notificacion';
 import { Spinner } from '../../../../shared/spinner/spinner';
 import { Patient } from '../../../../core/models/patient';
-import { AutenticacionService } from '../../../../services/autenticacion'; // <-- PASO 1: IMPORTAR EL SERVICIO
-
-// --- IMPORTS DE ANGULAR MATERIAL ---
+import { AutenticacionService } from '../../../../services/autenticacion'; 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -54,7 +51,7 @@ export class MiPerfil implements OnInit {
     private perfilService: PerfilPacienteService,
     private notificacion: Notificacion,
     private dialog: MatDialog,
-    private authService: AutenticacionService // <-- PASO 2: INYECTAR EL SERVICIO
+    private authService: AutenticacionService 
   ) {
     this.formularioPerfil = this.fb.group({
       id: [null],

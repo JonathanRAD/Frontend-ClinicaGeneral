@@ -1,4 +1,3 @@
-// RUTA: src/app/portal/componentes/paginas/nuestros-medicos/nuestros-medicos.component.ts
 import { Component, OnInit, signal, computed, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -6,8 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MedicoService } from '../../../../services/medico';
 import { Medico } from '../../../../core/models/medico';
 import { Spinner } from '../../../../shared/spinner/spinner';
-
-// --- NUEVOS IMPORTS ---
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -33,16 +30,15 @@ export class NuestrosMedicosComponent implements OnInit {
   
   private medicos = signal<Medico[]>([]);
   
-  // --- SEÑALES PARA EL FILTRO ---
   especialidades: Signal<string[]>;
   especialidadSeleccionada = signal<string>('todos');
-  nombreBusqueda = signal<string>(''); // Nueva señal para la búsqueda por nombre
+  nombreBusqueda = signal<string>('');
   medicosFiltrados: Signal<Medico[]>;
 
   constructor(
     private medicoService: MedicoService,
     public dialog: MatDialog,
-    private router: Router // Inyectamos el Router
+    private router: Router 
   ) {
     this.especialidades = computed(() => 
       [...new Set(this.medicos().map(m => m.especialidad))].sort()
@@ -76,7 +72,6 @@ export class NuestrosMedicosComponent implements OnInit {
   }
   
   agendarCitaConMedico(medico: Medico): void {
-    // Navegamos a la página de agendar cita y pasamos el ID del médico como parámetro
     this.router.navigate(['/portal/agendar-cita'], { queryParams: { medicoId: medico.id } });
   }
 }

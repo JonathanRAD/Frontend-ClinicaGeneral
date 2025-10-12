@@ -1,7 +1,6 @@
 import { Component, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../../../services/usuario';
-// --- CORRECCIÓN CLAVE ---
 import { UserProfile } from '../../../../core/models/usuario';
 import { TablaGenerica, ColumnConfig } from '../../../../shared/tabla-generica/tabla-generica';
 import { MatDialog } from '@angular/material/dialog';

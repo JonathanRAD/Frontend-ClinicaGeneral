@@ -3,13 +3,13 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
-  standalone: true, // <-- ESTA LÍNEA ES CRUCIAL
+  standalone: true, 
   imports: [
-    RouterModule    // <-- Y ESTE IMPORT ES CRUCIAL
+    RouterModule   
   ],
   templateUrl: './footer.html',
   styleUrls: ['./footer.css']
 })
 export class Footer {
-  // Lógica del componente
+
 }

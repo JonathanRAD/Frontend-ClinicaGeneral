@@ -1,6 +1,5 @@
-// RUTA: src/app/panel-control/modelos/patient.ts
 
-import { SeguroMedico } from './seguro-medico'; // <-- RUTA CORREGIDA
+import { SeguroMedico } from './seguro-medico'; 
 
 export interface Patient {
   id: string;
@@ -16,5 +15,5 @@ export interface Patient {
   ritmoCardiaco?: number;
 
   historiaClinica?: any;
-  seguroMedico?: SeguroMedico; // <-- TIPO CORREGIDO
+  seguroMedico?: SeguroMedico; 
 }

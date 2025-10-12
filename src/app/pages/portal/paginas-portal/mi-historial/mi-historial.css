@@ -1,4 +1,3 @@
-/* RUTA: src/app/portal/componentes/paginas/mi-historial/mi-historial.css */
 
 .page-header {
   display: flex;
@@ -21,7 +20,6 @@
   to { opacity: 1; }
 }
 
-/* --- SECCIÓN DE CONDICIONES CLAVE --- */
 .key-conditions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -56,7 +54,6 @@
   margin-top: 0.5rem;
 }
 
-/* --- HISTORIAL DE CONSULTAS (TIMELINE) --- */
 .timeline-container {
   position: relative;
   padding-left: 3rem;
@@ -114,7 +111,7 @@
 }
 
 .consulta-contenido {
-  padding-top: 0 !important; /* Ajuste para el nuevo elemento */
+  padding-top: 0 !important; 
 }
 .detalle-consulta {
   padding: 1rem 1.5rem;
@@ -131,7 +128,6 @@
   color: var(--color-texto-secundario);
 }
 
-/* --- NUEVO ESTILO PARA LA INFO DEL MÉDICO --- */
 .detalle-medico {
   background-color: #f8f9fa;
   padding: 1rem 1.5rem;
@@ -144,7 +140,6 @@
   font-weight: 500;
 }
 
-/* Estados de carga y sin citas */
 .spinner-container, .no-citas {
   text-align: center;
   padding: 3rem;
@@ -156,7 +151,6 @@
 .no-citas h2 { margin-top: 1rem; }
 .no-citas p { color: var(--color-texto-secundario); }
 
-/* --- ESTILOS RESPONSIVE SIMPLIFICADOS --- */
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;
@@ -181,7 +175,6 @@
     margin-left: -1rem;
   }
 
-  /* Ya no se necesita el estilo complejo para el header del panel */
   .mat-expansion-panel-header-title {
     font-size: 0.9rem;
   }

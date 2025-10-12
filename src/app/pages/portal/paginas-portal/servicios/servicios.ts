@@ -1,4 +1,3 @@
-// RUTA: src/app/portal/componentes/paginas/servicios/servicios.ts
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -26,7 +25,7 @@ interface Servicio {
 export class ServiciosComponent {
   servicios: Servicio[] = [
     { 
-      icon: 'monitor_heart', // <-- ICONO CORREGIDO
+      icon: 'monitor_heart', 
       nombre: 'Cardiología', 
       desc: `Nos especializamos en el estudio, diagnóstico y tratamiento de las enfermedades del corazón y del sistema circulatorio.
 

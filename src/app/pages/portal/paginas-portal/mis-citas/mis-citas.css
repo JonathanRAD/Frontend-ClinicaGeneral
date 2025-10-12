@@ -1,4 +1,3 @@
-/* RUTA: src/app/portal/componentes/paginas/mis-citas/mis-citas.css */
 
 .page-header {
   display: flex;
@@ -25,7 +24,6 @@
   box-shadow: var(--sombra-tarjeta);
 }
 
-/* Contenedor del resumen */
 .cita-summary {
   display: flex;
   padding: 1.25rem;
@@ -61,9 +59,6 @@
 .badge.programada { background-color: var(--color-primario); }
 .badge.completada { background-color: #6c757d; }
 .badge.cancelada { background-color: var(--color-peligro); }
-
-
-/* --- ESTILOS PARA LA ANIMACIÓN DE EXPANSIÓN --- */
 .expand-icon {
   transition: transform 0.3s ease;
 }
@@ -86,7 +81,7 @@
 }
 
 .is-expanded .cita-details-wrapper {
-  max-height: 250px; /* Un valor mayor al contenido que se expandirá */
+  max-height: 250px; 
 }
 
 .is-expanded .cita-details-content {
@@ -110,16 +105,15 @@
 .detalle-item.prep-item mat-icon { color: var(--color-advertencia); }
 
 
-/* --- ESTILOS PARA LA LÍNEA DE TIEMPO --- */
 .timeline-container {
   position: relative;
-  padding-left: 3rem; /* Espacio para la línea y los puntos */
+  padding-left: 3rem; 
 }
 .timeline-container::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 10px; /* Alineado con los puntos */
+  left: 10px; 
   width: 4px;
   height: 100%;
   background-color: #e0e7ee;
@@ -144,7 +138,7 @@
 .timeline-dot {
   position: absolute;
   top: 2rem;
-  left: -2.5rem; /* Posiciona el punto sobre la línea */
+  left: -2.5rem; 
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -153,7 +147,7 @@
   z-index: 2;
 }
 .timeline-item.is-past .timeline-dot {
-  border-color: #bdc3c7; /* Color gris para el historial */
+  border-color: #bdc3c7; 
 }
 .timeline-item.is-past .cita-card {
   opacity: 0.8;
@@ -162,7 +156,6 @@
   color: #6c757d;
 }
 
-/* --- Estados de carga y sin citas --- */
 .spinner-container { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4rem 0; }
 .no-citas { text-align: center; padding: 3rem; background-color: #f8f9fa; border-radius: var(--borde-radio); position: relative; }
 .no-citas.is-past { background-color: transparent; border: 2px dashed #e0e7ee; }

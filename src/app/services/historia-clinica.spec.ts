@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { HistoriaClinica } from '../modelos/historia-clinica';
-import { Consulta } from '../modelos/consulta'; // <-- Asegúrate de que este import exista
+import { Consulta } from '../modelos/consulta'; 
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,6 @@ export class HistoriaClinicaService {
     return this.http.put<HistoriaClinica>(`${this.apiUrl}/${id}`, datos);
   }
 
-  // --- MÉTODO QUE FALTABA ---
   agregarConsulta(historiaId: number, consultaData: any): Observable<Consulta> {
     return this.http.post<Consulta>(`${this.apiUrl}/${historiaId}/consultas`, consultaData);
   }

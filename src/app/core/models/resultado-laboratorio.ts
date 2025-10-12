@@ -1,4 +1,3 @@
-// RUTA: src/app/panel-control/modelos/resultado-laboratorio.ts
 
 export interface ResultadoLaboratorio {
   id: number;

@@ -1,4 +1,3 @@
-/* ... (estilos existentes) ... */
 
 .detail-card {
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -73,7 +72,7 @@ body.dark-theme .total-section {
 body.dark-theme .info-section p {
   color: #f1f1f1;
 }
-/* Keyframes para la animación de entrada */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -85,7 +84,6 @@ body.dark-theme .info-section p {
   }
 }
 
-/* Keyframes para la animación de salida */
 @keyframes fadeOutDown {
   from {
     opacity: 1;
@@ -97,18 +95,14 @@ body.dark-theme .info-section p {
   }
 }
 
-/* Aplica la animación de entrada por defecto */
 .detail-card-content {
   animation: fadeInUp 0.4s ease-out forwards;
 }
 
-/* Aplica la animación de salida cuando la clase .animating-out está presente */
 .detail-card-content.animating-out {
   animation: fadeOutDown 0.15s ease-in forwards;
 }
 
-
-/* Estilos para el nuevo template de "Sin Detalles" */
 .no-details-template {
   text-align: center;
   padding: 1.5rem;
@@ -122,10 +116,6 @@ body.dark-theme .info-section p {
   color: #e0e0e0;
 }
 
-/* --- FIN DE NUEVOS ESTILOS --- */
-
-
-/* Estilos para el modo oscuro (adaptando los nuevos elementos) */
 body.dark-theme .detail-card,
 body.dark-theme .total-section {
   background-color: #1e1e1e;

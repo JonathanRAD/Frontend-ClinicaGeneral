@@ -1,12 +1,11 @@
-// RUTA: src/app/panel-control/paginas/inicio/inicio.ts
 
 import { Component, computed, Signal, AfterViewInit, ViewChild, ElementRef, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // RouterModule para los botones de acceso rápido
+import { RouterModule } from '@angular/router'; 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button'; // Módulo para los botones
+import { MatButtonModule } from '@angular/material/button'; 
 import { Chart } from 'chart.js/auto';
 
 import { PacienteService } from '../../../../services/paciente';
@@ -24,15 +23,12 @@ import { Patient } from '../../../../core/models/patient';
   styleUrls: ['./inicio.css']
 })
 export class Inicio implements AfterViewInit {
-  // Solo necesitamos un canvas para el nuevo gráfico de ingresos
   @ViewChild('ingresosChart') ingresosChartCanvas!: ElementRef<HTMLCanvasElement>;
   
-  // Señales para las tarjetas
   totalPacientes: Signal<number>;
   citasHoy: Signal<number>;
   ingresosMesActual: Signal<number>;
 
-  // Señales para las listas y el gráfico
   ultimosPacientes: Signal<Patient[]>;
   citasCompletadasRecientes: Signal<Cita[]>;
   private ingresosPorMesData: Signal<{ labels: string[], data: number[] }>;
@@ -49,12 +45,10 @@ export class Inicio implements AfterViewInit {
     this.citasHoy = computed(() => this.getCitasDeHoy());
     this.ingresosMesActual = computed(() => this.getIngresosMesActual());
 
-    // Toma los últimos 3 pacientes registrados y los invierte para mostrar el más nuevo primero
     this.ultimosPacientes = computed(() => 
       this.pacienteService.pacientes().slice(-3).reverse()
     );
 
-    // Filtra las citas completadas, las ordena por fecha (la más reciente primero) y toma las 3 últimas
     this.citasCompletadasRecientes = computed(() => 
       this.citaService.citas()
         .filter(c => c.estado === 'completada')
@@ -64,7 +58,6 @@ export class Inicio implements AfterViewInit {
 
     this.ingresosPorMesData = computed(() => this.procesarIngresosPorMes());
 
-    // Effect que actualiza el gráfico si los datos de facturación cambian
     effect(() => {
       this.actualizarGraficoIngresos();
     });
@@ -74,7 +67,6 @@ export class Inicio implements AfterViewInit {
     this.crearGraficoIngresos();
   }
 
-  // --- MÉTODOS DE CÁLCULO (sin cambios) ---
   private getCitasDeHoy(): number {
     const hoy = new Date().setHours(0, 0, 0, 0);
     return this.citaService.citas().filter(c => new Date(c.fechaHora).setHours(0, 0, 0, 0) === hoy).length;
@@ -87,7 +79,6 @@ export class Inicio implements AfterViewInit {
       .reduce((sum: number, factura: Factura) => sum + factura.monto, 0);
   }
   
-  // --- NUEVO MÉTODO PARA EL GRÁFICO DE INGRESOS ---
   private procesarIngresosPorMes(): { labels: string[], data: number[] } {
     const conteo = Array(12).fill(0);
     this.facturacionService.facturas()
@@ -100,7 +91,6 @@ export class Inicio implements AfterViewInit {
     return { labels, data: conteo };
   }
 
-  // --- MÉTODOS PARA EL GRÁFICO ---
   private crearGraficoIngresos(): void {
     if (!this.ingresosChartCanvas) return;
     const datos = this.ingresosPorMesData();

@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { Rol } from '../../../../core/models/rol';
-// --- CORRECCIÓN: Importamos la interfaz desde el nuevo archivo de modelo ---
 import { UserProfile } from '../../../../core/models/usuario';
 
 @Component({

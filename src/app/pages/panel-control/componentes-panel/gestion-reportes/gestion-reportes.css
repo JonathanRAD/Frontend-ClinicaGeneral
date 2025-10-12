@@ -1,4 +1,4 @@
-/* RUTA: src/app/panel-control/componentes/gestion-reportes/gestion-reportes.css */
+
 .report-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid rgba(0,0,0,0.08);
@@ -17,7 +17,7 @@
 }
 
 mat-card-actions {
-  gap: 8px; /* Espacio entre los botones */
+  gap: 8px; 
 }
 
 mat-card-content p {
@@ -25,33 +25,25 @@ mat-card-content p {
   color: #6c757d;
   padding: 0 16px;
 }
-/* RUTA: src/app/panel-control/componentes/gestion-reportes/gestion-reportes.css */
 
-/* ... (estilos de .report-card que ya tenías) ... */
-
-/* --- INICIO DE NUEVOS ESTILOS PARA EL BOTÓN DIVIDIDO --- */
 .split-button-container {
   display: inline-flex;
-  border-radius: 18px; /* Bordes redondeados para el grupo */
-  overflow: hidden; /* Oculta los bordes internos de los botones */
+  border-radius: 18px;
+  overflow: hidden; 
   box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
-/* Quitamos estilos individuales de los botones para que el contenedor los maneje */
 .split-button-container button {
   border-radius: 0;
   box-shadow: none !important;
 }
 
-/* Parte principal del botón (texto e ícono) */
 .split-button-main {
   padding-right: 12px !important;
 }
 
-/* Parte de la flecha */
 .split-button-arrow {
   min-width: 40px !important;
   padding: 0 !important;
-  border-left: 1px solid rgba(255, 255, 255, 0.25); /* Línea divisora sutil */
+  border-left: 1px solid rgba(255, 255, 255, 0.25); 
 }
-/* --- FIN DE NUEVOS ESTILOS --- */

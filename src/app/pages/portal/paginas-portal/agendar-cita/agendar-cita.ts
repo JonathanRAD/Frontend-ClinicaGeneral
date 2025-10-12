@@ -6,8 +6,6 @@ import { CitaService } from '../../../../services/cita';
 import { MedicoService } from '../../../../services/medico';
 import { Medico } from '../../../../core/models/medico';
 import { Notificacion } from '../../../../services/notificacion';
-
-// --- IMPORTS DE ANGULAR MATERIAL ---
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -33,7 +31,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 })
 export class AgendarCita implements OnInit {
   
-  // --- SEÑALES PARA CONTROLAR EL WIZARD ---
   paso = signal<'especialidad' | 'medico' | 'fecha'>('especialidad');
   especialidadSeleccionada = signal<string | null>(null);
 
@@ -91,7 +88,6 @@ export class AgendarCita implements OnInit {
     });
   }
 
-  // --- MÉTODOS PARA EL WIZARD ---
   seleccionarEspecialidad(especialidad: string): void {
     this.especialidadSeleccionada.set(especialidad);
     this.paso.set('medico');
@@ -106,7 +102,6 @@ export class AgendarCita implements OnInit {
     this.paso.set(paso);
   }
   
-  // --- MÉTODOS EXISTENTES ---
   private generarHoras(): void {
     for (let h = 8; h < 18; h++) {
       this.horasDisponibles.push(`${h.toString().padStart(2, '0')}:00`);
@@ -146,7 +141,6 @@ export class AgendarCita implements OnInit {
     });
   }
   
-  // --- GETTERS PARA LA PLANTILLA ---
   get medicoSeleccionado(): Medico | undefined {
     const medicoId = this.formularioCita.get('medicoId')?.value;
     return this.todosLosMedicos().find(m => m.id === medicoId);
