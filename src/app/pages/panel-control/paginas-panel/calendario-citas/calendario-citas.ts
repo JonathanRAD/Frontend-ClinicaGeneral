@@ -1,4 +1,4 @@
-import { Component, Signal, computed } from '@angular/core';
+import { Component, Signal, computed, OnInit  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { Notificacion } from '../../../../services/notificacion';
   templateUrl: './calendario-citas.html',
   styleUrls: ['./calendario-citas.css']
 })
-export class CalendarioCitas {
+export class CalendarioCitas implements OnInit {
   citasParaVista: Signal<Cita[]>;
 
   columnasCitas: ColumnConfig[] = [
@@ -44,6 +44,10 @@ export class CalendarioCitas {
         })
         .sort((a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime());
     });
+  }
+  
+  ngOnInit(): void {
+  this.citaService.cargarCitasPanel();
   }
 
   private calcularTiempoRestante(fechaCita: Date, ahora: Date): { tiempoRestante: string, alertaClase: 'rojo' | 'ambar' | 'verde' } {

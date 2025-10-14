@@ -1,4 +1,3 @@
-
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Cita } from '../core/models/cita';
@@ -15,20 +14,15 @@ export class CitaService {
   private apiUrl = `${environment.apiUrl}/citas`;
 
   constructor(private http: HttpClient) {
-    this.cargarCitasPanel();
   }
 
   getMisCitas(): Observable<Cita[]> {
     return this.http.get<Cita[]>(`${this.apiUrl}/mis-citas`);
   }
 
-  /**
-   * @param payload
-   */
   agendarCita(payload: { medicoId: number; fechaHora: string; motivo: string }): Observable<Cita> {
     return this.http.post<Cita>(`${this.apiUrl}/agendar`, payload);
   }
-
 
   cargarCitasPanel(): void {
     this.http.get<Cita[]>(this.apiUrl).subscribe({
@@ -39,17 +33,11 @@ export class CitaService {
       }
     });
   }
-  /**
-   * Envía la solicitud para cancelar una cita del paciente autenticado.
-   * @param id El ID de la cita a cancelar.
-   */
+
   cancelarMiCita(id: string): Observable<void> { 
     return this.http.delete<void>(`${this.apiUrl}/mis-citas/${id}`);
   }
 
-  /**
-   * @param payload 
-   */
   crearCitaPanel(payload: any): Observable<Cita> {
     return this.http.post<Cita>(this.apiUrl, payload).pipe(
       tap(nuevaCita => {
@@ -58,10 +46,6 @@ export class CitaService {
     );
   }
 
-  /**
-   * @param id 
-   * @param payload 
-   */
   actualizarCitaPanel(id: any, payload: any): Observable<Cita> {
     return this.http.put<Cita>(`${this.apiUrl}/${id}`, payload).pipe(
       tap(citaActualizada => {
@@ -72,10 +56,6 @@ export class CitaService {
     );
   }
   
-
-  /**
-   * @param id 
-   */
   eliminarCitaPanel(id: any): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       tap(() => {
@@ -86,4 +66,3 @@ export class CitaService {
     );
   }
 }
-
