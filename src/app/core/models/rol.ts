@@ -1,8 +1,7 @@
+import { Permission } from './permission';
 
-export enum Rol {
-    ADMINISTRADOR = 'ADMINISTRADOR',
-    RECEPCIONISTA = 'RECEPCIONISTA',
-    MEDICO = 'MEDICO',
-    CAJERO = 'CAJERO',
-    PACIENTE = 'PACIENTE'
+export interface Role {
+  id: number;
+  name: string;
+  permissions: Permission[];
 }

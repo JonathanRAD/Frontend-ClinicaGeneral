@@ -1,59 +1,47 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { Rol } from '../core/models/rol';
-import { UserProfile, ChangePasswordPayload, CreateUserPayload } from './../core/models/usuario';
+import { UserProfile } from '../core/models/usuario'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = `${environment.apiUrl}/usuarios`;
-  
-  private usuariosSignal = signal<UserProfile[]>([]);
-  public usuarios = this.usuariosSignal.asReadonly();
+  private apiUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) { }
 
-  getMiPerfil(): Observable<UserProfile> {
-    return this.http.get<UserProfile>(`${this.apiUrl}/me`);
+  obtenerTodosLosUsuarios(): Observable<UserProfile[]> {
+    return this.http.get<UserProfile[]>(`${this.apiUrl}/usuarios`);
   }
 
-  getAllUsuarios(): Observable<UserProfile[]> {
-    return this.http.get<UserProfile[]>(this.apiUrl).pipe(
-      tap(usuarios => this.usuariosSignal.set(usuarios))
-    );
+
+  obtenerMiPerfil(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/usuarios/me`);
   }
 
-  crearUsuario(payload: CreateUserPayload): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, payload).pipe(
-      tap(() => this.getAllUsuarios().subscribe())
-    );
+  /**
+   * @param datosUsuario 
+   */
+  crearUsuario(datosUsuario: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/usuarios`, datosUsuario);
   }
 
-  actualizarUsuario(id: number, payload: UserProfile): Observable<UserProfile> {
-    return this.http.put<UserProfile>(`${this.apiUrl}/${id}`, payload).pipe(
-      tap(() => this.getAllUsuarios().subscribe())
-    );
+  /**
+   * 
+   * @param id - 
+   * @param datosUsuario 
+   */
+  actualizarUsuario(id: number, datosUsuario: any): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.apiUrl}/usuarios/${id}`, datosUsuario);
   }
 
-  eliminarUsuario(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
-      tap(() => this.getAllUsuarios().subscribe())
-    );
-  }
-
-  actualizarPerfil(perfil: UserProfile): Observable<UserProfile> {
-    console.log('Actualizando perfil (simulado):', perfil);
-    return this.http.get<UserProfile>(`${this.apiUrl}/me`);
-  }
-
-  cambiarContrasena(payload: ChangePasswordPayload): Observable<any> {
-    console.log('Cambiando contraseña (simulado)');
-    return new Observable(observer => {
-      observer.next({ message: 'Contraseña actualizada con éxito' });
-      observer.complete();
-    });
+  /**
+   * 
+   * @param id 
+   */
+  eliminarUsuario(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/usuarios/${id}`);
   }
 }

@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsuarioService } from '../../../../services/usuario';
 import { UserProfile } from '../../../../core/models/usuario';
+import { NotificacionService } from '../../../../services/notificacion';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -36,6 +37,7 @@ export class MiPerfilComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
+    private notificacionService: NotificacionService,
     private snackBar: MatSnackBar
   ) {
     this.perfilForm = this.fb.group({
@@ -52,10 +54,9 @@ export class MiPerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usuarioService.getMiPerfil().subscribe(user => {
+    this.usuarioService.obtenerMiPerfil().subscribe((user: UserProfile) => {
       this.usuario.set(user);
       this.perfilForm.patchValue(user);
-      this.permisos.set(this.mapearRolAPermisos(user.rol));
     });
   }
 
@@ -86,24 +87,30 @@ export class MiPerfilComponent implements OnInit {
   guardarPerfil(): void {
     if (this.perfilForm.invalid || !this.usuario()) return;
 
-    const datosPerfil: UserProfile = {
-      ...this.usuario()!,
-      ...this.perfilForm.getRawValue()
+    const datosPerfil = {
+      nombres: this.perfilForm.value.nombres,
+      apellidos: this.perfilForm.value.apellidos
     };
 
-    this.usuarioService.actualizarPerfil(datosPerfil).subscribe({
-      next: (usuarioActualizado) => {
+    this.usuarioService.actualizarUsuario(this.usuario()!.id, datosPerfil).subscribe({
+      next: (usuarioActualizado: UserProfile) => {
         this.usuario.set(usuarioActualizado);
-        this.snackBar.open('Perfil actualizado con éxito', 'Cerrar', { duration: 3000 });
+        this.notificacionService.mostrar('Perfil actualizado con éxito', 'success');
         this.modoEdicion = false;
       },
-      error: () => this.snackBar.open('Error al actualizar el perfil', 'Cerrar', { duration: 3000 })
+      error: () => this.notificacionService.mostrar('Error al actualizar el perfil', 'error')
     });
   }
 
   cambiarContrasena(): void {
     if (this.contrasenaForm.invalid) return;
 
+    // --- CORRECCIÓN: El método no existe en el servicio. ---
+    // Notificamos al usuario que la función está pendiente.
+    this.snackBar.open('Funcionalidad de cambio de contraseña no implementada', 'Cerrar', { duration: 3000 });
+
+    /*
+    // Código futuro cuando implementes el endpoint en el backend:
     this.usuarioService.cambiarContrasena({
       contrasenaActual: this.contrasenaForm.value.contrasenaActual,
       nuevaContrasena: this.contrasenaForm.value.nuevaContrasena
@@ -112,7 +119,8 @@ export class MiPerfilComponent implements OnInit {
         this.snackBar.open('Contraseña actualizada correctamente', 'Cerrar', { duration: 3000 });
         this.contrasenaForm.reset();
       },
-      error: () => this.snackBar.open('Error al cambiar la contraseña', 'Cerrar', { duration: 3000 })
+      error: (err) => this.snackBar.open(err.error?.message || 'Error al cambiar la contraseña', 'Cerrar', { duration: 3000 })
     });
+    */
   }
 }

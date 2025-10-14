@@ -2,11 +2,16 @@
 
   <div class="profile-header">
     <div class="profile-avatar">
-      <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=100&auto=format&fit=crop" alt="Foto de perfil">
+      <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=100&auto=format&fit=crop"
+        alt="Foto de perfil">
     </div>
     <div class="profile-info">
       <h1 class="user-name">{{ usuario()?.nombres }} {{ usuario()?.apellidos }}</h1>
-      <p class="user-role">{{ usuario()?.rol | titlecase }}</p>
+      <p class="user-role">
+        <span *ngFor="let rol of usuario()?.roles; last as isLast">
+          {{ rol.name | titlecase }}{{ !isLast ? ', ' : '' }}
+        </span>
+      </p>
     </div>
   </div>
   <div class="row g-4">
@@ -17,7 +22,8 @@
             <mat-card-title>Información Personal</mat-card-title>
             <mat-card-subtitle>Tus datos de usuario</mat-card-subtitle>
           </div>
-          <button *ngIf="!modoEdicion" mat-icon-button color="primary" (click)="activarEdicion()" matTooltip="Editar perfil">
+          <button *ngIf="!modoEdicion" mat-icon-button color="primary" (click)="activarEdicion()"
+            matTooltip="Editar perfil">
             <mat-icon>edit</mat-icon>
           </button>
         </mat-card-header>
@@ -54,7 +60,8 @@
         </mat-card-content>
         <mat-card-actions align="end" *ngIf="modoEdicion">
           <button mat-stroked-button (click)="cancelarEdicion()">Cancelar</button>
-          <button mat-raised-button color="primary" (click)="guardarPerfil()" [disabled]="perfilForm.invalid">Guardar Cambios</button>
+          <button mat-raised-button color="primary" (click)="guardarPerfil()" [disabled]="perfilForm.invalid">Guardar
+            Cambios</button>
         </mat-card-actions>
       </mat-card>
     </div>
@@ -88,17 +95,21 @@
             <mat-form-field appearance="outline">
               <mat-label>Nueva Contraseña</mat-label>
               <input matInput type="password" formControlName="nuevaContrasena">
-              <mat-error *ngIf="contrasenaForm.controls['nuevaContrasena'].hasError('minlength')">Debe tener al menos 8 caracteres</mat-error>
+              <mat-error *ngIf="contrasenaForm.controls['nuevaContrasena'].hasError('minlength')">Debe tener al menos 8
+                caracteres</mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>Confirmar Nueva Contraseña</mat-label>
               <input matInput type="password" formControlName="confirmarContrasena">
-              <mat-error *ngIf="contrasenaForm.hasError('notSame') && contrasenaForm.controls['confirmarContrasena'].touched">Las contraseñas no coinciden</mat-error>
+              <mat-error
+                *ngIf="contrasenaForm.hasError('notSame') && contrasenaForm.controls['confirmarContrasena'].touched">Las
+                contraseñas no coinciden</mat-error>
             </mat-form-field>
           </form>
         </mat-card-content>
         <mat-card-actions align="end">
-          <button mat-raised-button color="primary" (click)="cambiarContrasena()" [disabled]="contrasenaForm.invalid">Actualizar Contraseña</button>
+          <button mat-raised-button color="primary" (click)="cambiarContrasena()"
+            [disabled]="contrasenaForm.invalid">Actualizar Contraseña</button>
         </mat-card-actions>
       </mat-card>
     </div>

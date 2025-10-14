@@ -7,7 +7,7 @@ import { Cita } from '../../../../core/models/cita';
 import { TablaGenerica, ColumnConfig } from '../../../../shared/tabla-generica/tabla-generica';
 import { DialogoConfirmacion } from '../../componentes-panel/dialogo-confirmacion/dialogo-confirmacion';
 import { FormularioCita } from '../../componentes-panel/formulario-cita/formulario-cita';
-import { Notificacion } from '../../../../services/notificacion'; 
+import { NotificacionService } from '../../../../services/notificacion';
 
 @Component({
   selector: 'app-calendario-citas',
@@ -33,7 +33,7 @@ export class CalendarioCitas implements OnInit {
   constructor(
     private citaService: CitaService,
     public dialog: MatDialog,
-    private notificacionService: Notificacion 
+    private notificacionService: NotificacionService 
   ) {
     this.citasParaVista = computed(() => {
       const ahora = new Date();

@@ -1,45 +1,55 @@
 <h2 mat-dialog-title>{{ esModoEdicion ? 'Editar Usuario' : 'Agregar Nuevo Usuario' }}</h2>
 
 <mat-dialog-content>
-  <p class="mat-body-1 text-muted">Completa los datos del usuario y asigna un rol.</p>
-  
   <form [formGroup]="usuarioForm" class="d-flex flex-column pt-3 gap-2">
     <mat-form-field appearance="outline">
       <mat-label>Nombres</mat-label>
       <input matInput formControlName="nombres" required>
-      <mat-error>Los nombres son requeridos.</mat-error>
+      <mat-error *ngIf="usuarioForm.get('nombres')?.hasError('required')">Los nombres son requeridos.</mat-error>
     </mat-form-field>
-
+    
     <mat-form-field appearance="outline">
       <mat-label>Apellidos</mat-label>
       <input matInput formControlName="apellidos" required>
-      <mat-error>Los apellidos son requeridos.</mat-error>
+      <mat-error *ngIf="usuarioForm.get('apellidos')?.hasError('required')">Los apellidos son requeridos.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Correo Electrónico</mat-label>
-      <input matInput formControlName="email" required type="email">
+      <input matInput formControlName="email" required type="email" [readonly]="esModoEdicion">
       <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">El correo es requerido.</mat-error>
       <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">Debe ser un correo válido.</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Rol</mat-label>
-      <mat-select formControlName="rol" required>
-        <mat-option *ngFor="let rol of rolesDisponibles" [value]="rol">
-          {{ rol | titlecase }}
-        </mat-option>
-      </mat-select>
-      <mat-error>El rol es requerido.</mat-error>
-    </mat-form-field>
-
     <mat-form-field *ngIf="!esModoEdicion" appearance="outline">
       <mat-label>Contraseña</mat-label>
-      <input matInput formControlName="password" required type="password">
+      <input matInput formControlName="password" required type="password" autocomplete="new-password">
       <mat-error *ngIf="usuarioForm.get('password')?.hasError('required')">La contraseña es requerida.</mat-error>
       <mat-error *ngIf="usuarioForm.get('password')?.hasError('minlength')">Mínimo 8 caracteres.</mat-error>
     </mat-form-field>
-  </form>
+
+    <div class="roles-container mt-2">
+      <label id="roles-label" class="form-label fw-medium">Roles</label>
+      <div role="group" aria-labelledby="roles-label" class="checkbox-group d-flex flex-wrap gap-3 p-2 border rounded">
+        <ng-container *ngIf="rolesDisponibles$ | async as roles; else loadingRoles">
+          <mat-checkbox 
+            *ngFor="let rol of roles"
+            [value]="rol.id.toString()" 
+            (change)="onCheckboxChange($event)"
+            [checked]="isChecked(rol.id)">
+            {{ rol.name | titlecase }}
+          </mat-checkbox>
+        </ng-container>
+        <ng-template #loadingRoles>
+          <mat-spinner diameter="24"></mat-spinner>
+          <span class="ms-2">Cargando roles...</span>
+        </ng-template>
+      </div>
+      <mat-error *ngIf="usuarioForm.get('roleIds')?.invalid && usuarioForm.get('roleIds')?.touched">
+        Debe seleccionar al menos un rol.
+      </mat-error>
+    </div>
+    </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

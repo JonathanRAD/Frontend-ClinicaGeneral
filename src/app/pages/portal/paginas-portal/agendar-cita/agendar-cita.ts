@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CitaService } from '../../../../services/cita';
 import { MedicoService } from '../../../../services/medico';
 import { Medico } from '../../../../core/models/medico';
-import { Notificacion } from '../../../../services/notificacion';
+import { NotificacionService } from '../../../../services/notificacion';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -51,7 +51,7 @@ export class AgendarCita implements OnInit {
     private citaService: CitaService,
     private medicoService: MedicoService,
     private router: Router,
-    private notificacionService: Notificacion
+    private notificacionService: NotificacionService
   ) {
     this.minDate = new Date();
     this.generarHoras();

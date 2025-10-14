@@ -35,7 +35,8 @@ export class Navbar implements OnInit {
 
   ngOnInit(): void {
     if (this.esPortal) {
-      const email = this.authService.getNombreUsuario() || 'paciente';
+      const user = this.authService.getCurrentUser();
+      const email = user?.sub || 'paciente'; // El email está en el campo 'sub' del token
       this.nombreUsuario = this.capitalize(email.split('@')[0]);
     }
   }

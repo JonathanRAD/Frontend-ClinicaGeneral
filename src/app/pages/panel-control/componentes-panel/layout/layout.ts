@@ -19,12 +19,13 @@ export class LayoutComponent implements OnInit {
   usuario: WritableSignal<UserProfile | null> = signal(null);
 
   constructor(
-    public authService: AutenticacionService,
+    public authService: AutenticacionService, // Lo hacemos público para usarlo en el template
     private usuarioService: UsuarioService
   ) {}
 
   ngOnInit(): void {
-    this.usuarioService.getMiPerfil().subscribe(perfil => {
+    // --- CORRECCIÓN CLAVE: El método se llama obtenerMiPerfil() ---
+    this.usuarioService.obtenerMiPerfil().subscribe(perfil => {
       this.usuario.set(perfil);
     });
   }

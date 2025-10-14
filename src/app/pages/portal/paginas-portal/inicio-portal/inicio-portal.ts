@@ -62,7 +62,7 @@ export class InicioPortalComponent implements OnInit {
     private authService: AutenticacionService,
     private citaService: CitaService
   ) {
-    const nombre = this.authService.getNombreUsuario()?.split('@')[0] || 'Paciente';
+    const nombre = this.authService.getCurrentUser()?.nombres || 'Paciente';
     this.nombreUsuario.set(nombre.charAt(0).toUpperCase() + nombre.slice(1));
 
     this.proximaCita = computed(() => {

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PerfilPacienteService } from '../../../../services/perfil-paciente.service';
-import { Notificacion } from '../../../../services/notificacion';
+import { NotificacionService } from '../../../../services/notificacion';
 import { Spinner } from '../../../../shared/spinner/spinner';
 import { Patient } from '../../../../core/models/patient';
 import { AutenticacionService } from '../../../../services/autenticacion'; 
@@ -49,7 +49,7 @@ export class MiPerfil implements OnInit {
   constructor(
     private fb: FormBuilder,
     private perfilService: PerfilPacienteService,
-    private notificacion: Notificacion,
+    private notificacion: NotificacionService,
     private dialog: MatDialog,
     private authService: AutenticacionService 
   ) {
@@ -72,7 +72,7 @@ export class MiPerfil implements OnInit {
       next: (perfil: Patient) => {
         this.formularioPerfil.patchValue({
           ...perfil,
-          email: this.authService.getNombreUsuario(), 
+          email: this.authService.getCurrentUser()?.sub,
           fechaNacimiento: perfil.fechaNacimiento
             ? new Date(perfil.fechaNacimiento).toISOString().split('T')[0]
             : ''
@@ -110,6 +110,6 @@ export class MiPerfil implements OnInit {
 
   abrirDialogoContrasena(): void {
     console.log('Abriendo diálogo para cambiar contraseña...');
-    this.notificacion.mostrar('Funcionalidad de cambio de contraseña en desarrollo.', 'exito');
+    this.notificacion.mostrar('Funcionalidad de cambio de contraseña en desarrollo.', 'info');
   }
 }

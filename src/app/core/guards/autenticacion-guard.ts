@@ -6,7 +6,7 @@ export const autenticacionGuard: CanActivateFn = (route, state): boolean | UrlTr
   const authService = inject(AutenticacionService);
   const router = inject(Router);
 
-  if (authService.estaLogueado()) {
+  if (authService.isLoggedIn()) {
     return true;
   }
   

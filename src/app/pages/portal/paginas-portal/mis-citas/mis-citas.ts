@@ -7,7 +7,7 @@ import { Spinner } from '../../../../shared/spinner/spinner';
 import { RouterModule } from '@angular/router';
 import { DialogoConfirmacion } from '../../../panel-control/componentes-panel/dialogo-confirmacion/dialogo-confirmacion';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { Notificacion } from '../../../../services/notificacion';
+import { NotificacionService } from '../../../../services/notificacion';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -49,7 +49,7 @@ export class MisCitas implements OnInit {
    constructor(
     private citaService: CitaService,
     private dialog: MatDialog,
-    private notificacion: Notificacion
+    private notificacion: NotificacionService
   ) {
     const ahora = new Date();
 

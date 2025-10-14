@@ -1,26 +1,18 @@
-
-import { Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { jwtDecode } from "jwt-decode";
 import { environment } from '../environments/environment';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { jwtDecode } from 'jwt-decode';
 
-interface AuthResponse {
-  token: string;
-}
-
-interface RegisterPayload {
+// Interfaz para el token decodificado
+interface DecodedToken {
+  sub: string; // Correo del usuario
+  id: number;
   nombres: string;
   apellidos: string;
-  email: string;
-  password: string;
-}
-
-interface DecodedToken {
-  sub: string;
-  rol: string;
+  roles: string[];
+  authorities: string[]; // Permisos
   iat: number;
   exp: number;
 }
@@ -30,119 +22,77 @@ interface DecodedToken {
 })
 export class AutenticacionService {
   private apiUrl = `${environment.apiUrl}/auth`;
-  
-  usuarioLogueado = signal<boolean>(false);
-  rolUsuario = signal<string>('');
+  private currentUserSubject: BehaviorSubject<DecodedToken | null>;
 
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-  ) {
+  constructor(private http: HttpClient, private router: Router) {
     const token = this.getToken();
-    if (token) {
-      this.usuarioLogueado.set(true);
-      this.decodificarToken(token);
-      this.verificarTokenAlCargar();
-    }
-  }
-  private verificarTokenAlCargar(): void {
-    const token = this.getToken();
-    if (token) {
-      if (this.esTokenExpirado(token)) {
-        localStorage.removeItem('jwt_token');
-      } else {
-        this.usuarioLogueado.set(true);
-        this.decodificarYEstablecerRol(token);
-      }
-    }
+    this.currentUserSubject = new BehaviorSubject<DecodedToken | null>(token ? this.decodeToken(token) : null);
   }
 
-  
+  // --- MÉTODOS PÚBLICOS DE ACCIÓN ---
 
-  login(email: string, contrasena: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { email, password: contrasena })
-      .pipe(
-        tap(response => {
-          this.manejarRespuestaAutenticacion(response.token);
-
-          const rol = this.rolUsuario(); 
-
-          if (rol === 'PACIENTE') {
-            this.router.navigate(['/portal/mis-citas']); 
-          } else {
-            this.router.navigate(['/panel']);
-          }
-        })
-      );
+  login(credentials: { email: string, password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: any) => this.handleAuthentication(response.token))
+    );
   }
 
-  register(payload: RegisterPayload): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, payload)
-      .pipe(
-        tap(response => {
-          this.manejarRespuestaAutenticacion(response.token);
-        })
-      );
+  register(userInfo: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, userInfo).pipe(
+      tap((response: any) => this.handleAuthentication(response.token))
+    );
   }
 
-  logout() {
-    localStorage.removeItem('jwt_token');
-    this.usuarioLogueado.set(false);
-    this.rolUsuario.set(''); 
+  logout(): void {
+    localStorage.removeItem('token');
+    this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
 
-  estaLogueado(): boolean {
-    return !!localStorage.getItem('jwt_token');
-  }
+  // --- MÉTODOS PÚBLICOS DE ESTADO Y AUTORIZACIÓN ---
 
-  getToken(): string | null {
-    return localStorage.getItem('jwt_token');
-  }
-  getNombreUsuario(): string | null {
+  isLoggedIn(): boolean {
     const token = this.getToken();
-    if (token && !this.esTokenExpirado(token)) {
-      try {
-        const payload: DecodedToken = jwtDecode(token);
-        return payload.sub; 
-      } catch (error) {
-        return null;
-      }
-    }
-    return null;
+    if (!token) return false;
+    const decoded = this.decodeToken(token);
+    if (!decoded) return false;
+    return decoded.exp * 1000 > Date.now();
   }
 
-  private manejarRespuestaAutenticacion(token: string): void {
-    localStorage.setItem('jwt_token', token);
-    this.usuarioLogueado.set(true);
-    this.decodificarToken(token);
+  getCurrentUser(): DecodedToken | null {
+    return this.currentUserSubject.value;
+  }
+  
+  // --- CORRECCIÓN: getToken() AHORA ES PÚBLICO ---
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
-  private decodificarYEstablecerRol(token: string): void {
-    try {
-      const payload: DecodedToken = jwtDecode(token);
-      this.rolUsuario.set(payload.rol || '');
-    } catch (error) {
-      console.error('Error al decodificar el token JWT:', error);
-      this.rolUsuario.set('');
-    }
+  tieneRol(rol: string): boolean {
+    const user = this.getCurrentUser();
+    return user?.roles?.includes(rol.toUpperCase()) ?? false;
   }
-  private esTokenExpirado(token: string): boolean {
-    try {
-      const payload: DecodedToken = jwtDecode(token);
-      const fechaExpiracion = payload.exp * 1000;
-      return fechaExpiracion < Date.now();
-    } catch (error) {
-      return true;
-    }
+
+  tienePermiso(permiso: string): boolean {
+    const user = this.getCurrentUser();
+    return user?.authorities?.includes(permiso.toUpperCase()) ?? false;
   }
-  private decodificarToken(token: string): void {
+
+  // --- MÉTODOS PRIVADOS ---
+
+  private handleAuthentication(token: string): void {
+    localStorage.setItem('token', token);
+    const decodedToken = this.decodeToken(token);
+    this.currentUserSubject.next(decodedToken);
+  }
+
+  private decodeToken(token: string): DecodedToken | null {
     try {
-      const payload: DecodedToken = jwtDecode(token);
-      this.rolUsuario.set(payload.rol || ''); 
+      return jwtDecode<DecodedToken>(token);
     } catch (error) {
-      console.error('Error al decodificar el token JWT:', error);
-      this.rolUsuario.set(''); 
+      console.error("Token inválido, cerrando sesión.", error);
+      this.logout();
+      return null;
     }
   }
 }

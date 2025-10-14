@@ -1,15 +1,67 @@
-<div class="container-fluid">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Gestión de Usuarios</h1>
+<div class="container-fluid p-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">Gestión de Usuarios</h1>
+    <button mat-raised-button color="primary" (click)="abrirModal()">
+      <mat-icon>add</mat-icon>
+      Agregar Usuario
+    </button>
   </div>
-  <app-tabla-generica
-    [data]="usuarios()"
-    [columnConfig]="columnas"
-    title="Usuarios del Sistema"
-    addButtonText="Agregar Usuario"
-    [nameProperties]="['nombres', 'apellidos']"
-    (onAdd)="onAgregar()"
-    (onEdit)="onEditar($event)"
-    (onDelete)="onEliminar($event)">
-  </app-tabla-generica>
+
+  <div class="mat-elevation-z8 overflow-auto">
+    <table mat-table [dataSource]="usuarios()" class="w-100">
+
+      <ng-container matColumnDef="nombres">
+        <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.nombres }} {{ usuario.apellidos }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Correo Electrónico </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.email }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef> Roles </th>
+        <td mat-cell *matCellDef="let usuario">
+          <span *ngFor="let rol of usuario.roles; last as isLast" class="badge bg-secondary me-1">
+            {{ rol.name | titlecase }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaRegistro">
+        <th mat-header-cell *matHeaderCellDef> Fecha de Registro </th>
+        <td mat-cell *matCellDef="let usuario"> {{ usuario.fechaRegistro | date:'dd/MM/yyyy h:mm a' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Acciones </th>
+        <td mat-cell *matCellDef="let usuario" class="text-center">
+          <button mat-icon-button color="primary" matTooltip="Editar Usuario" (click)="abrirModal(usuario)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" matTooltip="Eliminar Usuario" (click)="eliminarUsuario(usuario.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+          <div class="text-center p-4">
+            <ng-container *ngIf="!isLoading()">
+              No se encontraron usuarios para mostrar.
+            </ng-container>
+            <ng-container *ngIf="isLoading()">
+              Cargando usuarios...
+            </ng-container>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    </div>
 </div>

@@ -1,23 +1,19 @@
-import { Rol } from './rol';
+import { Role } from './rol';
 
+// Esta interfaz representa el perfil de un usuario que recibimos del backend.
 export interface UserProfile {
-  id?: number;
+  id: number;
   nombres: string;
   apellidos: string;
   email: string;
-  rol: Rol;
-  fechaRegistro?: Date;
+  fechaRegistro: Date;
+  roles: Role[]; // <-- CAMBIO CLAVE: de 'rol: string' a 'roles: Role[]'
 }
 
-export interface ChangePasswordPayload {
-  contrasenaActual: string;
-  nuevaContrasena: string;
-}
-
-export interface CreateUserPayload {
-  nombres: string;
-  apellidos: string;
-  email: string;
-  rol: Rol;
-  password?: string;
+// Esta interfaz se usará para enviar datos al backend al crear/actualizar.
+export interface UpdateUserRequest {
+  nombres?: string;
+  apellidos?: string;
+  // El email no se puede actualizar
+  roleIds?: number[]; // <-- CAMBIO CLAVE: Enviamos un array de IDs de roles.
 }
