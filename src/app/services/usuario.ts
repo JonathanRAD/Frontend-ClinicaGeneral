@@ -20,7 +20,7 @@ export class UsuarioService {
     return this.http.get<UserProfile>(`${this.apiUrl}/me`);
   }
 
-  getAllUsuarios(): Observable<UserProfile[]> {
+  public getAllUsuarios(): Observable<UserProfile[]> {
     return this.http.get<UserProfile[]>(this.apiUrl).pipe(
       tap(usuarios => this.usuariosSignal.set(usuarios))
     );
@@ -28,19 +28,16 @@ export class UsuarioService {
 
   crearUsuario(payload: CreateUserPayload): Observable<any> {
     return this.http.post(`${this.apiUrl}`, payload).pipe(
-      tap(() => this.getAllUsuarios().subscribe())
     );
   }
 
   actualizarUsuario(id: number, payload: UserProfile): Observable<UserProfile> {
     return this.http.put<UserProfile>(`${this.apiUrl}/${id}`, payload).pipe(
-      tap(() => this.getAllUsuarios().subscribe())
     );
   }
 
   eliminarUsuario(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`).pipe(
-      tap(() => this.getAllUsuarios().subscribe())
     );
   }
 

@@ -13,42 +13,42 @@
         </a>
       </li>
 
-      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'MEDICO' || authService.rolUsuario() === 'RECEPCIONISTA'">
+      <li *ngIf="puedeVer('VER_PACIENTES')">
         <a routerLink="pacientes" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-people-fill me-2"></i>
           Pacientes
         </a>
       </li>
       
-      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR'">
+      <li *ngIf="puedeVer('VER_MEDICOS')">
         <a routerLink="medicos" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-person-badge-fill me-2"></i>
           Médicos
         </a>
       </li>
 
-      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'MEDICO' || authService.rolUsuario() === 'RECEPCIONISTA'">
+      <li *ngIf="puedeVer('VER_CITAS')">
         <a routerLink="citas" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-calendar-event-fill me-2"></i>
           Citas
         </a>
       </li>
 
-      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR' || authService.rolUsuario() === 'CAJERO'">
+      <li *ngIf="puedeVer('VER_FACTURACION')">
         <a routerLink="facturacion" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-file-earmark-medical-fill me-2"></i>
           Facturación
         </a>
       </li>
 
-       <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR'">
+       <li *ngIf="puedeVer('GENERAR_REPORTES')">
         <a routerLink="reportes" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-bar-chart-line-fill me-2"></i>
           Reportes
         </a>
       </li>
       
-      <li *ngIf="authService.rolUsuario() === 'ADMINISTRADOR'">
+      <li *ngIf="puedeVer('VER_USUARIOS')">
         <a routerLink="usuarios" routerLinkActive="active" class="nav-link text-white">
           <i class="bi bi-person-vcard-fill me-2"></i>
           Usuarios

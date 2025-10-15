@@ -33,6 +33,17 @@
       <mat-error>El rol es requerido.</mat-error>
     </mat-form-field>
 
+    <div class="d-flex flex-column mt-2" formArrayName="permisos">
+        <label id="permisos-label" class="mat-body-strong mb-2">Permisos Adicionales</label>
+        <div class="permisos-container" role="group" aria-labelledby="permisos-label">
+            <mat-checkbox 
+                *ngFor="let permiso of permisosDisponibles; let i = index"
+                [formControlName]="i"
+                class="permiso-checkbox">
+                {{ permiso.nombre }}
+            </mat-checkbox>
+        </div>
+    </div>
     <mat-form-field *ngIf="!esModoEdicion" appearance="outline">
       <mat-label>Contraseña</mat-label>
       <input matInput formControlName="password" required type="password">

@@ -7,6 +7,7 @@ export interface UserProfile {
   email: string;
   rol: Rol;
   fechaRegistro?: Date;
+  permisos?: string[];
 }
 
 export interface ChangePasswordPayload {
@@ -20,4 +21,5 @@ export interface CreateUserPayload {
   email: string;
   rol: Rol;
   password?: string;
+  permisos?: string[]; 
 }

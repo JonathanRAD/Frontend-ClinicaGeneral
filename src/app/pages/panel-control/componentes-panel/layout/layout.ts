@@ -23,6 +23,13 @@ export class LayoutComponent implements OnInit {
     private usuarioService: UsuarioService
   ) {}
 
+   /**
+   * Método público que el HTML usará para preguntar si se debe mostrar un elemento.
+   * @param permiso El permiso requerido para ver el elemento del menú.
+   */
+  puedeVer(permiso: string): boolean {
+    return this.authService.tienePermiso(permiso);
+  }
   ngOnInit(): void {
     this.usuarioService.getMiPerfil().subscribe(perfil => {
       this.usuario.set(perfil);

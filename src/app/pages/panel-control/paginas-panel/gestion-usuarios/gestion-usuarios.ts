@@ -1,3 +1,4 @@
+// RUTA: src/app/pages/panel-control/paginas-panel/gestion-usuarios/gestion-usuarios.ts
 import { Component, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../../../services/usuario';
@@ -7,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormularioUsuarioComponent } from '../../componentes-panel/formulario-usuario/formulario-usuario';
 import { DialogoConfirmacion } from '../../componentes-panel/dialogo-confirmacion/dialogo-confirmacion';
+import { AutenticacionService } from '../../../../services/autenticacion';
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -28,7 +30,8 @@ export class GestionUsuariosComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public authService: AutenticacionService
   ) {
     this.usuarios = this.usuarioService.usuarios;
   }
@@ -42,15 +45,13 @@ export class GestionUsuariosComponent implements OnInit {
       width: '500px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
-      data: { esModoEdicion: false }
+      data: { usuario: null } 
     });
 
     dialogRef.afterClosed().subscribe(resultado => {
-      if (resultado) {
-        this.usuarioService.crearUsuario(resultado).subscribe({
-          next: () => this.snackBar.open('Usuario creado con éxito', 'Cerrar', { duration: 3000 }),
-          error: (err) => this.snackBar.open(err.error?.message || 'Error al crear usuario', 'Cerrar', { duration: 3000 })
-        });
+      if (resultado === true) {
+        this.usuarioService.getAllUsuarios().subscribe();
+        this.snackBar.open('Usuario creado con éxito', 'Cerrar', { duration: 3000 });
       }
     });
   }
@@ -60,15 +61,13 @@ export class GestionUsuariosComponent implements OnInit {
       width: '500px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
-      data: { esModoEdicion: true, usuario: usuario }
+      data: { usuario: usuario }
     });
 
     dialogRef.afterClosed().subscribe(resultado => {
-      if (resultado && usuario.id) {
-        this.usuarioService.actualizarUsuario(usuario.id, resultado).subscribe({
-          next: () => this.snackBar.open('Usuario actualizado con éxito', 'Cerrar', { duration: 3000 }),
-          error: (err) => this.snackBar.open(err.error?.message || 'Error al actualizar', 'Cerrar', { duration: 3000 })
-        });
+      if (resultado === true) {
+        this.usuarioService.getAllUsuarios().subscribe();
+        this.snackBar.open('Usuario actualizado con éxito', 'Cerrar', { duration: 3000 });
       }
     });
   }
@@ -85,7 +84,10 @@ export class GestionUsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(confirmado => {
       if (confirmado && usuario.id) {
         this.usuarioService.eliminarUsuario(usuario.id).subscribe({
-          next: () => this.snackBar.open('Usuario eliminado', 'Cerrar', { duration: 3000 }),
+          next: () => {
+            this.usuarioService.getAllUsuarios().subscribe();
+            this.snackBar.open('Usuario eliminado', 'Cerrar', { duration: 3000 });
+          },
           error: (err) => this.snackBar.open(err.error?.message || 'No se pudo eliminar al usuario', 'Cerrar', { duration: 3000 })
         });
       }

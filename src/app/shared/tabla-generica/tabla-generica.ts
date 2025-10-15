@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
 import { Patient } from '../../core/models/patient';
 import { RouterModule } from '@angular/router';
+import { AutenticacionService } from '../../services/autenticacion';
 
 
 
@@ -49,6 +50,8 @@ export class TablaGenerica implements AfterViewInit, OnChanges {
   @Input() nameProperties: [string, string] = ['', ''];
   @Input() idProperty: string = 'id';
   @Input() showClinicalHistoryButton: boolean = false;
+  @Input() permissionManage?: string; 
+  @Input() permissionViewHistory?: string;
 
 
   @Output() onEdit = new EventEmitter<any>();
@@ -61,6 +64,10 @@ export class TablaGenerica implements AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  constructor(
+    public authService: AutenticacionService // <-- 2. Inyéctalo y hazlo público
+  ) { }
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.dataSource.data = this.data;

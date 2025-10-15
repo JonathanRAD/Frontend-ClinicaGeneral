@@ -10,22 +10,64 @@ import { HistoriaClinicaComponent } from './paginas-panel/historia-clinica/histo
 import { GestionReportesComponent } from './componentes-panel/gestion-reportes/gestion-reportes';
 import { MiPerfilComponent } from './paginas-panel/mi-perfil/mi-perfil';
 import { GestionUsuariosComponent } from './paginas-panel/gestion-usuarios/gestion-usuarios';
+import { rolGuard } from '../../core/guards/rol-guard';
+import { permisoGuard } from '../../core/guards/permiso-guard';
 
 export default [
   {
     path: '',
     component: LayoutComponent,
     children: [
+      // --- Rutas Públicas del Panel ---
       { path: 'inicio', component: Inicio },
-      { path: 'pacientes', component: GestionPacientes },
-      { path: 'pacientes/:id/historia', component: HistoriaClinicaComponent },
-      { path: 'citas', component: CalendarioCitas },
-      { path: 'facturacion', component: GestionFacturacion },
-      { path: 'medicos', component: GestionMedicos },
-      { path: 'usuarios', component: GestionUsuariosComponent },
-      { path: 'reportes', component: GestionReportesComponent },
       { path: 'configuracion', component: GestionConfiguracion },
       { path: 'mi-perfil', component: MiPerfilComponent },
+
+      // --- Rutas Protegidas por Permiso ---
+      { 
+        path: 'pacientes', 
+        component: GestionPacientes,
+        canActivate: [permisoGuard],
+        data: { permiso: 'VER_PACIENTES' }
+      },
+      { 
+        path: 'pacientes/:id/historia', 
+        component: HistoriaClinicaComponent,
+        canActivate: [permisoGuard],
+        data: { permiso: 'VER_HISTORIAL_CLINICO' }
+      },
+      { 
+        path: 'citas', 
+        component: CalendarioCitas,
+        canActivate: [permisoGuard],
+        data: { permiso: 'VER_CITAS' }
+      },
+      { 
+        path: 'facturacion', 
+        component: GestionFacturacion,
+        canActivate: [permisoGuard],
+        data: { permiso: 'VER_FACTURACION' }
+      },
+      { 
+        path: 'medicos', 
+        component: GestionMedicos,
+        canActivate: [permisoGuard],
+        data: { permiso: 'VER_MEDICOS' }
+      },
+      { 
+        path: 'usuarios', 
+        component: GestionUsuariosComponent,
+        canActivate: [permisoGuard],
+        data: { permiso: 'VER_USUARIOS' }
+      },
+      { 
+        path: 'reportes', 
+        component: GestionReportesComponent,
+        canActivate: [permisoGuard],
+        data: { permiso: 'GENERAR_REPORTES' }
+      },
+      
+      // --- Redirección por defecto ---
       { path: '', redirectTo: 'inicio', pathMatch: 'full' }
     ]
   }
