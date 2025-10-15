@@ -103,3 +103,7 @@
   background-color: #22c55e;
 }
 
+a.disabled-link {
+  pointer-events: none; 
+  color: rgba(0, 0, 0, 0.38); 
+}

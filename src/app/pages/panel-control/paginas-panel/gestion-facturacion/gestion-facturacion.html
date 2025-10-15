@@ -11,6 +11,8 @@
         title="Listado de Facturas Emitidas"
         addButtonText="Registrar Nuevo Pago"
         [nameProperties]="['cita.paciente.nombres', 'cita.paciente.apellidos']"
+
+        [permissionManage]="'GESTIONAR_FACTURACION'"
         (onRowClicked)="onSeleccionarFactura($event)"
         (onAdd)="onAgregarFactura()"
         (onEdit)="onEditarFactura($event)"

@@ -4,10 +4,13 @@
   </div>
 
   <app-tabla-generica
-    [data]="citasParaVista()" [columnConfig]="columnasCitas"
+    [data]="citasParaVista()" 
+    [columnConfig]="columnasCitas"
     [title]="'Citas Programadas'"
     [addButtonText]="'Agendar Nueva Cita'"
     [nameProperties]="['paciente.nombres', 'paciente.apellidos']"
+
+    [permissionManage]="'GESTIONAR_CITAS'"
     (onAdd)="onAgregarCita()"
     (onEdit)="onEditarCita($event)"
     (onDelete)="onEliminarCita($event)">

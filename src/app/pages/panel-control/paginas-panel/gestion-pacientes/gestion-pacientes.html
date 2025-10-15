@@ -9,7 +9,11 @@
     [title]="'Lista de Pacientes Registrados'"
     [addButtonText]="'Agregar Nuevo Paciente'"
     [nameProperties]="['nombres', 'apellidos']"
-    [showClinicalHistoryButton]="true" (onAdd)="onAgregarPaciente()"
+    [showClinicalHistoryButton]="true"
+
+    [permissionManage]="'GESTIONAR_PACIENTES'"
+    [permissionViewHistory]="'VER_HISTORIAL_CLINICO'"
+    (onAdd)="onAgregarPaciente()"
     (onEdit)="onEditarPaciente($event)"
     (onDelete)="onEliminarPaciente($event)">
   </app-tabla-generica>

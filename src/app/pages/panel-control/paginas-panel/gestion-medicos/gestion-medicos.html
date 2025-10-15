@@ -4,10 +4,13 @@
   </div>
 
   <app-tabla-generica
-    [data]="medicosParaVista()" [columnConfig]="columnasMedicos"
+    [data]="medicosParaVista()" 
+    [columnConfig]="columnasMedicos"
     title="Listado de Médicos"
     addButtonText="Agregar Nuevo Médico"
     [nameProperties]="['nombres', 'apellidos']"
+
+    [permissionManage]="'GESTIONAR_MEDICOS'"
     (onAdd)="onAgregarMedico()"
     (onEdit)="onEditarMedico($event)"
     (onDelete)="onEliminarMedico($event)">

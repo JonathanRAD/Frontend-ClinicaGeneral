@@ -67,7 +67,7 @@ export class TablaGenerica implements AfterViewInit, OnChanges {
   constructor(
     public authService: AutenticacionService // <-- 2. Inyéctalo y hazlo público
   ) { }
-  
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.dataSource.data = this.data;
