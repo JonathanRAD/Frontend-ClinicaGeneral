@@ -9,9 +9,15 @@ export const routes: Routes = [
     loadComponent: () => import('./authentication/login/login').then(c => c.Login)
   },
   {
-    path: 'recuperar-contrasena',
+    path: 'recuperar-contrasena', // Página para solicitar el correo
     loadComponent: () => import('./authentication/recuperar-contrasena/recuperar-contrasena').then(c => c.RecuperarContrasena)
   },
+   // --- NUEVA RUTA ---
+  {
+    path: 'reset-password/:token', // Página para ingresar la nueva contraseña
+    loadComponent: () => import('./authentication/reset-password/reset-password').then(c => c.ResetPasswordComponent) // Crearás este componente
+  },
+  // --- FIN NUEVA RUTA ---
   {
     path: 'portal',
     canActivate: [autenticacionGuard, pacienteGuard],
@@ -27,7 +33,6 @@ export const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full'
   },
-
   {
     path: '**',
     loadComponent: () => import('./core/componentes/no-encontrado/no-encontrado').then(c => c.NoEncontrado)
