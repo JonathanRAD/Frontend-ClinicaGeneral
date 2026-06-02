@@ -67,7 +67,7 @@
       </div>
       <mat-icon class="kpi-bg-icon">health_and_safety</mat-icon>
     </div>
-    <div class="kpi-card kpi-stock" [class.kpi-alerta]="medicamentosStockCritico() > 0" routerLink="../farmacia" matTooltip="Ver inventario farmacia">
+    <div class="kpi-card kpi-stock" [class.kpi-alerta]="medicamentosStockCritico() > 0" routerLink="../inventario" matTooltip="Ver inventario farmacia">
       <div class="kpi-icon"><mat-icon>medication</mat-icon></div>
       <div class="kpi-info">
         <span class="kpi-label">Stock Crítico (< 10)</span>
@@ -95,7 +95,7 @@
       </div>
       <mat-icon class="ms-auto">chevron_right</mat-icon>
     </div>
-    <div *ngIf="medicamentosStockCritico() > 0" class="alerta-banner alerta-danger" routerLink="../farmacia">
+    <div *ngIf="medicamentosStockCritico() > 0" class="alerta-banner alerta-danger" routerLink="../inventario">
       <mat-icon>warning</mat-icon>
       <div>
         <strong>{{ medicamentosStockCritico() }} medicamento(s) con stock crítico</strong>

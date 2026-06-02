@@ -42,7 +42,7 @@ export class GestionUsuariosComponent implements OnInit {
 
   onAgregar(): void {
     const dialogRef = this.dialog.open(FormularioUsuarioComponent, {
-      width: '500px',
+      width: '700px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data: { usuario: null } 
@@ -58,7 +58,7 @@ export class GestionUsuariosComponent implements OnInit {
 
   onEditar(usuario: UserProfile): void {
     const dialogRef = this.dialog.open(FormularioUsuarioComponent, {
-      width: '500px',
+      width: '700px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data: { usuario: usuario }

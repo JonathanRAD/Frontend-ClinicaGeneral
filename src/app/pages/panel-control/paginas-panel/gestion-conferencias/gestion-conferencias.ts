@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, signal, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConferenciaService } from '../../../../services/conferencia.service';
@@ -32,9 +32,19 @@ import { SalaVideoconferencia } from '../../../../shared/sala-videoconferencia/s
   styleUrls: ['./gestion-conferencias.css']
 })
 export class GestionConferencias implements OnInit {
-  conferencias = signal<Conferencia[]>([]);
-  pacientes = signal<Patient[]>([]);
-  medicos = signal<Medico[]>([]);
+  // ── Inyecciones Modernas vía inject() ────────────────────────────────────
+  private conferenciaService = inject(ConferenciaService);
+  private pacienteService = inject(PacienteService);
+  private medicoService = inject(MedicoService);
+  private authService = inject(AutenticacionService);
+  private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
+
+  // ── Vinculación Directa a Señales del Servicio (100% Reactivo) ────────────
+  conferencias = this.conferenciaService.conferencias;
+  pacientes = this.pacienteService.pacientes;
+  medicos = this.medicoService.medicos;
   
   columnasMostrar = ['fecha', 'paciente', 'medico', 'duracion', 'estado', 'acciones'];
   
@@ -44,15 +54,7 @@ export class GestionConferencias implements OnInit {
   conferenciaActiva: Conferencia | null = null;
   nombreAdmin: string = 'Admin';
 
-  constructor(
-    private conferenciaService: ConferenciaService,
-    private pacienteService: PacienteService,
-    private medicoService: MedicoService,
-    private authService: AutenticacionService,
-    private fb: FormBuilder,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {
+  constructor() {
     this.formProgramar = this.fb.group({
       pacienteId: ['', Validators.required],
       medicoId: ['', Validators.required],
@@ -68,28 +70,21 @@ export class GestionConferencias implements OnInit {
   }
 
   cargarDatos(): void {
-    this.conferenciaService.conferencias().length === 0 && this.conferenciaService.cargarTodas();
-    // Suscribirse a las conferencias
-    // Para simplificar, obtenemos directo de la API
-    this.conferenciaService.getPorMedico(0); // Dummy, mejor obtenerTodas
-    this.conferenciaService.cargarTodas();
-    
-    // Subscribe to signals indirectly or fetch manually
-    this.pacienteService.pacientes().length === 0 && this.pacienteService.cargarPacientes();
-    this.medicoService.medicos().length === 0 && this.medicoService.cargarMedicos();
-
-    setTimeout(() => {
-      this.conferencias.set(this.conferenciaService.conferencias());
-      this.pacientes.set(this.pacienteService.pacientes());
-      this.medicos.set(this.medicoService.medicos());
-    }, 1000);
+    // Carga atómica reactiva solo si no se han cargado previamente
+    if (this.conferenciaService.conferencias().length === 0) {
+      this.conferenciaService.cargarTodas();
+    }
+    if (this.pacienteService.pacientes().length === 0) {
+      this.pacienteService.cargarPacientes();
+    }
+    if (this.medicoService.medicos().length === 0) {
+      this.medicoService.cargarMedicos();
+    }
   }
 
   abrirModalProgramar(): void {
-    this.pacientes.set(this.pacienteService.pacientes());
-    this.medicos.set(this.medicoService.medicos());
     this.formProgramar.reset({ duracionMinutos: 30 });
-    this.dialog.open(this.modalProgramar, { width: '500px' });
+    this.dialog.open(this.modalProgramar, { width: '500px', disableClose: true });
   }
 
   guardarConferencia(): void {
@@ -109,12 +104,11 @@ export class GestionConferencias implements OnInit {
     };
 
     this.conferenciaService.programar(nuevaConferencia).subscribe({
-      next: (res) => {
+      next: () => {
         this.snackBar.open('Conferencia programada con éxito', 'Cerrar', { duration: 3000 });
         this.dialog.closeAll();
-        // Refresh
-        this.conferenciaService.cargarTodas();
-        setTimeout(() => this.conferencias.set(this.conferenciaService.conferencias()), 500);
+        // El servicio maneja de manera interna la inserción de la nueva conferencia
+        // actualizando la señal reactiva y propagándola al instante a la UI.
       },
       error: () => this.snackBar.open('Error al programar', 'Cerrar', { duration: 3000 })
     });
@@ -133,8 +127,8 @@ export class GestionConferencias implements OnInit {
     this.conferenciaService.actualizarEstado(conferencia.id, estado).subscribe({
       next: () => {
         this.snackBar.open('Estado actualizado', 'Cerrar', { duration: 2000 });
-        this.conferenciaService.cargarTodas();
-        setTimeout(() => this.conferencias.set(this.conferenciaService.conferencias()), 500);
+        // El servicio maneja la actualización del estado de manera reactiva
+        // en la colección de la señal, reflejando el cambio de inmediato.
       }
     });
   }

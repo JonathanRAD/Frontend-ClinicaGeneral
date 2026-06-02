@@ -11,7 +11,6 @@ import { HistoriaClinicaComponent } from './paginas-panel/historia-clinica/histo
 import { GestionReportesComponent } from './componentes-panel/gestion-reportes/gestion-reportes';
 import { MiPerfilComponent } from './paginas-panel/mi-perfil/mi-perfil';
 import { GestionUsuariosComponent } from './paginas-panel/gestion-usuarios/gestion-usuarios';
-import { GestionConferencias } from './paginas-panel/gestion-conferencias/gestion-conferencias';
 import { rolGuard } from '../../core/guards/rol-guard';
 import { permisoGuard } from '../../core/guards/permiso-guard';
 
@@ -82,7 +81,7 @@ export default [
       },
       { 
         path: 'conferencias', 
-        component: GestionConferencias,
+        loadComponent: () => import('./paginas-panel/gestion-conferencias/gestion-conferencias').then(m => m.GestionConferencias),
         canActivate: [permisoGuard],
         data: { permiso: 'VER_CITAS' }
       },

@@ -70,19 +70,28 @@ export class Inicio implements OnInit, AfterViewInit {
     this.ingresosMesActual = computed(() => this.getIngresosMesActual());
     this.totalMedicos   = computed(() => this.medicoService.medicos().length);
     this.citasProgramadas = computed(() =>
-      this.citaService.citas().filter(c => c.estado === 'programada').length
+      this.citaService.citas().filter(c => {
+        const est = c.estado?.toLowerCase();
+        return est === 'programada' || est === 'pendiente';
+      }).length
     );
 
     // Nuevos KPIs clínicos
     this.triajesPendientesHoy = computed(() => {
       const hoy = new Date();
+      const hoyYear = hoy.getFullYear();
+      const hoyMonth = hoy.getMonth();
+      const hoyDate = hoy.getDate();
+
       return this.citaService.citas().filter(c => {
-        const d = new Date(c.fechaHora);
-        return d.getDate() === hoy.getDate() &&
-               d.getMonth() === hoy.getMonth() &&
-               d.getFullYear() === hoy.getFullYear() &&
+        if (!c.fechaHora) return false;
+        const d = this.parseLocalDate(c.fechaHora);
+        const est = c.estado?.toLowerCase();
+        return d.getDate() === hoyDate &&
+               d.getMonth() === hoyMonth &&
+               d.getFullYear() === hoyYear &&
                !c.triaje &&
-               (c.estado === 'programada' || c.estado === 'en_espera');
+               (est === 'programada' || est === 'pendiente' || est === 'en_espera');
       }).length;
     });
 
@@ -93,12 +102,18 @@ export class Inicio implements OnInit, AfterViewInit {
     this.recetasHoy = computed(() => {
       // Contar citas completadas hoy con recetas (proxy)
       const hoy = new Date();
+      const hoyYear = hoy.getFullYear();
+      const hoyMonth = hoy.getMonth();
+      const hoyDate = hoy.getDate();
+
       return this.citaService.citas().filter(c => {
-        const d = new Date(c.fechaHora);
-        return d.getDate() === hoy.getDate() &&
-               d.getMonth() === hoy.getMonth() &&
-               d.getFullYear() === hoy.getFullYear() &&
-               (c.estado === 'lista_consulta' || c.estado === 'completada');
+        if (!c.fechaHora) return false;
+        const d = this.parseLocalDate(c.fechaHora);
+        const est = c.estado?.toLowerCase();
+        return d.getDate() === hoyDate &&
+               d.getMonth() === hoyMonth &&
+               d.getFullYear() === hoyYear &&
+               (est === 'lista_consulta' || est === 'completada');
       }).length;
     });
 
@@ -108,7 +123,13 @@ export class Inicio implements OnInit, AfterViewInit {
     );
     this.proximasCitas = computed(() =>
       this.citaService.citas()
-        .filter(c => c.estado === 'programada' && new Date(c.fechaHora) >= new Date())
+        .filter(c => {
+          const est = c.estado?.toLowerCase();
+          const esProxima = (est === 'programada' || est === 'pendiente');
+          if (!esProxima) return false;
+          if (!c.fechaHora) return false;
+          return new Date(c.fechaHora) >= new Date();
+        })
         .sort((a, b) => new Date(a.fechaHora).getTime() - new Date(b.fechaHora).getTime())
         .slice(0, 4)
     );
@@ -129,6 +150,7 @@ export class Inicio implements OnInit, AfterViewInit {
     this.pacienteService.cargarPacientes();
     this.medicoService.cargarMedicos();
     this.medicamentoService.cargarMedicamentos();
+    this.facturacionService.cargarFacturas();
   }
 
   ngAfterViewInit(): void {
@@ -137,18 +159,43 @@ export class Inicio implements OnInit, AfterViewInit {
     this.crearGraficoCitasDia();
   }
 
+  // ── Helper para evitar desfase de Zona Horaria (UTC vs Local) ──────────────
+  private parseLocalDate(dateStr: any): Date {
+    if (!dateStr) return new Date();
+    if (dateStr instanceof Date) return dateStr;
+    const parts = dateStr.split('T')[0].split('-');
+    if (parts.length === 3) {
+      return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    }
+    return new Date(dateStr);
+  }
+
   // ── Helpers KPI ──────────────────────────────────────────────────────────
   private getCitasDeHoy(): number {
-    const hoy = new Date().setHours(0, 0, 0, 0);
+    const hoy = new Date();
+    const hoyYear = hoy.getFullYear();
+    const hoyMonth = hoy.getMonth();
+    const hoyDate = hoy.getDate();
+
     return this.citaService.citas()
-      .filter(c => new Date(c.fechaHora).setHours(0, 0, 0, 0) === hoy).length;
+      .filter(c => {
+        if (!c.fechaHora) return false;
+        const d = this.parseLocalDate(c.fechaHora);
+        return d.getDate() === hoyDate &&
+               d.getMonth() === hoyMonth &&
+               d.getFullYear() === hoyYear;
+      }).length;
   }
 
   private getIngresosMesActual(): number {
     const hoy = new Date();
     const primerDiaMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
     return this.facturacionService.facturas()
-      .filter(f => new Date(f.fechaEmision) >= primerDiaMes && f.estado === 'pagada')
+      .filter(f => {
+        const fecha = this.parseLocalDate(f.fechaEmision);
+        const est = f.estado?.toLowerCase();
+        return fecha >= primerDiaMes && est === 'pagada';
+      })
       .reduce((sum: number, f: Factura) => sum + f.monto, 0);
   }
 
@@ -156,8 +203,11 @@ export class Inicio implements OnInit, AfterViewInit {
   private procesarIngresosPorMes(): { labels: string[]; data: number[] } {
     const conteo = Array(12).fill(0);
     this.facturacionService.facturas()
-      .filter(f => f.estado === 'pagada')
-      .forEach(f => { conteo[new Date(f.fechaEmision).getMonth()] += f.monto; });
+      .filter(f => f.estado?.toLowerCase() === 'pagada')
+      .forEach(f => {
+        const fecha = this.parseLocalDate(f.fechaEmision);
+        conteo[fecha.getMonth()] += f.monto;
+      });
     const labels = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
     return { labels, data: conteo };
   }
@@ -167,9 +217,15 @@ export class Inicio implements OnInit, AfterViewInit {
     return {
       labels: ['Programadas', 'Completadas', 'Canceladas'],
       data: [
-        citas.filter(c => c.estado === 'programada').length,
-        citas.filter(c => c.estado === 'completada').length,
-        citas.filter(c => c.estado === 'cancelada').length
+        citas.filter(c => {
+          const est = c.estado?.toLowerCase();
+          return est === 'programada' || est === 'pendiente';
+        }).length,
+        citas.filter(c => {
+          const est = c.estado?.toLowerCase();
+          return est === 'completada' || est === 'lista_consulta';
+        }).length,
+        citas.filter(c => c.estado?.toLowerCase() === 'cancelada').length
       ]
     };
   }
@@ -178,7 +234,9 @@ export class Inicio implements OnInit, AfterViewInit {
     const labels = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     const conteo = Array(7).fill(0);
     this.citaService.citas().forEach(c => {
-      conteo[new Date(c.fechaHora).getDay()]++;
+      if (!c.fechaHora) return;
+      const d = this.parseLocalDate(c.fechaHora);
+      conteo[d.getDay()]++;
     });
     return { labels, data: conteo };
   }

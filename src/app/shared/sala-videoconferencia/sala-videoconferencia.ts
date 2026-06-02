@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, AfterViewInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnInit, AfterViewInit, ViewChild, Input, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Conferencia } from '../../core/models/conferencia';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +25,17 @@ export class SalaVideoconferencia implements OnInit, AfterViewInit, OnDestroy {
   api: any;
   cargandoScript = true;
 
-  constructor(private router: Router, private datePipe: DatePipe) {}
+  // ── Estados de Telemedicina y Conexión ────────────────────────────────────
+  pacienteEnLinea = false;
+  duracionSegundos = 0;
+  timerInterval: any;
+  timerTexto = '00:00';
+
+  constructor(
+    private router: Router, 
+    private datePipe: DatePipe,
+    private cdRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     if (!window['JitsiMeetExternalAPI' as any]) {
@@ -42,8 +52,17 @@ export class SalaVideoconferencia implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.limpiarRecursos();
+  }
+
+  private limpiarRecursos(): void {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
     if (this.api) {
       this.api.dispose();
+      this.api = null;
     }
   }
 
@@ -54,8 +73,20 @@ export class SalaVideoconferencia implements OnInit, AfterViewInit, OnDestroy {
     script.onload = () => {
       this.cargandoScript = false;
       this.initJitsi();
+      this.cdRef.detectChanges();
     };
     document.body.appendChild(script);
+  }
+
+  iniciarTimer(): void {
+    if (this.timerInterval) return;
+    this.timerInterval = setInterval(() => {
+      this.duracionSegundos++;
+      const mins = Math.floor(this.duracionSegundos / 60).toString().padStart(2, '0');
+      const secs = (this.duracionSegundos % 60).toString().padStart(2, '0');
+      this.timerTexto = `${mins}:${secs}`;
+      this.cdRef.detectChanges(); // Forzar detección en standalone
+    }, 1000);
   }
 
   initJitsi(): void {
@@ -103,6 +134,15 @@ export class SalaVideoconferencia implements OnInit, AfterViewInit, OnDestroy {
     this.api.addEventListeners({
       videoConferenceJoined: () => {
         console.log('Te has unido a la conferencia.');
+        this.iniciarTimer();
+      },
+      participantJoined: () => {
+        this.pacienteEnLinea = true;
+        this.cdRef.detectChanges();
+      },
+      participantLeft: () => {
+        this.pacienteEnLinea = false;
+        this.cdRef.detectChanges();
       },
       videoConferenceLeft: () => {
         console.log('Has dejado la conferencia.');
@@ -112,10 +152,7 @@ export class SalaVideoconferencia implements OnInit, AfterViewInit, OnDestroy {
   }
 
   salir(): void {
-    if (this.api) {
-      this.api.dispose();
-      this.api = null;
-    }
+    this.limpiarRecursos();
     this.router.navigate([this.backRoute]);
   }
 }
